@@ -107,6 +107,8 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
         // Get the current block height for consensus version checks.
         let current_block_height = self.block_store().current_block_height();
 
+        N::CONSENSUS_VERSION(current_block_height)?.ensure_legacy_transaction_authorization()?;
+
         /* Transaction */
 
         // Get the maximum transaction size for the current consensus version.
@@ -731,6 +733,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
     ) -> Result<()> {
         let current_height = self.block_store().current_block_height();
         let consensus_version = N::CONSENSUS_VERSION(current_height)?;
+        consensus_version.ensure_legacy_transaction_authorization()?;
         // Get the transaction spend limit.
         let transaction_spend_limit = consensus_config_value_by_version!(N, TRANSACTION_SPEND_LIMIT, consensus_version)
             .ok_or_else(|| anyhow::anyhow!("Failed to fetch transaction spend limit"))?;

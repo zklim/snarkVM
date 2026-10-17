@@ -29,6 +29,8 @@ impl<N: Network> Process<N> {
     ) -> Result<()> {
         let timer = timer!("Process::verify_fee");
 
+        consensus_version.ensure_legacy_transaction_authorization()?;
+
         // Retrieve the stack.
         let stack = self.get_stack(fee.program_id())?;
         // Retrieve the function from the stack.

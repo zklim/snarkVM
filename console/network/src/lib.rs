@@ -343,16 +343,18 @@ pub trait Network:
     /// Returns the consensus version which is active at the given height.
     #[allow(non_snake_case)]
     fn CONSENSUS_VERSION(seek_height: u32) -> anyhow::Result<ConsensusVersion> {
-        match Self::CONSENSUS_VERSION_HEIGHTS().binary_search_by(|(_, height)| height.cmp(&seek_height)) {
+        let heights = Self::CONSENSUS_VERSION_HEIGHTS();
+        let scheduled = &heights[..heights.partition_point(|(_, height)| *height != u32::MAX)];
+        match scheduled.binary_search_by(|(_, height)| height.cmp(&seek_height)) {
             // If a consensus version was found at this height, return it.
-            Ok(index) => Ok(Self::CONSENSUS_VERSION_HEIGHTS()[index].0),
+            Ok(index) => Ok(scheduled[index].0),
             // If the specified height was not found, determine whether to return an appropriate version.
             Err(index) => {
                 if index == 0 {
                     Err(anyhow!("Expected consensus version 1 to exist at height 0."))
                 } else {
                     // Return the appropriate version belonging to the height *lower* than the sought height.
-                    Ok(Self::CONSENSUS_VERSION_HEIGHTS()[index - 1].0)
+                    Ok(scheduled[index - 1].0)
                 }
             }
         }
@@ -650,9 +652,9 @@ pub trait Network:
 /// Returns the consensus version heights, initializing them if necessary.
 ///
 /// If a `heights` string is provided, it must be a comma-separated list of ascending block heights
-/// starting from zero (e.g., `"0,2,3,4,..."`) with a number of heights exactly equal to the value
-/// of the Network trait's `NUM_CONSENSUS_VERSIONS` constant. These heights correspond to the
-/// activation block of each `ConsensusVersion`.
+/// starting from zero (e.g., `"0,2,3,4,..."`). Supply either all `NUM_CONSENSUS_VERSIONS`
+/// entries or the legacy entries through `ConsensusVersion::latest()`, leaving reserved
+/// recovery versions unscheduled. These heights correspond to each version's activation block.
 ///
 /// If `heights` is `None`, the function will use SnarkVM's default test consensus heights.
 ///

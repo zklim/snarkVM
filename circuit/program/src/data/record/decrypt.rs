@@ -16,6 +16,13 @@
 use super::*;
 
 impl<A: Aleo> Record<A, Ciphertext<A>> {
+    /// Constrains account-seed derivation, decryption, and ownership for a recovery witness.
+    /// Archive membership, spentness, transaction effects, and a post-quantum proof system
+    /// are separate requirements. The seed must be injected privately by the caller.
+    pub fn decrypt_from_seed(&self, seed: &Field<A>) -> Record<A, Plaintext<A>> {
+        self.decrypt(&PrivateKey::from_seed(seed).to_view_key())
+    }
+
     /// Decrypts `self` into a plaintext record using the given view key & nonce.
     pub fn decrypt(&self, view_key: &ViewKey<A>) -> Record<A, Plaintext<A>> {
         // Compute the record view key.
@@ -86,6 +93,52 @@ impl<A: Aleo> Record<A, Ciphertext<A>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use console::Network;
+
+    #[test]
+    fn test_recovery_seed_record_constraints() -> anyhow::Result<()> {
+        use crate::Circuit;
+        type CurrentNetwork = <Circuit as Environment>::Network;
+        let native = console_root::account::PrivateKey::<CurrentNetwork>::try_from(console::Field::from_u64(42))?;
+        let address = console::Address::try_from(&native)?;
+        for version in [0, 1] {
+            for visibility in ["public", "private"] {
+                let randomizer = console::Scalar::from_str("7scalar")?;
+                let nonce = CurrentNetwork::g_scalar_multiply(&randomizer);
+                let record = console::Record::<CurrentNetwork, console::Plaintext<CurrentNetwork>>::from_str(
+                    &format!(
+                        "{{ owner: {address}.{visibility}, amount: 100u64.private, _nonce: {nonce}.public, _version: {version}u8.public }}"
+                    ),
+                )?;
+                let encrypted = record.encrypt(randomizer)?;
+                let ciphertext = Record::<Circuit, Ciphertext<Circuit>>::new(Mode::Private, encrypted);
+                let seed = Field::new(Mode::Private, native.seed());
+                let recovered = ciphertext.decrypt_from_seed(&seed);
+                assert_eq!(record, recovered.eject_value());
+                assert!(Circuit::is_satisfied());
+                Circuit::reset();
+            }
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn test_recovery_seed_wrong_owner_constraints() -> anyhow::Result<()> {
+        use crate::Circuit;
+        type CurrentNetwork = <Circuit as Environment>::Network;
+        let native = console_root::account::PrivateKey::<CurrentNetwork>::try_from(console::Field::from_u64(42))?;
+        let address = console::Address::try_from(&native)?;
+        let record = console::Record::<CurrentNetwork, console::Plaintext<CurrentNetwork>>::from_str(&format!(
+            "{{ owner: {address}.public, _nonce: 0group.public, _version: 1u8.public }}"
+        ))?;
+        let ciphertext =
+            Record::<Circuit, Ciphertext<Circuit>>::new(Mode::Private, record.encrypt(console::Scalar::zero())?);
+        let wrong_seed = Field::new(Mode::Private, console::Field::from_u64(43));
+        let _ = ciphertext.decrypt_from_seed(&wrong_seed);
+        assert!(!Circuit::is_satisfied());
+        Circuit::reset();
+        Ok(())
+    }
     use crate::{Circuit, Literal};
     use snarkvm_circuit_types::{Address, Field};
     use snarkvm_utilities::{TestRng, Uniform};

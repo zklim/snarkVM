@@ -15,7 +15,8 @@
 
 use crate::{FromBytes, ToBytes, io_error};
 
-use enum_iterator::{Sequence, last};
+use anyhow::{Result, ensure};
+use enum_iterator::Sequence;
 use snarkvm_algorithms::snark::varuna::VarunaVersion;
 use std::io;
 
@@ -82,6 +83,12 @@ pub enum ConsensusVersion {
     ///      Lowers the maximum committee size on testnet to 40.
     ///      Modifies the cost of the rand.chacha opcode to a more accurate value.
     V22 = 22,
+    /// V23: Reserved for quantum recovery preparation and archival snapshots.
+    ///      Unscheduled; ordinary transaction authorization remains mandatory.
+    V23 = 23,
+    /// V24: Reserved for retiring legacy transaction authorization.
+    ///      Unscheduled; requires a separately implemented post-quantum recovery protocol.
+    V24 = 24,
 }
 
 impl ToBytes for ConsensusVersion {
@@ -116,14 +123,33 @@ impl FromBytes for ConsensusVersion {
             20 => Ok(Self::V20),
             21 => Ok(Self::V21),
             22 => Ok(Self::V22),
+            23 => Ok(Self::V23),
+            24 => Ok(Self::V24),
             _ => Err(io_error("Invalid consensus version")),
         }
     }
 }
 
 impl ConsensusVersion {
+    /// Returns the latest version supported for ordinary transaction construction.
+    /// Reserved recovery versions must be selected explicitly.
     pub fn latest() -> Self {
-        last::<ConsensusVersion>().expect("At least one ConsensusVersion should be defined.")
+        Self::V22
+    }
+
+    /// Returns whether archival recovery preparation is available.
+    pub const fn supports_recovery_preparation(self) -> bool {
+        self as u16 >= Self::V23 as u16
+    }
+
+    /// Rejects legacy transaction authorization after its retirement version.
+    /// This does not accept a replacement transaction or bypass any verifier.
+    pub fn ensure_legacy_transaction_authorization(self) -> Result<()> {
+        ensure!(
+            self < Self::V24,
+            "Legacy transaction authorization is retired; post-quantum recovery is not implemented"
+        );
+        Ok(())
     }
 }
 
@@ -161,6 +187,8 @@ pub const CANARY_V0_CONSENSUS_VERSION_HEIGHTS: [(ConsensusVersion, u32); NUM_CON
     (ConsensusVersion::V20, u32::MAX),
     (ConsensusVersion::V21, u32::MAX),
     (ConsensusVersion::V22, u32::MAX),
+    (ConsensusVersion::V23, u32::MAX),
+    (ConsensusVersion::V24, u32::MAX),
 ];
 
 /// The consensus version height for `MainnetV0`.
@@ -189,6 +217,8 @@ pub const MAINNET_V0_CONSENSUS_VERSION_HEIGHTS: [(ConsensusVersion, u32); NUM_CO
     (ConsensusVersion::V21, 22_437_000),
     // Target: October 20, 2026 at ~18:00 UTC
     (ConsensusVersion::V22, 22_962_000),
+    (ConsensusVersion::V23, u32::MAX),
+    (ConsensusVersion::V24, u32::MAX),
 ];
 
 /// The consensus version heights for `TestnetV0`.
@@ -216,6 +246,8 @@ pub const TESTNET_V0_CONSENSUS_VERSION_HEIGHTS: [(ConsensusVersion, u32); NUM_CO
     (ConsensusVersion::V21, 20_234_000),
     // Target: October 13, 2026 at ~08:00 UTC (evening of October 12 PT)
     (ConsensusVersion::V22, 20_415_000),
+    (ConsensusVersion::V23, u32::MAX),
+    (ConsensusVersion::V24, u32::MAX),
 ];
 
 /// The consensus version heights when the `test_consensus_heights` feature is enabled.
@@ -245,6 +277,8 @@ pub const TEST_CONSENSUS_VERSION_HEIGHTS: [(ConsensusVersion, u32); NUM_CONSENSU
     (ConsensusVersion::V20, 23),
     (ConsensusVersion::V21, 24),
     (ConsensusVersion::V22, 25),
+    (ConsensusVersion::V23, u32::MAX),
+    (ConsensusVersion::V24, u32::MAX),
 ];
 
 /// Asserts that the given consensus version heights are well-formed.
@@ -286,15 +320,21 @@ pub(crate) fn load_test_consensus_heights_inner(
     // If version heights have been specified, verify and return them.
     match consensus_version_heights {
         Some(height_string) => {
-            let parsing_error = format!("Expected exactly {NUM_CONSENSUS_VERSIONS} ConsensusVersion heights.");
+            let parsing_error = format!(
+                "Expected {} or {NUM_CONSENSUS_VERSIONS} ConsensusVersion heights.",
+                ConsensusVersion::latest() as usize
+            );
             // Parse the heights from the environment variable.
-            let parsed_test_consensus_heights: [u32; NUM_CONSENSUS_VERSIONS] = height_string
+            let parsed_test_consensus_heights = height_string
                 .replace(" ", "")
                 .split(",")
                 .map(|height| height.parse::<u32>().expect("Heights should be valid u32 values."))
-                .collect::<Vec<u32>>()
-                .try_into()
-                .expect(&parsing_error);
+                .collect::<Vec<u32>>();
+            assert!(
+                parsed_test_consensus_heights.len() == ConsensusVersion::latest() as usize
+                    || parsed_test_consensus_heights.len() == NUM_CONSENSUS_VERSIONS,
+                "{parsing_error}"
+            );
             // Set the parsed heights in the test consensus heights.
             for (i, height) in parsed_test_consensus_heights.into_iter().enumerate() {
                 test_consensus_heights[i] = (TEST_CONSENSUS_VERSION_HEIGHTS[i].0, height);
@@ -458,6 +498,11 @@ mod tests {
     fn consensus_constants_increasing_heights<N: Network>() {
         let mut previous_height = N::CONSENSUS_VERSION_HEIGHTS().first().unwrap().1;
         for (version, height) in N::CONSENSUS_VERSION_HEIGHTS().iter().skip(1) {
+            if *height == u32::MAX {
+                assert_eq!(N::CONSENSUS_HEIGHT(*version).unwrap(), u32::MAX);
+                assert!(N::CONSENSUS_VERSION(*height).unwrap() < *version);
+                continue;
+            }
             assert!(*height > previous_height);
             previous_height = *height;
             // Ensure that N::CONSENSUS_VERSION returns the expected value.
@@ -718,6 +763,40 @@ mod tests {
         let invalid_bytes = u16::MAX.to_bytes_le().unwrap();
         let result = ConsensusVersion::from_bytes_le(&invalid_bytes);
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_recovery_consensus_policy() -> Result<()> {
+        for version in enum_iterator::all::<ConsensusVersion>() {
+            assert_eq!(version.supports_recovery_preparation(), version >= ConsensusVersion::V23);
+            assert_eq!(version.ensure_legacy_transaction_authorization().is_ok(), version < ConsensusVersion::V24);
+            assert_eq!(ConsensusVersion::from_bytes_le(&version.to_bytes_le()?)?, version);
+        }
+        assert_eq!(ConsensusVersion::latest(), ConsensusVersion::V22);
+        for heights in [
+            &MAINNET_V0_CONSENSUS_VERSION_HEIGHTS,
+            &TESTNET_V0_CONSENSUS_VERSION_HEIGHTS,
+            &CANARY_V0_CONSENSUS_VERSION_HEIGHTS,
+            &TEST_CONSENSUS_VERSION_HEIGHTS,
+        ] {
+            assert_eq!(heights[22], (ConsensusVersion::V23, u32::MAX));
+            assert_eq!(heights[23], (ConsensusVersion::V24, u32::MAX));
+        }
+        assert!(MainnetV0::CONSENSUS_VERSION(u32::MAX)? < ConsensusVersion::V23);
+        assert!(TestnetV0::CONSENSUS_VERSION(u32::MAX)? < ConsensusVersion::V23);
+        assert!(CanaryV0::CONSENSUS_VERSION(u32::MAX)? < ConsensusVersion::V23);
+        Ok(())
+    }
+
+    #[test]
+    fn test_recovery_preserves_legacy_test_height_configuration() {
+        let legacy = TEST_CONSENSUS_VERSION_HEIGHTS[..22]
+            .iter()
+            .map(|(_, height)| height.to_string())
+            .collect::<Vec<_>>()
+            .join(",");
+        let heights = load_test_consensus_heights_inner(Some(legacy));
+        assert_eq!(heights, TEST_CONSENSUS_VERSION_HEIGHTS);
     }
 
     #[test]

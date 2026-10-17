@@ -16,6 +16,15 @@
 use super::*;
 
 impl<N: Network> Record<N, Ciphertext<N>> {
+    /// Reconstructs a record from its owner's account seed for a local recovery witness.
+    /// The caller must authenticate this ciphertext against an independently trusted archive
+    /// and check the spent serial-number set. This method does not authorize a transaction.
+    /// The seed must remain private to the witness generator.
+    pub fn decrypt_from_seed(&self, seed: Field<N>) -> Result<Record<N, Plaintext<N>>> {
+        let private_key = PrivateKey::try_from(seed)?;
+        self.decrypt(&ViewKey::try_from(&private_key)?)
+    }
+
     /// Decrypts `self` into plaintext using the given view key and checks that the owner matches the view key.
     pub fn decrypt(&self, view_key: &ViewKey<N>) -> Result<Record<N, Plaintext<N>>> {
         // Compute the record view key.
@@ -103,6 +112,48 @@ mod tests {
     type CurrentNetwork = MainnetV0;
 
     const ITERATIONS: u64 = 1000;
+
+    #[test]
+    fn test_recovery_seed_record_roundtrip() -> Result<()> {
+        let rng = &mut TestRng::fixed(229);
+        let private_key = PrivateKey::<CurrentNetwork>::new(rng)?;
+        let address = Address::try_from(&private_key)?;
+        let view_key = ViewKey::try_from(&private_key)?;
+        let wrong_seed = private_key.seed() + Field::one();
+        let view_key_as_seed = Field::from_bits_le(&view_key.to_bits_le())?;
+        for version in [0, 1] {
+            for public_owner in [false, true] {
+                let randomizer = Scalar::rand(rng);
+                let owner = match public_owner {
+                    true => Owner::Public(address),
+                    false => Owner::Private(Plaintext::from(Literal::Address(address))),
+                };
+                let record = Record::<CurrentNetwork, Plaintext<CurrentNetwork>>::from_plaintext(
+                    owner,
+                    IndexMap::from_iter([
+                        (Identifier::from_str("amount")?, Entry::Private(Plaintext::from_str("100u64")?)),
+                        (Identifier::from_str("asset")?, Entry::Public(Plaintext::from_str("7field")?)),
+                    ]),
+                    CurrentNetwork::g_scalar_multiply(&randomizer),
+                    U8::new(version),
+                )?;
+                let (ciphertext, record_view_key) = record.encrypt_symmetric(randomizer)?;
+                let restored =
+                    Record::<CurrentNetwork, Ciphertext<CurrentNetwork>>::from_bytes_le(&ciphertext.to_bytes_le()?)?;
+                let recovered = restored.decrypt_from_seed(private_key.seed())?;
+                assert_eq!(record, recovered);
+                let program_id = ProgramID::from_str("assets.aleo")?;
+                let record_name = Identifier::from_str("token")?;
+                assert_eq!(
+                    record.to_commitment(&program_id, &record_name, &record_view_key)?,
+                    recovered.to_commitment(&program_id, &record_name, &record_view_key)?
+                );
+                assert!(restored.decrypt_from_seed(wrong_seed).is_err());
+                assert!(restored.decrypt_from_seed(view_key_as_seed).is_err());
+            }
+        }
+        Ok(())
+    }
 
     fn check_encrypt_and_decrypt<N: Network>(
         view_key: ViewKey<N>,

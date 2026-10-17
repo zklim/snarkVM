@@ -26,6 +26,8 @@ impl<N: Network> Process<N> {
     ) -> Result<()> {
         let timer = timer!("Process::verify_deployment");
 
+        consensus_version.ensure_legacy_transaction_authorization()?;
+
         // Retrieve the program ID.
         let program_id = deployment.program().id();
         // Retrieve the maximum number of mappings for the consensus version.
