@@ -158,7 +158,12 @@ fn generate_testchain<N: Network>(args: Args) -> Result<()> {
     const BATCH_SIZE: usize = 100;
 
     // How many transactions to insert per block.
-    let latest_consensus_height = TEST_CONSENSUS_VERSION_HEIGHTS.last().unwrap().1 as usize;
+    let latest_consensus_height = TEST_CONSENSUS_VERSION_HEIGHTS
+        .iter()
+        .rev()
+        .find(|(_, height)| *height != u32::MAX)
+        .expect("Genesis is scheduled")
+        .1 as usize;
     let num_txn_blocks = num_blocks.saturating_sub(latest_consensus_height);
     let txns_per_block = txs.len().div_ceil(num_txn_blocks);
 

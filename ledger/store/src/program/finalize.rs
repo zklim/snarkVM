@@ -753,6 +753,11 @@ impl<N: Network, P: FinalizeStorage<N>> FinalizeStore<N, P> {
 }
 
 impl<N: Network, P: FinalizeStorage<N>> FinalizeStore<N, P> {
+    /// Returns confirmed mapping descriptors for archival recovery export.
+    pub(crate) fn recovery_mapping_names(&self) -> impl '_ + Iterator<Item = (ProgramID<N>, Vec<Identifier<N>>)> {
+        self.storage.program_id_map().iter_confirmed().map(|(id, names)| (*id, names.iter().copied().collect()))
+    }
+
     /// Returns the confirmed mapping names for the given `program ID`.
     pub fn get_mapping_names_confirmed(&self, program_id: &ProgramID<N>) -> Result<Option<IndexSet<Identifier<N>>>> {
         self.storage.get_mapping_names_confirmed(program_id)

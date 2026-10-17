@@ -244,7 +244,11 @@ impl<N: Network> TestChainBuilder<N> {
 
         // If configured, skip enough blocks to reach the current consensus version.
         if options.skip_to_current_version {
-            let (version, target_height) = TEST_CONSENSUS_VERSION_HEIGHTS.last().unwrap();
+            let (version, target_height) = TEST_CONSENSUS_VERSION_HEIGHTS
+                .iter()
+                .rev()
+                .find(|(_, height)| *height != u32::MAX)
+                .expect("Genesis is scheduled");
             let mut current_height = self.ledger.latest_height();
 
             let diff = target_height.saturating_sub(current_height);

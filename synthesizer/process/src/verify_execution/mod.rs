@@ -33,6 +33,8 @@ impl<N: Network> Process<N> {
     ) -> Result<()> {
         let timer = timer!("Process::verify_execution");
 
+        consensus_version.ensure_legacy_transaction_authorization()?;
+
         // Ensure the execution contains transitions.
         ensure!(!execution.is_empty(), "There are no transitions in the execution");
         // Ensure that the execution does not exceed the maximum number of transitions.
@@ -887,5 +889,42 @@ impl<N: Network> Process<N> {
             }
         }
         reverse_call_graph
+    }
+}
+
+#[cfg(test)]
+mod recovery_tests {
+    use super::*;
+    use console::network::MainnetV0;
+    use snarkvm_ledger_block::Block;
+
+    #[test]
+    fn test_recovery_retirement_rejects_historical_execution() -> Result<()> {
+        let genesis = Block::<MainnetV0>::read_le(MainnetV0::genesis_bytes())?;
+        let execution = genesis
+            .transactions()
+            .iter()
+            .find_map(|tx| tx.execution())
+            .ok_or_else(|| anyhow!("Missing genesis execution"))?;
+        let stacks = IndexMap::new();
+        let error = Process::<MainnetV0>::verify_execution(
+            ConsensusVersion::V24,
+            VarunaVersion::V1,
+            InclusionVersion::V0,
+            execution,
+            &stacks,
+        )
+        .expect_err("Legacy executions must be rejected before stack or proof verification");
+        assert!(error.to_string().contains("Legacy transaction authorization is retired"));
+        let error = Process::<MainnetV0>::verify_execution(
+            ConsensusVersion::V23,
+            VarunaVersion::V1,
+            InclusionVersion::V0,
+            execution,
+            &stacks,
+        )
+        .expect_err("The test intentionally supplies no stacks");
+        assert!(error.to_string().contains("Missing stack"));
+        Ok(())
     }
 }

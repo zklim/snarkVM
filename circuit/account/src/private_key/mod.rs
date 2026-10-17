@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+mod from_seed;
 mod to_compute_key;
 mod to_view_key;
 
