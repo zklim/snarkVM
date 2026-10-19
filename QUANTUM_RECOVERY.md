@@ -2,6 +2,11 @@
 
 ## Status and scope
 
+The experimental [V2 design and implementation boundary](QUANTUM_RECOVERY_V2.md)
+adds separate full-width opening commitments and migration-witness helpers.
+It does not add an on-chain migration or a recovery spend. Ordinary transaction
+encoding continues to reject V2 records.
+
 This branch is based on `zklim/snarkVM` mainnet commit
 `75b476338d30b6576e62db57daea86d8e5b8b365`.
 

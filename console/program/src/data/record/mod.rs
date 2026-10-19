@@ -28,6 +28,7 @@ mod is_owner;
 mod num_randomizers;
 mod parse_ciphertext;
 mod parse_plaintext;
+mod recovery;
 mod serial_number;
 mod serialize;
 mod tag;
@@ -54,6 +55,7 @@ pub struct Record<N: Network, Private: Visibility> {
     /// The version of the program record.
     ///   - Version 0 uses a BHP hash to derive the record commitment.
     ///   - Version 1 uses a BHP commitment to derive the record commitment.
+    ///   - Version 2 is an experimental recovery opening; ordinary transactions cannot create it.
     version: U8<N>,
 }
 
