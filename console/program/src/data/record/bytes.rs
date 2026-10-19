@@ -14,10 +14,50 @@
 // limitations under the License.
 
 use super::*;
+use snarkvm_console_network::ConsensusVersion;
 
 impl<N: Network, Private: Visibility> FromBytes for Record<N, Private> {
     /// Reads the record from a buffer.
-    fn read_le<R: Read>(mut reader: R) -> IoResult<Self> {
+    fn read_le<R: Read>(reader: R) -> IoResult<Self> {
+        Self::read_record_le(reader, false)
+    }
+}
+
+impl<N: Network, Private: Visibility> Record<N, Private> {
+    /// Decodes one complete experimental V2 opening, rejecting trailing bytes.
+    pub fn from_recovery_bytes_le(consensus_version: ConsensusVersion, mut bytes: &[u8]) -> IoResult<Self> {
+        let record = Self::read_recovery_le(consensus_version, &mut bytes)?;
+        if !bytes.is_empty() {
+            return Err(error("Trailing bytes in a V2 record"));
+        }
+        Ok(record)
+    }
+
+    /// Reads an experimental V2 opening with explicit preparation selection.
+    /// Ordinary transaction decoding does not accept this encoding.
+    pub fn read_recovery_le<R: Read>(consensus_version: ConsensusVersion, reader: R) -> IoResult<Self> {
+        if consensus_version != ConsensusVersion::V23 {
+            return Err(error("V2 encoding requires recovery preparation"));
+        }
+        let record = Self::read_record_le(reader, true)?;
+        if *record.version != 2 {
+            return Err(error("Recovery encoding requires record V2"));
+        }
+        Ok(record)
+    }
+
+    /// Encodes an experimental V2 opening with explicit preparation selection.
+    /// The opening commitment needs separate transaction authentication.
+    pub fn to_recovery_bytes_le(&self, consensus_version: ConsensusVersion) -> IoResult<Vec<u8>> {
+        if consensus_version != ConsensusVersion::V23 || *self.version != 2 {
+            return Err(error("V2 encoding requires recovery preparation and record V2"));
+        }
+        let mut bytes = Vec::new();
+        self.write_record_le(&mut bytes, true)?;
+        Ok(bytes)
+    }
+
+    fn read_record_le<R: Read>(mut reader: R, allow_recovery: bool) -> IoResult<Self> {
         // Read the variant.
         let variant = U8::<N>::new(u8::read_le(&mut reader)?);
 
@@ -25,14 +65,15 @@ impl<N: Network, Private: Visibility> FromBytes for Record<N, Private> {
         let version = match *variant {
             0 | 1 => U8::zero(),
             2 | 3 => U8::one(),
-            4.. => return Err(error(format!("Failed to decode record variant ({variant}) for the version"))),
+            4 | 5 if allow_recovery => U8::new(2),
+            _ => return Err(error(format!("Failed to decode record variant ({variant}) for the version"))),
         };
 
         // Read the owner.
         let owner = match *variant {
-            0 | 2 => Owner::Public(Address::read_le(&mut reader)?),
-            1 | 3 => Owner::Private(Private::read_le(&mut reader)?),
-            4.. => return Err(error(format!("Failed to decode record variant ({variant}) for the owner"))),
+            0 | 2 | 4 => Owner::Public(Address::read_le(&mut reader)?),
+            1 | 3 | 5 => Owner::Private(Private::read_le(&mut reader)?),
+            6.. => return Err(error(format!("Failed to decode record variant ({variant}) for the owner"))),
         };
 
         // Read the number of entries in the record data.
@@ -60,7 +101,9 @@ impl<N: Network, Private: Visibility> FromBytes for Record<N, Private> {
                 return Err(error("Failed to read record: entry has trailing bytes"));
             }
             // Add the entry.
-            data.insert(identifier, entry);
+            if data.insert(identifier, entry).is_some() && *version == 2 {
+                return Err(error("Duplicate entry in a V2 record"));
+            }
         }
 
         // Read the nonce.
@@ -83,13 +126,21 @@ impl<N: Network, Private: Visibility> FromBytes for Record<N, Private> {
 
 impl<N: Network, Private: Visibility> ToBytes for Record<N, Private> {
     /// Writes the record to a buffer.
-    fn write_le<W: Write>(&self, mut writer: W) -> IoResult<()> {
+    fn write_le<W: Write>(&self, writer: W) -> IoResult<()> {
+        self.write_record_le(writer, false)
+    }
+}
+
+impl<N: Network, Private: Visibility> Record<N, Private> {
+    fn write_record_le<W: Write>(&self, mut writer: W, allow_recovery: bool) -> IoResult<()> {
         // Set the variant.
         let variant = match (*self.version, self.owner.is_public()) {
             (0, true) => 0u8,
             (0, false) => 1u8,
             (1, true) => 2u8,
             (1, false) => 3u8,
+            (2, true) if allow_recovery => 4u8,
+            (2, false) if allow_recovery => 5u8,
             (_, _) => {
                 return Err(error(format!(
                     "Failed to encode record - variant mismatch (version = {}, hiding = {}, owner = {})",
@@ -106,8 +157,8 @@ impl<N: Network, Private: Visibility> ToBytes for Record<N, Private> {
             let is_version_correct = match (!self.is_hiding(), self.owner.is_public()) {
                 (true, true) => variant == 0,
                 (true, false) => variant == 1,
-                (false, true) => variant == 2,
-                (false, false) => variant == 3,
+                (false, true) => variant == 2 || variant == 4,
+                (false, false) => variant == 3 || variant == 5,
             };
             if !is_version_correct {
                 return Err(error(format!(

@@ -27,6 +27,7 @@ mod encrypt;
 mod equal;
 mod find;
 mod num_randomizers;
+mod recovery;
 mod serial_number;
 mod tag;
 mod to_bits;
@@ -49,6 +50,7 @@ pub struct Record<A: Aleo, Private: Visibility<A>> {
     /// The version of the program record.
     ///   - Version 0 uses a BHP hash to derive the record commitment.
     ///   - Version 1 uses a BHP commitment to derive the record commitment.
+    ///   - Version 2 is an experimental recovery opening; ordinary transactions cannot create it.
     version: U8<A>,
 }
 

@@ -193,6 +193,7 @@ impl<N: Network> Authorization<N> {
 
     /// Checks whether the authorization creates valid records.
     pub fn check_valid_records(&self, consensus_version: ConsensusVersion) -> Result<()> {
+        consensus_version.ensure_legacy_transaction_authorization()?;
         let transitions = self.transitions.read();
         // Collect the transition's output records.
         let output_records = transitions
@@ -200,6 +201,7 @@ impl<N: Network> Authorization<N> {
             .flat_map(|transition| transition.outputs().iter().filter_map(|output| output.record()));
         // Ensure the records are valid.
         for (_, record) in output_records {
+            ensure!(**record.version() != 2, "V2 recovery envelopes are not supported by legacy authorization");
             // if the consensus version is on or after `ConsensusVersion::V8`, ensure the output record is on Version 1.
             if consensus_version >= ConsensusVersion::V8 {
                 ensure!(record.version().is_one(), "Output record must be Version 1 on or after Consensus V8");
@@ -501,6 +503,42 @@ pub(crate) mod test_helpers {
 
     type CurrentNetwork = console::network::MainnetV0;
     type CurrentAleo = circuit::AleoV0;
+
+    #[test]
+    fn test_recovery_v2_cannot_enter_legacy_authorization() -> Result<()> {
+        use console::{
+            program::{Plaintext, Record},
+            types::{Group, Scalar},
+        };
+
+        let seed = Field::<CurrentNetwork>::from_u64(42);
+        let key = PrivateKey::try_from(seed)?;
+        let owner = Address::try_from(&key)?;
+        for record_version in [1, 2] {
+            let record = Record::<CurrentNetwork, Plaintext<CurrentNetwork>>::from_str(&format!(
+                "{{ owner: {owner}.private, amount: 100u64.private, _nonce: 0group.public, _version: {record_version}u8.public }}"
+            ))?;
+            let transition = Transition::new(
+                ProgramID::from_str("asset.aleo")?,
+                Identifier::from_str("migrate")?,
+                vec![],
+                vec![Output::Record(Field::zero(), Field::zero(), Some(record.encrypt(Scalar::zero())?), None)],
+                Group::zero(),
+                Field::zero(),
+                Field::zero(),
+            )?;
+            // Only record-version policy is exercised; this fixture is not an authenticated transaction.
+            let authorization = Authorization {
+                requests: Default::default(),
+                transitions: Arc::new(RwLock::new(IndexMap::from_iter([(*transition.id(), transition)]))),
+            };
+            for version in [ConsensusVersion::V22, ConsensusVersion::V23] {
+                assert_eq!(authorization.check_valid_records(version).is_ok(), record_version == 1);
+            }
+            assert!(authorization.check_valid_records(ConsensusVersion::V24).is_err());
+        }
+        Ok(())
+    }
 
     /// Returns a sample authorization.
     pub fn sample_authorization(rng: &mut TestRng) -> Authorization<CurrentNetwork> {

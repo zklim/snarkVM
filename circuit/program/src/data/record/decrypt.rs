@@ -99,7 +99,7 @@ mod tests {
     fn test_recovery_seed_record_constraints() -> anyhow::Result<()> {
         use crate::Circuit;
         type CurrentNetwork = <Circuit as Environment>::Network;
-        let native = console_root::account::PrivateKey::<CurrentNetwork>::try_from(console::Field::from_u64(42))?;
+        let native = snarkvm_console_account::PrivateKey::<CurrentNetwork>::try_from(console::Field::from_u64(42))?;
         let address = console::Address::try_from(&native)?;
         for version in [0, 1] {
             for visibility in ["public", "private"] {
@@ -126,7 +126,7 @@ mod tests {
     fn test_recovery_seed_wrong_owner_constraints() -> anyhow::Result<()> {
         use crate::Circuit;
         type CurrentNetwork = <Circuit as Environment>::Network;
-        let native = console_root::account::PrivateKey::<CurrentNetwork>::try_from(console::Field::from_u64(42))?;
+        let native = snarkvm_console_account::PrivateKey::<CurrentNetwork>::try_from(console::Field::from_u64(42))?;
         let address = console::Address::try_from(&native)?;
         let record = console::Record::<CurrentNetwork, console::Plaintext<CurrentNetwork>>::from_str(&format!(
             "{{ owner: {address}.public, _nonce: 0group.public, _version: 1u8.public }}"

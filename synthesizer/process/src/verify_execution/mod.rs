@@ -896,35 +896,43 @@ impl<N: Network> Process<N> {
 mod recovery_tests {
     use super::*;
     use console::network::MainnetV0;
-    use snarkvm_ledger_block::Block;
 
     #[test]
-    fn test_recovery_retirement_rejects_historical_execution() -> Result<()> {
-        let genesis = Block::<MainnetV0>::read_le(MainnetV0::genesis_bytes())?;
-        let execution = genesis
-            .transactions()
-            .iter()
-            .find_map(|tx| tx.execution())
-            .ok_or_else(|| anyhow!("Missing genesis execution"))?;
+    fn test_recovery_retirement_precedes_execution_verification() -> Result<()> {
+        use console::types::Group;
+
+        // A nonempty fixture with no proof tests the gate before stack and proof access.
+        let transition = Transition::<MainnetV0>::new(
+            ProgramID::from_str("credits.aleo")?,
+            Identifier::from_str("transfer_public")?,
+            vec![],
+            vec![Output::Public(Field::zero(), None)],
+            Group::zero(),
+            Field::zero(),
+            Field::zero(),
+        )?;
+        let execution = Execution::from(std::iter::once(transition), Default::default(), None)?;
         let stacks = IndexMap::new();
         let error = Process::<MainnetV0>::verify_execution(
             ConsensusVersion::V24,
             VarunaVersion::V1,
             InclusionVersion::V0,
-            execution,
+            &execution,
             &stacks,
         )
         .expect_err("Legacy executions must be rejected before stack or proof verification");
         assert!(error.to_string().contains("Legacy transaction authorization is retired"));
-        let error = Process::<MainnetV0>::verify_execution(
-            ConsensusVersion::V23,
-            VarunaVersion::V1,
-            InclusionVersion::V0,
-            execution,
-            &stacks,
-        )
-        .expect_err("The test intentionally supplies no stacks");
-        assert!(error.to_string().contains("Missing stack"));
+        for version in [ConsensusVersion::V22, ConsensusVersion::V23] {
+            let error = Process::<MainnetV0>::verify_execution(
+                version,
+                VarunaVersion::V1,
+                InclusionVersion::V0,
+                &execution,
+                &stacks,
+            )
+            .expect_err("The test intentionally supplies no stacks");
+            assert!(error.to_string().contains("Missing stack"));
+        }
         Ok(())
     }
 }
