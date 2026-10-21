@@ -578,6 +578,16 @@ fn test_process_execute_transfer_public_to_private() {
         )
         .unwrap();
 
+        let retirement_error = Process::verify_execution(
+            ConsensusVersion::V24,
+            VarunaVersion::V2,
+            InclusionVersion::V1,
+            &execution,
+            &process.get_stacks(execution.transitions(), false).expect("The historical execution's stacks are loaded"),
+        )
+        .expect_err("A valid historical execution cannot authorize a spend after retirement");
+        assert!(retirement_error.to_string().contains("Legacy transaction authorization is retired"));
+
         // Check the execution cost
         assert_eq!(execution_cost(&process, &execution, ConsensusVersion::V10).unwrap(), expected_execution_cost);
 
