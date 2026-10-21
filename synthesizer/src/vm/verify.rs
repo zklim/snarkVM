@@ -1025,6 +1025,127 @@ mod tests {
 
     #[test]
     #[cfg(feature = "test")]
+    #[ignore = "requires isolated CONSENSUS_VERSION_HEIGHTS=0,1,...,21,30,40"]
+    fn test_recovery_retirement_candidate_block_boundary() -> Result<()> {
+        let expected_schedule = (0..22).chain([30, 40]).map(|height| height.to_string()).collect::<Vec<_>>().join(",");
+        assert_eq!(std::env::var("CONSENSUS_VERSION_HEIGHTS")?, expected_schedule);
+        let rng = &mut TestRng::fixed(0x2450_2026);
+        let height = CurrentNetwork::CONSENSUS_HEIGHT(ConsensusVersion::V24)?;
+        let mut vm = test_helpers::sample_vm_at_height(height - 2, rng);
+        let private_key = test_helpers::sample_genesis_private_key(rng);
+        let address = Address::try_from(&private_key)?;
+        let genesis = test_helpers::sample_genesis_block(rng);
+        let (commitment, encrypted) = genesis
+            .transitions()
+            .cloned()
+            .flat_map(Transition::into_records)
+            .next()
+            .ok_or_else(|| anyhow!("Expected a genesis record"))?;
+        assert!(vm.transition_store().get_record(&commitment)?.is_some());
+        let serial = Record::<CurrentNetwork, Plaintext<CurrentNetwork>>::serial_number(private_key, commitment)?;
+        assert!(!vm.transition_store().contains_serial_number(&serial)?);
+        let source = encrypted.decrypt_from_seed(private_key.seed())?;
+        let program = ProgramID::from_str("credits.aleo")?;
+        let record_name = Identifier::from_str("credits")?;
+        let view_key = ViewKey::try_from(&private_key)?;
+        let record_view_key = (*source.nonce() * *view_key).to_x_coordinate();
+        assert_eq!(source.to_commitment(&program, &record_name, &record_view_key)?, commitment);
+        let prepared =
+            source.prepare_recovery_record(ConsensusVersion::V23, &private_key.seed(), Uniform::rand(rng))?;
+        assert_eq!(prepared.owner(), source.owner());
+        assert_eq!(prepared.data(), source.data());
+        let opening = prepared.to_recovery_commitment_from_seed(
+            ConsensusVersion::V23,
+            &program,
+            &record_name,
+            &private_key.seed(),
+        )?;
+        assert_eq!(opening.len(), 512);
+        assert!(!vm.transition_store().contains_serial_number(&serial)?, "Preparation must not spend the source");
+        assert!(prepared.to_bytes_le().is_err(), "Prepared V2 witnesses require the explicit recovery codec");
+        let inputs = [Value::from_str(&address.to_string())?, Value::from_str("1u64")?];
+        let legacy =
+            vm.execute(&private_key, ("credits.aleo", "transfer_public"), inputs.iter(), None, 0, None, rng)?;
+        vm.check_transaction(&legacy, None, rng)?;
+        let historical = test_helpers::sample_next_block(&vm, &private_key, std::slice::from_ref(&legacy), rng)?;
+        assert_eq!(historical.transactions().num_accepted(), 1);
+        let historical_state = FinalizeGlobalState::from(
+            (height - 1) as u64,
+            height - 1,
+            Some(historical.timestamp()),
+            [0u8; 32],
+            None,
+            None,
+        );
+        vm.check_speculate(
+            historical_state,
+            CurrentNetwork::BLOCK_TIME as i64,
+            historical.ratifications(),
+            historical.solutions(),
+            historical.transactions(),
+            rng,
+        )?;
+        test_helpers::advance_vm_to_height(&mut vm, private_key, height - 1, rng);
+        vm.check_transaction(&legacy, None, rng)?;
+        let block = test_helpers::sample_next_block(&vm, &private_key, std::slice::from_ref(&legacy), rng)?;
+        assert_eq!(block.height(), height);
+        let state = FinalizeGlobalState::from(height as u64, height, Some(block.timestamp()), [0u8; 32], None, None);
+        vm.check_speculate(
+            state,
+            CurrentNetwork::BLOCK_TIME as i64,
+            block.ratifications(),
+            block.solutions(),
+            block.transactions(),
+            rng,
+        )?;
+        println!("First V24 candidate: {} accepted legacy transactions", block.transactions().num_accepted());
+        assert_eq!(block.transactions().num_accepted(), 0, "The retirement block must reject legacy transactions");
+        assert!(block.aborted_transaction_ids().contains(&legacy.id()));
+        assert!(
+            vm.check_speculate(
+                state,
+                CurrentNetwork::BLOCK_TIME as i64,
+                block.ratifications(),
+                block.solutions(),
+                historical.transactions(),
+                rng,
+            )
+            .is_err(),
+            "Validators must reject a candidate containing legacy authorization at activation"
+        );
+        assert!(vm.finalize(state, block.ratifications(), block.solutions(), historical.transactions()).is_err());
+        let execution = legacy.execution().ok_or_else(|| anyhow!("Expected a legacy execution"))?.clone();
+        let fee = legacy.fee_transition().ok_or_else(|| anyhow!("Expected a legacy fee"))?;
+        let rejected = snarkvm_ledger_block::ConfirmedTransaction::rejected_execute(
+            0,
+            Transaction::from_fee(fee)?,
+            snarkvm_ledger_block::Rejected::new_execution(execution),
+            vec![],
+        )?;
+        let rejected_transactions = snarkvm_ledger_block::Transactions::from(&[rejected]);
+        let error = vm
+            .check_speculate(
+                state,
+                CurrentNetwork::BLOCK_TIME as i64,
+                block.ratifications(),
+                block.solutions(),
+                &rejected_transactions,
+                rng,
+            )
+            .expect_err("Legacy fees must be rejected before speculation");
+        assert!(error.to_string().contains("Legacy transaction authorization is retired"));
+        assert!(vm.finalize(state, block.ratifications(), block.solutions(), &rejected_transactions).is_err());
+        vm.add_next_block(&block)?;
+        assert!(vm.check_transaction(&legacy, None, rng).is_err());
+        let next = test_helpers::sample_next_block(&vm, &private_key, std::slice::from_ref(&legacy), rng)?;
+        assert_eq!(next.height(), height + 1);
+        assert_eq!(next.transactions().num_accepted(), 0);
+        assert!(next.aborted_transaction_ids().contains(&legacy.id()));
+        Ok(())
+    }
+
+    #[test]
+    #[cfg(feature = "test")]
     fn test_varuna_v3_transaction_boundary() {
         let rng = &mut TestRng::fixed(3104);
         let height = CurrentNetwork::CONSENSUS_HEIGHT(ConsensusVersion::V21).expect("valid test fixture");

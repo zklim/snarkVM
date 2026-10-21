@@ -370,4 +370,100 @@ mod tests {
         assert!(Record::<N, Plaintext<N>>::read_recovery_le(ConsensusVersion::V23, duplicate.as_slice()).is_err());
         Ok(())
     }
+
+    #[test]
+    fn test_recovery_v2_witness_has_no_spend_state() -> Result<()> {
+        let old = source(1, "private")?;
+        let seed = Field::from_u64(42);
+        let randomizer = Scalar::from_str("9scalar")?;
+        let first = old.prepare_recovery_record(ConsensusVersion::V23, &seed, randomizer)?;
+        let repeated = old.prepare_recovery_record(ConsensusVersion::V23, &seed, randomizer)?;
+        let alternative = old.prepare_recovery_record(ConsensusVersion::V23, &seed, Scalar::from_str("10scalar")?)?;
+        assert_eq!(first, repeated);
+        assert_ne!(first, alternative);
+        assert_eq!(old.data(), alternative.data());
+
+        let program = ProgramID::from_str("asset.aleo")?;
+        let name = Identifier::from_str("coin")?;
+        let seed_bound_opening =
+            first.to_recovery_commitment_from_seed(ConsensusVersion::V23, &program, &name, &seed)?;
+        let supplied_credential_opening =
+            first.to_recovery_commitment(ConsensusVersion::V23, &program, &name, &[false; 512], &Field::zero())?;
+        assert_ne!(seed_bound_opening, supplied_credential_opening);
+        assert!(first.to_bytes_le().is_err());
+        Ok(())
+    }
+
+    #[test]
+    fn test_recovery_v2_generated_migration_properties() -> Result<()> {
+        let rng = &mut TestRng::fixed(0x5152_2026);
+        for _ in 0..64 {
+            let seed = Field::<N>::rand(rng);
+            let key = PrivateKey::try_from(seed)?;
+            let owner = Address::try_from(&key)?;
+            let nonce = N::g_scalar_multiply(&Scalar::from_str("7scalar")?);
+            let version = rng.random_range(0..=1);
+            let amount: u64 = rng.random();
+            let visibility = if rng.random() { "private" } else { "public" };
+            let old = Record::<N, Plaintext<N>>::from_str(&format!(
+                "{{ owner: {owner}.{visibility}, amount: {amount}u64.private, _nonce: {nonce}.public, _version: {version}u8.public }}"
+            ))?;
+            let randomizer = loop {
+                let randomizer = Scalar::<N>::rand(rng);
+                if !randomizer.is_zero() && N::g_scalar_multiply(&randomizer) != nonce {
+                    break randomizer;
+                }
+            };
+            let candidate = old.prepare_recovery_record(ConsensusVersion::V23, &seed, randomizer)?;
+            assert_eq!(old.owner(), candidate.owner());
+            assert_eq!(old.data(), candidate.data());
+            assert_ne!(old.nonce(), candidate.nonce());
+            assert_eq!(candidate, candidate.encrypt(randomizer)?.decrypt_from_seed(seed)?);
+            assert!(candidate.to_bytes_le().is_err());
+            let encoded = candidate.to_recovery_bytes_le(ConsensusVersion::V23)?;
+            assert_eq!(candidate, Record::from_recovery_bytes_le(ConsensusVersion::V23, &encoded)?);
+        }
+        Ok(())
+    }
+
+    #[test]
+    fn test_recovery_v2_bounded_mutation_fuzz() -> Result<()> {
+        let rng = &mut TestRng::fixed(0x4655_5a5a);
+        let candidate = source(1, "public")?.prepare_recovery_record(
+            ConsensusVersion::V23,
+            &Field::from_u64(42),
+            Scalar::from_str("9scalar")?,
+        )?;
+        let encoded = candidate.to_recovery_bytes_le(ConsensusVersion::V23)?;
+        let mut accepted = 0;
+        let mut rejected = 0;
+        for case in 0..4096 {
+            let mut bytes = encoded.clone();
+            match case % 4 {
+                0 => {
+                    let index = rng.random_range(0..bytes.len());
+                    bytes[index] ^= 1 << rng.random_range(0..8);
+                }
+                1 => bytes.truncate(rng.random_range(0..bytes.len())),
+                2 => bytes.push(rng.random()),
+                _ => {
+                    for byte in &mut bytes {
+                        *byte = rng.random();
+                    }
+                }
+            }
+            match Record::<N, Plaintext<N>>::from_recovery_bytes_le(ConsensusVersion::V23, &bytes) {
+                Ok(record) => {
+                    accepted += 1;
+                    assert_eq!(bytes, record.to_recovery_bytes_le(ConsensusVersion::V23)?);
+                    assert!(record.to_bytes_le().is_err());
+                }
+                Err(_) => rejected += 1,
+            }
+        }
+        assert!(accepted > 0);
+        assert!(rejected > 0);
+        println!("Mutation corpus: {accepted} canonical inputs, {rejected} rejected inputs");
+        Ok(())
+    }
 }

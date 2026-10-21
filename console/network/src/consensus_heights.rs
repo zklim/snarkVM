@@ -800,6 +800,30 @@ mod tests {
     }
 
     #[test]
+    #[ignore = "requires isolated CONSENSUS_VERSION_HEIGHTS=0,1,...,21,30,40"]
+    fn test_recovery_scheduled_boundary_reference() -> Result<()> {
+        let expected_schedule = (0..22).chain([30, 40]).map(|height| height.to_string()).collect::<Vec<_>>().join(",");
+        assert_eq!(std::env::var("CONSENSUS_VERSION_HEIGHTS")?, expected_schedule);
+        for height in 0..=41 {
+            let expected = match height {
+                0..=21 => u16::try_from(height + 1)?,
+                22..=29 => 22,
+                30..=39 => 23,
+                _ => 24,
+            };
+            for actual in [
+                MainnetV0::CONSENSUS_VERSION(height)?,
+                TestnetV0::CONSENSUS_VERSION(height)?,
+                CanaryV0::CONSENSUS_VERSION(height)?,
+            ] {
+                assert_eq!(actual as u16, expected, "height {height}");
+                assert_eq!(actual.ensure_legacy_transaction_authorization().is_ok(), height < 40);
+            }
+        }
+        Ok(())
+    }
+
+    #[test]
     fn test_reward_anchor_time() {
         assert_eq!(MainnetV0::REWARD_ANCHOR_TIME, MainnetV0::ANCHOR_TIMES.first().unwrap().1);
         assert_eq!(TestnetV0::REWARD_ANCHOR_TIME, TestnetV0::ANCHOR_TIMES.first().unwrap().1);

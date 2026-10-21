@@ -208,6 +208,11 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
     ) -> Result<Vec<FinalizeOperation<N>>> {
         let timer = timer!("VM::check_speculate");
 
+        // Confirmed transactions, including rejected transactions' fees, use the candidate block's authorization policy.
+        if !transactions.is_empty() {
+            N::CONSENSUS_VERSION(state.block_height())?.ensure_legacy_transaction_authorization()?;
+        }
+
         // Retrieve the transactions and their rejected IDs.
         let transactions_and_rejected_ids = cfg_iter!(transactions)
             .map(|transaction| transaction.to_rejected_id().map(|rejected_id| (transaction.deref(), rejected_id)))
@@ -941,6 +946,11 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
 
         let timer = timer!("VM::atomic_finalize");
 
+        // Finalization enforces authorization before updating persistent state.
+        if !transactions.is_empty() {
+            N::CONSENSUS_VERSION(state.block_height())?.ensure_legacy_transaction_authorization()?;
+        }
+
         self.store.finalize_store().block_height().store(state.block_height(), std::sync::atomic::Ordering::SeqCst);
 
         // Perform the finalize operation on the preset finalize mode.
@@ -1215,6 +1225,11 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
         block_synthesis_limit: Option<u64>,
         consensus_version: ConsensusVersion,
     ) -> ShouldAbortResult {
+        // Candidate authorization is enforced independently of the current head's verification cache.
+        if let Err(error) = consensus_version.ensure_legacy_transaction_authorization() {
+            return ShouldAbortResult::Abort(error.to_string());
+        }
+
         // Ensure that the transaction is not a fee transaction.
         if let Transaction::Fee(..) = transaction {
             return ShouldAbortResult::Abort("Fee transactions are not allowed in speculate".to_string());
