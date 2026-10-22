@@ -80,6 +80,8 @@ members = [
   "ledger/testchain-generator",
   "metrics",
   "parameters",
+  "recovery/core",
+  "recovery/signatures",
   "synthesizer",
   "synthesizer/error",
   "synthesizer/process",

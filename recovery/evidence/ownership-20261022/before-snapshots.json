@@ -1,0 +1,137 @@
+[
+  {
+    "name": "snarkVM",
+    "before_manifest": {
+      "repository": "https://github.com/zklim/snarkVM.git",
+      "branch": "quantum-recoverability-pqs",
+      "base_commit": "c493bc514f0850d4e07a0135b0e4f845e38d0c73",
+      "snapshot_sha256": "5dd2e4f36b2601ff636f2910c796339553dffdb3c0c25c6ce6ab2fbc5d41bc81",
+      "files_sha256": {
+        "Cargo.lock": "59f27f57eabb5029997090150a9f54c225a2a7cb6a2a74e4b682f59e001e9017",
+        "Cargo.toml": "23cc76a0083a93d2ac68a5887ad1a73555b9096ec712749a9bcac26e592317d0",
+        "RECOVERY_ARCHITECTURE.md": "8832fd376f87f7c6cc2e8a2a04c38e01169595fd815349b21460dae5049bf5ef",
+        "RECOVERY_RESULTS.md": "8c8746d39154b3774a05731b961f2bbb6eea6f0154b6b56a0d6c5ae1b7309041",
+        "RECOVERY_SOURCE_MANIFEST.json": "8588624ee3907a26052ce02f84678f1d25fc98e88af6f22caebd572225753f32",
+        "recovery/core/Cargo.toml": "126a91fce053d203c5b2a53b6afd895854446198e7f1ff4f874c00305095506a",
+        "recovery/core/src/backend.rs": "eda8d5edfd3a76714e0f3f4b40f1f57165c42048720e1d055c1dabaf19c13eda",
+        "recovery/core/src/codec.rs": "8a46cc6238b955c373df14b849639970fd8a08be9e0e9bc63513c231849861d6",
+        "recovery/core/src/ledger.rs": "34c98fe839651a1dfc6a0483d894287a70d7e83221f0e3d4c6141b6ef0a93a5a",
+        "recovery/core/src/lib.rs": "ca9f610c075a47ddc7558072ceb9c76c95b4f3087df0feac71192f30c157493b",
+        "recovery/core/src/statement.rs": "afad0b7ec870f0d2d95b04ac82b103f674d3169f3dca17bced94aaca294b9cbd",
+        "recovery/evidence/circuit.log": "e8c1c91b7b90eed3fcfc8c982dfdc0b95b5d8b0542b4e8f245f50335e43a26d9",
+        "recovery/evidence/conformance.log": "d07d0b1973ae16a94c3688812b45551b58514cdc7cb92d39b3c8f78aa46e2cf2",
+        "recovery/evidence/fuzz.log": "895eebff392d40e48237a6e80c4cfd6515b5dd0b912806de306796c6a6a45586",
+        "recovery/evidence/native.log": "116cadd6f39d5bf91fa12cc2e8a066f0db67bc70b9b62d09a000fad41243965e",
+        "recovery/evidence/replay-regression-before.log": "f57633a19e2d088605817b7413cf3b3b1617b4c9bd6b1b6a600cf68e7d47fc62",
+        "recovery/evidence/results.json": "892da8d24d9606fb4a1f55aa2c624bb8f5b19cae34ba5f78793ef90887d7bc88",
+        "recovery/fuzz/.gitignore": "505a487cbb79ece4bfb12f09fb72e2f3cc2167440b8c0ea0e7b029c66a5c66ca",
+        "recovery/fuzz/Cargo.lock": "92ea2bcd003771dd4f4d6fbb4a719fef7b78cafc74fbb51df06dd205b2c3d480",
+        "recovery/fuzz/Cargo.toml": "0768b3ed73f8e13dd359c3fe1637cbd8a9328131f9b3224b9c4a345f47b4c48c",
+        "recovery/fuzz/corpus/effects/canonical": "552be1e5173debcba53fd3ea418f4c0c0dbe5d7c33a4dc3fbf9482a875bc335f",
+        "recovery/fuzz/fuzz_targets/effects.rs": "2b9c9b15ff9ee8f0edae5ea75306288f2a3d3d704c2c3fa30339778a193d7a80",
+        "recovery/signatures/Cargo.toml": "f81dffb17a76f3d82e5d738dd56de2ef435623ea89e14f7bf51d18c58dcecac0",
+        "recovery/signatures/src/lib.rs": "c769a58cd3b908d9b78d36a0e9ad3cf607a4c00143ee9efc395766eb498766c8",
+        "recovery/signatures/tests/conformance.rs": "5d4cb296e850b1205fb76af9a6485fb2d7a2bc93cd7ef0c5f1d3dbb3f027b7cf",
+        "recovery/signatures/tests/vectors/README.md": "9ed0580bc5bb07c5ff52c26770ed780ac43ac0af6492383cdf0534d4606b61e2",
+        "recovery/signatures/tests/vectors/canonical-digests.bin": "3e97459e5a6854a1c5c3d0e3dc3acd654a22fbf1816eb6ddfb6609a93f063776",
+        "recovery/signatures/tests/vectors/canonical-effects.bin": "552be1e5173debcba53fd3ea418f4c0c0dbe5d7c33a4dc3fbf9482a875bc335f",
+        "recovery/signatures/tests/vectors/canonical-statement.bin": "fa14155a74a189dae2b23a4250ec527185f0dcfecb2950e1134b24d3ff5201e8",
+        "recovery/signatures/tests/vectors/nist-44-message.bin": "4e9fb36fbc7a15b4108ceb29ef2b9f248c291fbcaa38e241075f283a8a8010d8",
+        "recovery/signatures/tests/vectors/nist-44-pk.bin": "94a1d5727a1986cede6099f860241bfa52d68dc9ee3cd2f27f01ff5d809dc99c",
+        "recovery/signatures/tests/vectors/nist-44-signature.bin": "82d6785136f181f99c08446dde46df0afc1b316b4225ca4349092733db20eb67",
+        "recovery/signatures/tests/vectors/reference.py": "05e360de2b85c41a7cac45afb36c3a0314232bc0d6e409a3794ec2a2aa9cd812"
+      }
+    }
+  },
+  {
+    "name": "snarkVM-aerie",
+    "before_manifest": {
+      "repository": "https://github.com/zklim/snarkVM.git",
+      "branch": "quantum-recoverability-aerie",
+      "base_commit": "c493bc514f0850d4e07a0135b0e4f845e38d0c73",
+      "snapshot_sha256": "5316f1d1a2c60dbb0dc245a050600c64677c7257b972f55df29912236892268b",
+      "files_sha256": {
+        "Cargo.lock": "43c2939988584562e543ff229d2719a74038e76ed9b392945efe7452efa7d4d0",
+        "Cargo.toml": "229621622505c4a13d2d7c0c9ddf96a3a1191878c640b4483a4cdc8b80f1191e",
+        "RECOVERY_ARCHITECTURE.md": "8832fd376f87f7c6cc2e8a2a04c38e01169595fd815349b21460dae5049bf5ef",
+        "RECOVERY_RESULTS.md": "8c8746d39154b3774a05731b961f2bbb6eea6f0154b6b56a0d6c5ae1b7309041",
+        "RECOVERY_SOURCE_MANIFEST.json": "2c0d63e59d3e3f62974644ff2ed8163793595c96ffbf0ad88e2f7d38a2901e8f",
+        "recovery/aerie/Cargo.toml": "978a2af090baf5c6702df31e976815d524045b3089f1f462a9785dfdf92a64c2",
+        "recovery/aerie/evidence/differential.log": "913f56379aee9fd14c00d3037a30eadbb21323a2c253b41ac04cee513dd9ad78",
+        "recovery/aerie/evidence/verifier-dependencies.txt": "f496dd5c5e3d3f7c1707733cbcc777c61e76831e61ac2b49ed2620c1c9e92029",
+        "recovery/aerie/src/lib.rs": "bc4e8ebf70e57c5b8a8e14175150c72706e33041df004aca631e8d0cca450e66",
+        "recovery/aerie/tests/differential.rs": "97a995bdea34e8cf2bfaeb7d40f02c609f2fe6c6f58980b0bdac737873cbbab3",
+        "recovery/core/Cargo.toml": "126a91fce053d203c5b2a53b6afd895854446198e7f1ff4f874c00305095506a",
+        "recovery/core/src/backend.rs": "eda8d5edfd3a76714e0f3f4b40f1f57165c42048720e1d055c1dabaf19c13eda",
+        "recovery/core/src/codec.rs": "8a46cc6238b955c373df14b849639970fd8a08be9e0e9bc63513c231849861d6",
+        "recovery/core/src/ledger.rs": "34c98fe839651a1dfc6a0483d894287a70d7e83221f0e3d4c6141b6ef0a93a5a",
+        "recovery/core/src/lib.rs": "ca9f610c075a47ddc7558072ceb9c76c95b4f3087df0feac71192f30c157493b",
+        "recovery/core/src/statement.rs": "afad0b7ec870f0d2d95b04ac82b103f674d3169f3dca17bced94aaca294b9cbd",
+        "recovery/evidence/circuit.log": "e8c1c91b7b90eed3fcfc8c982dfdc0b95b5d8b0542b4e8f245f50335e43a26d9",
+        "recovery/evidence/conformance.log": "d07d0b1973ae16a94c3688812b45551b58514cdc7cb92d39b3c8f78aa46e2cf2",
+        "recovery/evidence/fuzz.log": "895eebff392d40e48237a6e80c4cfd6515b5dd0b912806de306796c6a6a45586",
+        "recovery/evidence/native.log": "116cadd6f39d5bf91fa12cc2e8a066f0db67bc70b9b62d09a000fad41243965e",
+        "recovery/evidence/replay-regression-before.log": "f57633a19e2d088605817b7413cf3b3b1617b4c9bd6b1b6a600cf68e7d47fc62",
+        "recovery/evidence/results.json": "892da8d24d9606fb4a1f55aa2c624bb8f5b19cae34ba5f78793ef90887d7bc88",
+        "recovery/fuzz/.gitignore": "505a487cbb79ece4bfb12f09fb72e2f3cc2167440b8c0ea0e7b029c66a5c66ca",
+        "recovery/fuzz/Cargo.lock": "92ea2bcd003771dd4f4d6fbb4a719fef7b78cafc74fbb51df06dd205b2c3d480",
+        "recovery/fuzz/Cargo.toml": "0768b3ed73f8e13dd359c3fe1637cbd8a9328131f9b3224b9c4a345f47b4c48c",
+        "recovery/fuzz/corpus/effects/canonical": "552be1e5173debcba53fd3ea418f4c0c0dbe5d7c33a4dc3fbf9482a875bc335f",
+        "recovery/fuzz/fuzz_targets/effects.rs": "2b9c9b15ff9ee8f0edae5ea75306288f2a3d3d704c2c3fa30339778a193d7a80",
+        "recovery/signatures/Cargo.toml": "f81dffb17a76f3d82e5d738dd56de2ef435623ea89e14f7bf51d18c58dcecac0",
+        "recovery/signatures/src/lib.rs": "c769a58cd3b908d9b78d36a0e9ad3cf607a4c00143ee9efc395766eb498766c8",
+        "recovery/signatures/tests/conformance.rs": "5d4cb296e850b1205fb76af9a6485fb2d7a2bc93cd7ef0c5f1d3dbb3f027b7cf",
+        "recovery/signatures/tests/vectors/README.md": "9ed0580bc5bb07c5ff52c26770ed780ac43ac0af6492383cdf0534d4606b61e2",
+        "recovery/signatures/tests/vectors/canonical-digests.bin": "3e97459e5a6854a1c5c3d0e3dc3acd654a22fbf1816eb6ddfb6609a93f063776",
+        "recovery/signatures/tests/vectors/canonical-effects.bin": "552be1e5173debcba53fd3ea418f4c0c0dbe5d7c33a4dc3fbf9482a875bc335f",
+        "recovery/signatures/tests/vectors/canonical-statement.bin": "fa14155a74a189dae2b23a4250ec527185f0dcfecb2950e1134b24d3ff5201e8",
+        "recovery/signatures/tests/vectors/nist-44-message.bin": "4e9fb36fbc7a15b4108ceb29ef2b9f248c291fbcaa38e241075f283a8a8010d8",
+        "recovery/signatures/tests/vectors/nist-44-pk.bin": "94a1d5727a1986cede6099f860241bfa52d68dc9ee3cd2f27f01ff5d809dc99c",
+        "recovery/signatures/tests/vectors/nist-44-signature.bin": "82d6785136f181f99c08446dde46df0afc1b316b4225ca4349092733db20eb67",
+        "recovery/signatures/tests/vectors/reference.py": "05e360de2b85c41a7cac45afb36c3a0314232bc0d6e409a3794ec2a2aa9cd812"
+      }
+    }
+  },
+  {
+    "name": "snarkOS",
+    "before_manifest": {
+      "repository": "https://github.com/zklim/snarkOS.git",
+      "branch": "quantum-recoverability-pqs",
+      "base_commit": "5d497bf3253eec606404bee8d65c305d8cd86f76",
+      "snapshot_sha256": "236ab16248b8fac386b6d6edba01ec2838b91084d72bac92855622503e535959",
+      "files_sha256": {
+        "RECOVERY_ARCHITECTURE.md": "80a5a61d3c7ae4d7bc4376ea62ef002f1f418ce98b5127eb4fbe134540ad6109",
+        "RECOVERY_RESULTS.md": "8c8746d39154b3774a05731b961f2bbb6eea6f0154b6b56a0d6c5ae1b7309041",
+        "RECOVERY_SOURCE_MANIFEST.json": "0d772471352d8b09bc229c24605ad4ce834ad7fc7a4224e2e8813027f0a82189",
+        "cli/src/commands/start.rs": "09db4a4a2fc77776dd494050f111fe621053a8e815da1724bf7e517ad8fb4b0c",
+        "cli/src/helpers/mod.rs": "89a83739bbe2f670ede0d884fb864c5537756923a2f2240c70772b36d3b382d9",
+        "cli/src/helpers/recovery.rs": "573d19e3beae476dcd6dcebd5b34f841d4c96b90f0c8b61feb892edb873841d4",
+        "recovery-evidence/backend-unavailable.json": "36893a53226fb4214aac0450e59f2c8e80866a3103c279c9cc0e4a3c6abe2323",
+        "recovery-evidence/unscheduled-smoke.json": "f6d51e87dbe7fa6717bb430a31e02328932755b2ffecc6a08c542648ce7c5751",
+        "recovery-evidence/validation.log": "d27510dda6ad12096a223f48a92871c958383e44cf4c9b48155d172758aa5f6f",
+        "scripts/test_recovery_backend_unavailable.py": "0fc40822be35d0f1bc5decea0b533b8cd3845b47ed23a4c9d2394077f054ef9b"
+      }
+    }
+  },
+  {
+    "name": "snarkOS-aerie",
+    "before_manifest": {
+      "repository": "https://github.com/zklim/snarkOS.git",
+      "branch": "quantum-recoverability-aerie",
+      "base_commit": "5d497bf3253eec606404bee8d65c305d8cd86f76",
+      "snapshot_sha256": "2fc0196c4522ae045cc9cdf5a94d55b2b0fd235c653d8689a2dca6d30a9bf85c",
+      "files_sha256": {
+        "RECOVERY_ARCHITECTURE.md": "80a5a61d3c7ae4d7bc4376ea62ef002f1f418ce98b5127eb4fbe134540ad6109",
+        "RECOVERY_RESULTS.md": "8c8746d39154b3774a05731b961f2bbb6eea6f0154b6b56a0d6c5ae1b7309041",
+        "RECOVERY_SOURCE_MANIFEST.json": "59e4482f195fbfae805953ec49d27b34b26240bc2123bf98690b335f6ef22752",
+        "cli/src/commands/start.rs": "09db4a4a2fc77776dd494050f111fe621053a8e815da1724bf7e517ad8fb4b0c",
+        "cli/src/helpers/mod.rs": "89a83739bbe2f670ede0d884fb864c5537756923a2f2240c70772b36d3b382d9",
+        "cli/src/helpers/recovery.rs": "573d19e3beae476dcd6dcebd5b34f841d4c96b90f0c8b61feb892edb873841d4",
+        "recovery-evidence/backend-unavailable.json": "36893a53226fb4214aac0450e59f2c8e80866a3103c279c9cc0e4a3c6abe2323",
+        "recovery-evidence/unscheduled-smoke.json": "f6d51e87dbe7fa6717bb430a31e02328932755b2ffecc6a08c542648ce7c5751",
+        "recovery-evidence/validation.log": "d27510dda6ad12096a223f48a92871c958383e44cf4c9b48155d172758aa5f6f",
+        "scripts/test_recovery_backend_unavailable.py": "0fc40822be35d0f1bc5decea0b533b8cd3845b47ed23a4c9d2394077f054ef9b"
+      }
+    }
+  }
+]

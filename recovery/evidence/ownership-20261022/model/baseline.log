@@ -1,0 +1,35 @@
+TLC2 Version 2026.10.20.183001 (rev: d2e1472)
+Running breadth-first search Model-Checking with fp 0 and seed 1 with 4 workers on 4 cores with 1820MB heap and 64MB offheap memory [pid: 58901] (Linux 6.18.55 amd64, Debian 21.0.12.1 64bit, MSBDiskFPSet, DiskStateQueue).
+Parsing file /workspace/snarkVM/recovery/model/Recovery.tla
+Parsing file /tmp/tlc-3837900781195043290/Integers.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/Integers.tla)
+Parsing file /tmp/tlc-3837900781195043290/FiniteSets.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file /tmp/tlc-3837900781195043290/_TLCTrace.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/_TLCTrace.tla)
+Parsing file /tmp/tlc-3837900781195043290/Naturals.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file /tmp/tlc-3837900781195043290/Sequences.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file /tmp/tlc-3837900781195043290/TLC.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file /tmp/tlc-3837900781195043290/TLCExt.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/TLCExt.tla)
+Semantic processing of module Naturals
+Semantic processing of module Integers
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module TLC
+Semantic processing of module TLCExt
+Semantic processing of module _TLCTrace
+Semantic processing of module Recovery
+Linting of module TLCExt
+Linting of module _TLCTrace
+Linting of module Recovery
+Starting... (2026-10-22 05:10:47)
+Computing initial states...
+Finished computing initial states: 1 distinct state generated at 2026-10-22 05:10:48.
+Progress(7) at 2026-10-22 05:10:51: 3,050 states generated (3,050 s/min), 2,145 distinct states found (2,145 ds/min), 1,680 states left on queue.
+Progress(9) at 2026-10-22 05:11:51: 247,316 states generated (244,266 s/min), 101,139 distinct states found (98,994 ds/min), 35,419 states left on queue.
+Model checking completed. No error has been found.
+  Estimates of the probability that TLC did not check all reachable states
+  because two distinct states had the same fingerprint:
+  calculated (optimistic):  val = 1.8E-9
+  based on the actual fingerprints:  val = 1.4E-9
+394125 states generated, 127185 distinct states found, 0 states left on queue.
+The depth of the complete state graph search is 9.
+The average outdegree of the complete state graph is 1 (minimum is 0, the maximum 31 and the 95th percentile is 2).
+Finished in 01min 15s at (2026-10-22 05:12:03)

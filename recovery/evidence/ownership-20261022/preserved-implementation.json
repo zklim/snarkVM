@@ -1,0 +1,38 @@
+[
+  {
+    "worktree": "snarkVM",
+    "original_files_verified": 33,
+    "intentional_documentation_changes": [
+      "RECOVERY_ARCHITECTURE.md",
+      "RECOVERY_RESULTS.md"
+    ],
+    "original_code_unchanged": true
+  },
+  {
+    "worktree": "snarkVM-aerie",
+    "original_files_verified": 38,
+    "intentional_documentation_changes": [
+      "RECOVERY_ARCHITECTURE.md",
+      "RECOVERY_RESULTS.md"
+    ],
+    "original_code_unchanged": true
+  },
+  {
+    "worktree": "snarkOS",
+    "original_files_verified": 10,
+    "intentional_documentation_changes": [
+      "RECOVERY_ARCHITECTURE.md",
+      "RECOVERY_RESULTS.md"
+    ],
+    "original_code_unchanged": true
+  },
+  {
+    "worktree": "snarkOS-aerie",
+    "original_files_verified": 10,
+    "intentional_documentation_changes": [
+      "RECOVERY_ARCHITECTURE.md",
+      "RECOVERY_RESULTS.md"
+    ],
+    "original_code_unchanged": true
+  }
+]

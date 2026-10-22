@@ -1,0 +1,17 @@
+    Finished `test` profile [optimized + debuginfo] target(s) in 3.72s
+running 12 tests
+test framed_hash_is_unambiguous ... ok
+test copied_replay_nonce_cannot_block_an_unrelated_owner_transaction ... ok
+test independent_activation_model_and_cross_policy_replay ... ok
+test independent_canonical_statement_vector ... ok
+test independent_nist_ml_dsa65_vector ... ok
+test rotation_downgrade_and_key_substitution_require_authority ... ok
+test shared_signature_conformance_and_binding ... ok
+test signing_profile_context_and_framing_are_not_interchangeable ... ok
+test substitutions_downgrades_malformed_and_missing_backends ... ok
+profile=Profile { algorithm: 1, parameters: 1 } public_key_bytes=1952 signature_bytes=3309 message_bytes=4476 mean_verify_us=822
+test canonical_decoder_never_accepts_noncanonical ... ok
+profile=Profile { algorithm: 2, parameters: 1 } public_key_bytes=897 signature_bytes=666 message_bytes=2366 mean_verify_us=31
+test direct_backend_cost_sample ... ok
+test two_stage_rotation_persistence_atomicity_and_substitutability ... ok
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s

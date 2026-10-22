@@ -1,0 +1,10 @@
+    Finished `test` profile [optimized + debuginfo] target(s) in 5m 42s
+running 7 tests
+test data::record::decrypt::tests::test_recovery_seed_wrong_owner_constraints ... ok
+test data::record::recovery::tests::test_recovery_v2_migration_adversarial_constraints ... ok
+test data::record::recovery::tests::test_recovery_v2_preparation_boundaries ... ok
+test data::record::decrypt::tests::test_recovery_seed_record_constraints ... ok
+test data::record::recovery::tests::test_recovery_v2_opening_rejects_substitution ... ok
+test data::record::recovery::tests::test_recovery_v2_public_digest_rejects_mutated_amount ... ok
+test data::record::recovery::tests::test_recovery_v2_native_circuit_migration_and_opening ... ok
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 468 filtered out; finished in 5.95s

@@ -1,0 +1,201 @@
+TLC2 Version 2026.10.20.183001 (rev: d2e1472)
+Running breadth-first search Model-Checking with fp 0 and seed 1 with 4 workers on 4 cores with 1820MB heap and 64MB offheap memory [pid: 59260] (Linux 6.18.55 amd64, Debian 21.0.12.1 64bit, MSBDiskFPSet, DiskStateQueue).
+Parsing file /workspace/snarkVM/recovery/model/Recovery.tla
+Parsing file /tmp/tlc-8304288524436210734/Integers.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/Integers.tla)
+Parsing file /tmp/tlc-8304288524436210734/FiniteSets.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/FiniteSets.tla)
+Parsing file /tmp/tlc-8304288524436210734/_TLCTrace.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/_TLCTrace.tla)
+Parsing file /tmp/tlc-8304288524436210734/Naturals.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/Naturals.tla)
+Parsing file /tmp/tlc-8304288524436210734/Sequences.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/Sequences.tla)
+Parsing file /tmp/tlc-8304288524436210734/TLC.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/TLC.tla)
+Parsing file /tmp/tlc-8304288524436210734/TLCExt.tla (jar:file:/workspace/security-evaluation/ownership-integration-20261022/tla2tools.jar!/tla2sany/StandardModules/TLCExt.tla)
+Semantic processing of module Naturals
+Semantic processing of module Integers
+Semantic processing of module Sequences
+Semantic processing of module FiniteSets
+Semantic processing of module TLC
+Semantic processing of module TLCExt
+Semantic processing of module _TLCTrace
+Semantic processing of module Recovery
+Linting of module TLCExt
+Linting of module _TLCTrace
+Linting of module Recovery
+Starting... (2026-10-22 05:12:03)
+Computing initial states...
+Finished computing initial states: 1 distinct state generated at 2026-10-22 05:12:04.
+Error: Invariant NoRetiredLegacy is violated.
+Error: The behavior up to this point is:
+State 1: <Initial predicate>
+/\ live = [ height |-> 0,
+  known |-> {0, 1},
+  spent |-> {},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 0,
+  seen |-> {},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+/\ disk = [ height |-> 0,
+  known |-> {0, 1},
+  spent |-> {},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 0,
+  seen |-> {},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+
+State 2: <Spend line 78, col 10 to line 81, col 18 of module Recovery>
+/\ live = [ height |-> 0,
+  known |-> {0, 1, 2},
+  spent |-> {0},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 1 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 2 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 1 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 1,
+  seen |-> {<<0, 2, "legacy", 0, 0>>},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+/\ disk = [ height |-> 0,
+  known |-> {0, 1},
+  spent |-> {},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 0,
+  seen |-> {},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+
+State 3: <Spend line 78, col 10 to line 81, col 18 of module Recovery>
+/\ live = [ height |-> 0,
+  known |-> {0, 1, 2, 3},
+  spent |-> {0, 1},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 1 @@ 3 :> 1 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 2 @@ 3 :> 2 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 1 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 2,
+  seen |-> {<<0, 2, "legacy", 0, 0>>, <<1, 3, "legacy", 0, 0>>},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+/\ disk = [ height |-> 0,
+  known |-> {0, 1},
+  spent |-> {},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 0,
+  seen |-> {},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+
+State 4: <Advance line 83, col 12 to line 85, col 28 of module Recovery>
+/\ live = [ height |-> 1,
+  known |-> {0, 1, 2, 3},
+  spent |-> {0, 1},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 1 @@ 3 :> 1 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 2 @@ 3 :> 2 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 1 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 2,
+  seen |-> {<<0, 2, "legacy", 0, 0>>, <<1, 3, "legacy", 0, 0>>},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+/\ disk = [ height |-> 0,
+  known |-> {0, 1},
+  spent |-> {},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 0,
+  seen |-> {},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+
+State 5: <Advance line 83, col 12 to line 85, col 28 of module Recovery>
+/\ live = [ height |-> 2,
+  known |-> {0, 1, 2, 3},
+  spent |-> {0, 1},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 1 @@ 3 :> 1 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 2 @@ 3 :> 2 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 1 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 2,
+  seen |-> {<<0, 2, "legacy", 0, 0>>, <<1, 3, "legacy", 0, 0>>},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+/\ disk = [ height |-> 0,
+  known |-> {0, 1},
+  spent |-> {},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 0,
+  seen |-> {},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+
+State 6: <Advance line 83, col 12 to line 85, col 28 of module Recovery>
+/\ live = [ height |-> 3,
+  known |-> {0, 1, 2, 3},
+  spent |-> {0, 1},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 1 @@ 3 :> 1 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 2 @@ 3 :> 2 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 1 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 2,
+  seen |-> {<<0, 2, "legacy", 0, 0>>, <<1, 3, "legacy", 0, 0>>},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+/\ disk = [ height |-> 0,
+  known |-> {0, 1},
+  spent |-> {},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 0,
+  seen |-> {},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+
+State 7: <Spend line 78, col 10 to line 81, col 18 of module Recovery>
+/\ live = [ height |-> 3,
+  known |-> {0, 1, 2, 3, 4},
+  spent |-> {0, 1, 2},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 1 @@ 3 :> 1 @@ 4 :> 2),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 2 @@ 3 :> 2 @@ 4 :> 1),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 1),
+  count |-> (0 :> 1 @@ 1 :> 1 @@ 2 :> 1 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 3,
+  seen |->
+      { <<0, 2, "legacy", 0, 0>>,
+        <<1, 3, "legacy", 0, 0>>,
+        <<2, 4, "legacy", 1, 0>> },
+  badProof |-> FALSE,
+  retiredLegacy |-> TRUE ]
+/\ disk = [ height |-> 0,
+  known |-> {0, 1},
+  spent |-> {},
+  version |-> (0 :> 0 @@ 1 :> 1 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  value |-> (0 :> 3 @@ 1 :> 3 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  key |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  count |-> (0 :> 0 @@ 1 :> 0 @@ 2 :> 0 @@ 3 :> 0 @@ 4 :> 0),
+  fees |-> 0,
+  seen |-> {},
+  badProof |-> FALSE,
+  retiredLegacy |-> FALSE ]
+
+2295 states generated, 1342 distinct states found, 915 states left on queue.
+The depth of the complete state graph search is 7.
+Finished in 02s at (2026-10-22 05:12:06)
+Trace exploration spec path: ./Recovery_TTrace_1792645923.tla

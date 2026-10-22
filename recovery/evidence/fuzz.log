@@ -1,0 +1,7 @@
+    Finished `release` profile [optimized + debuginfo] target(s) in 8.29s
+    Finished `release` profile [optimized + debuginfo] target(s) in 0.04s
+INFO: Seed: 2029536690
+INFO: Loaded 1 modules   (1369 inline 8-bit counters): 1369 [0x55a0f81cb290, 0x55a0f81cb7e9), 
+INFO: Loaded 1 PC tables (1369 PCs): 1369 [0x55a0f81cb7f0,0x55a0f81d0d80), 
+#905746	DONE   cov: 367 ft: 457 corp: 73/85Kb lim: 10378 exec/s: 29217 rss: 427Mb
+Done 905746 runs in 31 second(s)
