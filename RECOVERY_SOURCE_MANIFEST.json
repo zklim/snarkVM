@@ -1,18 +1,23 @@
 {
-  "branch": "quantum-recoverability-pqs",
+  "branch": "quantum-recoverability-aerie",
   "base_commit": "c493bc514f0850d4e07a0135b0e4f845e38d0c73",
-  "parent_commit": "c493bc514f0850d4e07a0135b0e4f845e38d0c73",
+  "parent_commit": "f0f726c7fcaed39e1f5aeb29add1875f14fecdbe",
   "snapshot_kind": "publication inventory; exact source revision is the containing Git commit",
   "source_identity_method": "SHA256 of sorted compact JSON files_sha256; inventory includes changed/new files relative to base_commit; manifest excludes itself",
-  "source_snapshot_sha256": "ba98b8c4eac7fea992d0026820b1f71db1a1c760057fa3fc8910bc0701fcbf22",
+  "source_snapshot_sha256": "bfc6a843938d15f6ef25f07b0f0f49fe46858ac6113c952be51d085e7377b135",
   "files_sha256": {
-    "Cargo.lock": "59f27f57eabb5029997090150a9f54c225a2a7cb6a2a74e4b682f59e001e9017",
-    "Cargo.toml": "23cc76a0083a93d2ac68a5887ad1a73555b9096ec712749a9bcac26e592317d0",
+    "Cargo.lock": "43c2939988584562e543ff229d2719a74038e76ed9b392945efe7452efa7d4d0",
+    "Cargo.toml": "229621622505c4a13d2d7c0c9ddf96a3a1191878c640b4483a4cdc8b80f1191e",
     "RECOVERY_ARCHITECTURE.md": "cbc6221b4b1635d8b8d6a26b43b0c6f7aa016bd331c2e335e010324092fdfc3d",
     "RECOVERY_RESULTS.md": "53925c531f2ac479db18076866f3895368b6942008fd54488a7729ab500891f7",
     "recovery/INTEGRATION_STATUS.md": "033de9efced4013df6cd9136168605a37ba3c5483abf3a5faa2e4a8e5eae6684",
     "recovery/OWNERSHIP_PROOF.md": "7f723e0311d97b2cbc502a1456c5fa036874b12dc38ce2eb88ad0e3a2aa9e9f9",
     "recovery/PROOF_BACKENDS.md": "49387a0aee2fd6b4720b9e30478703f16ff0fb8a4ef1e4a02b9aadad5d050c47",
+    "recovery/aerie/Cargo.toml": "978a2af090baf5c6702df31e976815d524045b3089f1f462a9785dfdf92a64c2",
+    "recovery/aerie/evidence/differential.log": "913f56379aee9fd14c00d3037a30eadbb21323a2c253b41ac04cee513dd9ad78",
+    "recovery/aerie/evidence/verifier-dependencies.txt": "f496dd5c5e3d3f7c1707733cbcc777c61e76831e61ac2b49ed2620c1c9e92029",
+    "recovery/aerie/src/lib.rs": "bc4e8ebf70e57c5b8a8e14175150c72706e33041df004aca631e8d0cca450e66",
+    "recovery/aerie/tests/differential.rs": "97a995bdea34e8cf2bfaeb7d40f02c609f2fe6c6f58980b0bdac737873cbbab3",
     "recovery/core/Cargo.toml": "126a91fce053d203c5b2a53b6afd895854446198e7f1ff4f874c00305095506a",
     "recovery/core/src/backend.rs": "eda8d5edfd3a76714e0f3f4b40f1f57165c42048720e1d055c1dabaf19c13eda",
     "recovery/core/src/codec.rs": "8a46cc6238b955c373df14b849639970fd8a08be9e0e9bc63513c231849861d6",
@@ -95,6 +100,6 @@
     "recovery/signatures/tests/vectors/nist-44-signature.bin": "82d6785136f181f99c08446dde46df0afc1b316b4225ca4349092733db20eb67",
     "recovery/signatures/tests/vectors/reference.py": "05e360de2b85c41a7cac45afb36c3a0314232bc0d6e409a3794ec2a2aa9cd812"
   },
-  "evaluation_inventory_sha256": "90d46f1a5fe2edfc72193c5d58745e9246d3ebe9cc6e0b6b9be0c42b91e09ffd",
-  "before_snapshot_manifest_sha256": "008afbb4251a484c46f593b62ddd0124035ef38f52c088cf7e0a3e0f170d3214"
+  "evaluation_inventory_sha256": "498e6399f3fade7db064b4d78136747b788a5e610ff082394839e26657c35e1b",
+  "before_snapshot_manifest_sha256": "906b8fb162241635f87a1cf092a4d202dc90e61bb36fcf95eafbf01f629fe4ec"
 }
