@@ -1,0 +1,14 @@
+    Finished `test` profile [optimized + debuginfo] target(s) in 9m 55s
+running 11 tests
+test data::record::recovery::tests::test_recovery_v2_credential_independent_vector ... ok
+test data::record::recovery::tests::test_recovery_v2_encoding_rejects_malformed_records ... ok
+test data::record::recovery::tests::test_recovery_v2_generated_migration_properties ... ok
+test data::record::recovery::tests::test_recovery_v2_migration_witness ... ok
+test data::record::recovery::tests::test_recovery_v2_opening_binds_context_and_credentials ... ok
+test data::record::recovery::tests::test_recovery_v2_opening_independent_vector ... ok
+test data::record::recovery::tests::test_recovery_v2_unaligned_framing_independent_vector ... ok
+test data::record::recovery::tests::test_recovery_v2_witness_has_no_spend_state ... ok
+test data::record::recovery::tests::test_recovery_v2_migration_rejects_invalid_witnesses ... ok
+test data::record::decrypt::tests::test_recovery_seed_record_roundtrip ... ok
+test data::record::recovery::tests::test_recovery_v2_bounded_mutation_fuzz ... ok
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 303 filtered out; finished in 0.77s

@@ -1,0 +1,116 @@
+{
+  "tlc_url": "https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/tla2tools.jar",
+  "tlc_sha256": "5bd7b64db99ae4c6c35f290de5e809c0ee41af43f8699cf696099ffb6452b1e2",
+  "source_sha256": "77ac7f5a1c8f6633e939eeeae153ce25d0121019889e7092aa0501264ef083e2",
+  "scope": "bounded target specification; not Rust refinement or a cryptographic proof",
+  "results": [
+    {
+      "case": "baseline",
+      "passed": true,
+      "exit_code": 0,
+      "expected_violation": null,
+      "seconds": 76.095,
+      "states": [
+        "394125",
+        "127185"
+      ],
+      "log_sha256": "5fdeccb52c08f6d9491c7ef3c70a74953b8a127f8eb975012d06f9f98c8ef134"
+    },
+    {
+      "case": "CandidateHeightGate",
+      "passed": true,
+      "exit_code": 12,
+      "expected_violation": "NoRetiredLegacy",
+      "seconds": 3.172,
+      "states": [
+        "2295",
+        "1342"
+      ],
+      "log_sha256": "07d7e135c23bec06bb3804216ad1cf535cc294cb41a804de9816eed51a665d82"
+    },
+    {
+      "case": "CheckSpent",
+      "passed": true,
+      "exit_code": 12,
+      "expected_violation": "Conservation|NoDoubleSpend",
+      "seconds": 1.25,
+      "states": [
+        "20",
+        "17"
+      ],
+      "log_sha256": "341d9a6effa9194dcb9989f7ef75dca615ca1340ac2781e35839ac9a9ce74d45"
+    },
+    {
+      "case": "AtomicStorage",
+      "passed": true,
+      "exit_code": 12,
+      "expected_violation": "Conservation",
+      "seconds": 1.254,
+      "states": [
+        "46",
+        "44"
+      ],
+      "log_sha256": "ffb18f85a31e5406e0f0a2c3684b4093216ad3354636e0b2d1b9e3bb7fa60583"
+    },
+    {
+      "case": "CheckEffectBinding",
+      "passed": true,
+      "exit_code": 12,
+      "expected_violation": "ProofContract",
+      "seconds": 1.434,
+      "states": [
+        "7",
+        "7"
+      ],
+      "log_sha256": "39dbfd87894a1c3c2545e6fcfb426295159737923cd3bd5639dc7c5247703bf7"
+    },
+    {
+      "case": "ScopeReplayByEffects",
+      "passed": true,
+      "exit_code": 12,
+      "expected_violation": "ReplayIsolation",
+      "seconds": 1.062,
+      "states": [
+        "2",
+        "2"
+      ],
+      "log_sha256": "9defb26f2957bf524717201cd7ddbaafeeb6e3dadcf3eae66ed851dba0b344a0"
+    },
+    {
+      "case": "cover-NoV2Created",
+      "passed": true,
+      "exit_code": 12,
+      "expected_violation": "NoV2Created",
+      "seconds": 1.84,
+      "states": [
+        "242",
+        "168"
+      ],
+      "log_sha256": "808afa8b113ff8553e6cc3d3015672739f5b7b2567125627df2c0d64a090fa0e"
+    },
+    {
+      "case": "cover-NoV3Created",
+      "passed": true,
+      "exit_code": 12,
+      "expected_violation": "NoV3Created",
+      "seconds": 13.823,
+      "states": [
+        "27041",
+        "15556"
+      ],
+      "log_sha256": "e0775c7d88aef04a7c001a04684263c0e196963e579cbf61a4b95689030c987b"
+    },
+    {
+      "case": "cover-NoV3Consumed",
+      "passed": true,
+      "exit_code": 12,
+      "expected_violation": "NoV3Consumed",
+      "seconds": 27.559,
+      "states": [
+        "90940",
+        "43249"
+      ],
+      "log_sha256": "d82bf04bc2df217495c5717b242515ad910462c61c1f29181a4a097c9ed7748b"
+    }
+  ]
+}

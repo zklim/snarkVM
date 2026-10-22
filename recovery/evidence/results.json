@@ -1,0 +1,62 @@
+{
+  "scope": "experimental public-value recovery; production Aleo migration is not integrated",
+  "core_shared_conformance": {
+    "pqs": 12,
+    "aerie": 12,
+    "status": "passed"
+  },
+  "native_existing_preparation": 11,
+  "circuit_existing_preparation": 7,
+  "aerie": {
+    "differential": "passed",
+    "verifier_only_build": "passed",
+    "verifier_only_excludes_prover_and_witness": true,
+    "strict_clippy": "passed",
+    "records": 2,
+    "signature_bytes": 1332,
+    "proof_bytes": 60280,
+    "direct_us": 57,
+    "production_ms": 385,
+    "aggregate_verification_ms": 20
+  },
+  "direct_sample": {
+    "ml_dsa65_mean_verify_us": 822,
+    "falcon512_mean_verify_us": 31,
+    "samples_per_scheme": 100
+  },
+  "fuzz": {
+    "engine": "libFuzzer with ASan",
+    "target": "Effects codec roundtrip",
+    "runs": 905746,
+    "seconds": 31,
+    "coverage": 367,
+    "features": 457,
+    "seed": 2029536690,
+    "failures": 0
+  },
+  "validation": {
+    "affected_core_clippy": "passed",
+    "node_workspace_all_targets_all_features_clippy": "passed",
+    "pinned_fmt": "passed",
+    "full_vm_workspace_clippy": "interrupted during unrelated native RocksDB dependency build; not passed"
+  },
+  "node": {
+    "scheduled_four_process_startup": "all four refuse before ledger creation",
+    "unscheduled_client_and_persisted_restart": "passed"
+  },
+  "not_implemented": [
+    "private historical Aleo ownership/membership/conservation proof",
+    "production V2 enrollment and V3 transaction/circuit integration",
+    "atomic production old/new spent-index updates",
+    "production fee and program adapters",
+    "transaction-bearing multi-validator activation, persistence, partitions, reconnection and reorg tests"
+  ],
+  "not_claimed": [
+    "zero knowledge",
+    "quantum-adversarial aggregate proof soundness",
+    "post-quantum encryption or BFT",
+    "complete Aleo recovery implementation"
+  ],
+  "changes_committed": false,
+  "changes_pushed": false
+}

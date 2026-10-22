@@ -1,0 +1,11 @@
+[package]
+name = "recovery-winterfell-privacy-probe"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0 AND MIT"
+publish = false
+
+[workspace]
+
+[dependencies]
+winterfell = { git = "https://github.com/facebook/winterfell", rev = "2f78ee9bf667a561bdfcdfa68668d0f9b18b8315", default-features = false, features = ["std"] }

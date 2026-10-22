@@ -1,0 +1,125 @@
+{
+  "candidates": [
+    {
+      "name": "winterfell",
+      "url": "https://github.com/facebook/winterfell",
+      "revision": "2f78ee9bf667a561bdfcdfa68668d0f9b18b8315",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "4f8b3731440cb8a2320be2cec458f1b44230a20fa9eaba106260be16a0f875e4",
+          "url": "https://github.com/facebook/winterfell/blob/2f78ee9bf667a561bdfcdfa68668d0f9b18b8315/README.md",
+          "retained_as": "primary-sources/winterfell/README.md"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "a80c79b8f80e824c8ea0612b7abadb9c92c48673cf0adc20b2a7f43e2b19faa0",
+          "url": "https://github.com/facebook/winterfell/blob/2f78ee9bf667a561bdfcdfa68668d0f9b18b8315/LICENSE",
+          "retained_as": "primary-sources/winterfell/LICENSE"
+        }
+      ]
+    },
+    {
+      "name": "risc0",
+      "url": "https://github.com/risc0/risc0",
+      "revision": "1cc70cf05033a79ebc90f07c679cb4bd1cd301b9",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "7584934c0497d38d79503c7f90f81cd6d977ecaa0a5d640627e05d572411119e",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/README.md",
+          "retained_as": "primary-sources/risc0/README.md"
+        },
+        {
+          "path": "website/api/security-model.md",
+          "sha256": "e4d7a8196b84c8fad0b41b95732d43924cbb16d778f68f597b4562169ad1576d",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/website/api/security-model.md",
+          "retained_as": "primary-sources/risc0/website/api/security-model.md"
+        },
+        {
+          "path": "website/static/proof-system-in-detail.pdf",
+          "sha256": "033f1ff04eb0760f08921ece02133cce38e3d073b712c9fec448370bb8f0b045",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/website/static/proof-system-in-detail.pdf",
+          "retained_as": "primary-sources/risc0/website/static/proof-system-in-detail.pdf"
+        },
+        {
+          "path": "website/static/proof-system-in-detail.tex",
+          "sha256": "39614f8293b2997864329a8b2c6fd6ba43bf00d17db3a85662d015976be40e55",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/website/static/proof-system-in-detail.tex",
+          "retained_as": "primary-sources/risc0/website/static/proof-system-in-detail.tex"
+        },
+        {
+          "path": "website/static/risc0.bib",
+          "sha256": "f2fc77e5d2004d1eb5ca8c696413624461cf7893522d025331a29a3c370e94a4",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/website/static/risc0.bib",
+          "retained_as": "primary-sources/risc0/website/static/risc0.bib"
+        },
+        {
+          "path": "risc0/zkp/src/prove/soundness.rs",
+          "sha256": "6d814ec839d0f4b33f275cdfa2d382f4ce455957b1ec7932d9bc717ccf732921",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/risc0/zkp/src/prove/soundness.rs",
+          "retained_as": "primary-sources/risc0/risc0/zkp/src/prove/soundness.rs.txt"
+        },
+        {
+          "path": "risc0/zkp/src/lib.rs",
+          "sha256": "107521d2426442fbc9358b7b9ae5650be92d670ea85e9a34aec7b9e9cc27dc6d",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/risc0/zkp/src/lib.rs",
+          "retained_as": "primary-sources/risc0/risc0/zkp/src/lib.rs.txt"
+        },
+        {
+          "path": "risc0/zkp/src/prove/prover.rs",
+          "sha256": "bf63f227fe515dfa8b1edce90b6475a33369fb44fe66c5784a1d70d5947c4368",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/risc0/zkp/src/prove/prover.rs",
+          "retained_as": "primary-sources/risc0/risc0/zkp/src/prove/prover.rs.txt"
+        },
+        {
+          "path": "risc0/zkvm/src/receipt.rs",
+          "sha256": "ec445670befb0fad19bfe46eede73e551de03d9f91fa1fb81c9149dc04912fed",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/risc0/zkvm/src/receipt.rs",
+          "retained_as": "primary-sources/risc0/risc0/zkvm/src/receipt.rs.txt"
+        },
+        {
+          "path": "risc0/zkvm/src/receipt/composite.rs",
+          "sha256": "ad4e54397353f69851bf7bd80193b248b462dd32581b3fcca953413d80589d0f",
+          "url": "https://github.com/risc0/risc0/blob/1cc70cf05033a79ebc90f07c679cb4bd1cd301b9/risc0/zkvm/src/receipt/composite.rs",
+          "retained_as": "primary-sources/risc0/risc0/zkvm/src/receipt/composite.rs.txt"
+        }
+      ]
+    },
+    {
+      "name": "sp1",
+      "url": "https://github.com/succinctlabs/sp1",
+      "revision": "f87f8d6ff005d542db22e241928319f5e96a4609",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "9d86d77913dd0249ffa731e3e04a65ef278fc6187a29f37ab9367f559eed219f",
+          "url": "https://github.com/succinctlabs/sp1/blob/f87f8d6ff005d542db22e241928319f5e96a4609/README.md",
+          "retained_as": "primary-sources/sp1/README.md"
+        },
+        {
+          "path": "crates/hypercube/src/verifier/shard.rs",
+          "sha256": "d75e4a01bfd3e58f78933c164d47067de5f2a8f41a3d55558c55343fb85361d5",
+          "url": "https://github.com/succinctlabs/sp1/blob/f87f8d6ff005d542db22e241928319f5e96a4609/crates/hypercube/src/verifier/shard.rs",
+          "retained_as": "primary-sources/sp1/crates/hypercube/src/verifier/shard.rs.txt"
+        },
+        {
+          "path": "crates/sdk/src/proof.rs",
+          "sha256": "0cbff7d3faa1f1ad314885bc21a7018c1aaf84b6f1683f3bf67e442885515704",
+          "url": "https://github.com/succinctlabs/sp1/blob/f87f8d6ff005d542db22e241928319f5e96a4609/crates/sdk/src/proof.rs",
+          "retained_as": "primary-sources/sp1/crates/sdk/src/proof.rs.txt"
+        }
+      ]
+    }
+  ],
+  "unavailable_direct_fetches": [
+    "https://dev.risczero.com/proof-system-in-detail.pdf",
+    "https://eprint.iacr.org/2023/1553.pdf (unverified identifier; not cited)",
+    "https://arxiv.org/pdf/1902.07556"
+  ],
+  "fetch_result": "HTTP 403 for listed direct requests; RISC Zero paper recovered and verified from pinned Git source",
+  "tlc": {
+    "url": "https://github.com/tlaplus/tlaplus/releases/download/v1.8.0/tla2tools.jar",
+    "sha256": "5bd7b64db99ae4c6c35f290de5e809c0ee41af43f8699cf696099ffb6452b1e2"
+  }
+}

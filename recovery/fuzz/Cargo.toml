@@ -1,0 +1,22 @@
+[package]
+name = "snarkvm-recovery-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "=0.4.10"
+snarkvm-recovery = { path = "../core", version = "=0.1.0" }
+
+[[bin]]
+name = "effects"
+path = "fuzz_targets/effects.rs"
+test = false
+doc = false
+bench = false
+
+[workspace]
+members = ["."]

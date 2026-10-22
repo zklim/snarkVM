@@ -1,0 +1,24 @@
+
+running 1 test
+test copied_replay_nonce_cannot_block_an_unrelated_owner_transaction ... FAILED
+
+failures:
+
+---- copied_replay_nonce_cannot_block_an_unrelated_owner_transaction stdout ----
+
+Initializing 'TestRng' with seed '4223'
+
+Called TestRng with seed 4223 4 times
+
+Initializing 'TestRng' with seed '4223'
+
+Called TestRng with seed 4223 4 times
+Error: Replay
+
+
+failures:
+    copied_replay_nonce_cannot_block_an_unrelated_owner_transaction
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.02s
+
+error: test failed, to rerun pass `-p snarkvm-recovery-signatures --test conformance`
