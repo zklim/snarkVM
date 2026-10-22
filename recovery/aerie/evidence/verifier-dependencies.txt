@@ -1,0 +1,185 @@
+snarkvm-recovery-aerie v0.1.0 (/workspace/snarkVM-aerie/recovery/aerie)
+├── aerie v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+│   └── aerie-verifier v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+│       └── aerie-falcon v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+│           ├── aerie-falcon-native v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+│           │   ├── aerie-keccak v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+│           │   │   ├── hybrid-array v0.4.13
+│           │   │   │   └── typenum v1.20.1
+│           │   │   └── keccak v0.2.2
+│           │   │       ├── cfg-if v1.0.5
+│           │   │       └── hybrid-array v0.4.13 (*)
+│           │   ├── hybrid-array v0.4.13 (*)
+│           │   └── shake v0.1.0
+│           │       ├── digest v0.11.3
+│           │       │   ├── block-buffer v0.12.1
+│           │       │   │   └── hybrid-array v0.4.13 (*)
+│           │       │   ├── const-oid v0.10.2
+│           │       │   ├── crypto-common v0.2.2
+│           │       │   │   └── hybrid-array v0.4.13 (*)
+│           │       │   └── ctutils v0.4.2
+│           │       │       └── cmov v0.5.4
+│           │       ├── keccak v0.2.2 (*)
+│           │       └── sponge-cursor v0.1.0
+│           ├── aerie-falcon-statement v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+│           │   ├── aerie-falcon-native v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212) (*)
+│           │   └── tracing v0.1.44
+│           │       ├── pin-project-lite v0.2.17
+│           │       ├── tracing-attributes v0.1.31 (proc-macro)
+│           │       │   ├── proc-macro2 v1.0.106
+│           │       │   │   └── unicode-ident v1.0.24
+│           │       │   ├── quote v1.0.47
+│           │       │   │   └── proc-macro2 v1.0.106 (*)
+│           │       │   └── syn v2.0.119
+│           │       │       ├── proc-macro2 v1.0.106 (*)
+│           │       │       ├── quote v1.0.47 (*)
+│           │       │       └── unicode-ident v1.0.24
+│           │       └── tracing-core v0.1.36
+│           │           └── once_cell v1.21.4
+│           ├── aerie-keccak v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212) (*)
+│           ├── aerie-pcs-config v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+│           │   ├── akita-challenges v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   │   └── thiserror v2.0.18
+│           │   │   │       └── thiserror-impl v2.0.18 (proc-macro)
+│           │   │   │           ├── proc-macro2 v1.0.106 (*)
+│           │   │   │           ├── quote v1.0.47 (*)
+│           │   │   │           └── syn v2.0.119 (*)
+│           │   │   ├── akita-transcript v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d)
+│           │   │   │   │   ├── num-traits v0.2.19
+│           │   │   │   │   ├── rand_core v0.6.4
+│           │   │   │   │   │   └── getrandom v0.2.17
+│           │   │   │   │   │       ├── cfg-if v1.0.5
+│           │   │   │   │   │       └── libc v0.2.186
+│           │   │   │   │   ├── serde v1.0.229
+│           │   │   │   │   │   ├── serde_core v1.0.229
+│           │   │   │   │   │   └── serde_derive v1.0.229 (proc-macro)
+│           │   │   │   │   │       ├── proc-macro2 v1.0.106 (*)
+│           │   │   │   │   │       ├── quote v1.0.47 (*)
+│           │   │   │   │   │       └── syn v3.0.6
+│           │   │   │   │   │           ├── proc-macro2 v1.0.106 (*)
+│           │   │   │   │   │           ├── quote v1.0.47 (*)
+│           │   │   │   │   │           └── unicode-ident v1.0.24
+│           │   │   │   │   └── thiserror v2.0.18 (*)
+│           │   │   │   └── spongefish v0.7.4 (https://github.com/arkworks-rs/spongefish?rev=ef9741346a150039427d9e0c02d6b2d73e93ec81#ef974134)
+│           │   │   │       ├── blake2 v0.11.0
+│           │   │   │       │   └── digest v0.11.3 (*)
+│           │   │   │       ├── digest v0.11.3 (*)
+│           │   │   │       ├── rand v0.8.6
+│           │   │   │       │   ├── libc v0.2.186
+│           │   │   │       │   ├── rand_chacha v0.3.1
+│           │   │   │       │   │   ├── ppv-lite86 v0.2.21
+│           │   │   │       │   │   │   └── zerocopy v0.8.52
+│           │   │   │       │   │   └── rand_core v0.6.4 (*)
+│           │   │   │       │   └── rand_core v0.6.4 (*)
+│           │   │   │       └── sha3 v0.11.0
+│           │   │   │           ├── digest v0.11.3 (*)
+│           │   │   │           └── keccak v0.2.2 (*)
+│           │   │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   ├── keccak v0.1.6
+│           │   │   ├── serde v1.0.229 (*)
+│           │   │   └── smallvec v1.15.2
+│           │   ├── akita-config v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   ├── akita-challenges v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   ├── akita-params v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   │   ├── akita-algebra v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   │   │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   │   ├── akita-serialization v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   │   │   │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   │   │   ├── jolt-poly v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d)
+│           │   │   │   │   │   │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   │   │   │   ├── jolt-utils v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d)
+│           │   │   │   │   │   │   │   └── num-traits v0.2.19
+│           │   │   │   │   │   │   ├── num-traits v0.2.19
+│           │   │   │   │   │   │   ├── rand_core v0.6.4 (*)
+│           │   │   │   │   │   │   ├── serde v1.0.229 (*)
+│           │   │   │   │   │   │   ├── thiserror v2.0.18 (*)
+│           │   │   │   │   │   │   └── tracing v0.1.44 (*)
+│           │   │   │   │   │   └── thiserror v2.0.18 (*)
+│           │   │   │   │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   │   ├── jolt-poly v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   │   ├── rand_core v0.6.4 (*)
+│           │   │   │   │   └── tracing v0.1.44 (*)
+│           │   │   │   ├── akita-challenges v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-serialization v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-sumcheck v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   │   │   ├── akita-algebra v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   │   ├── akita-serialization v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   │   ├── akita-transcript v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   │   └── jolt-poly v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   ├── akita-transcript v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── blake2 v0.11.0 (*)
+│           │   │   │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   ├── serde v1.0.229 (*)
+│           │   │   │   └── sha3 v0.12.0
+│           │   │   │       ├── digest v0.11.3 (*)
+│           │   │   │       ├── keccak v0.2.2 (*)
+│           │   │   │       └── sponge-cursor v0.1.0
+│           │   │   ├── akita-schedules v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   │   ├── akita-challenges v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-params v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── serde v1.0.229 (*)
+│           │   │   │   └── serde_json v1.0.150
+│           │   │   │       ├── itoa v1.0.18
+│           │   │   │       ├── memchr v2.8.2
+│           │   │   │       ├── serde_core v1.0.229
+│           │   │   │       └── zmij v1.0.21
+│           │   │   ├── akita-serialization v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   ├── akita-transcript v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   ├── akita-types v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   │   │   ├── akita-algebra v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-challenges v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-params v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-serialization v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-sumcheck v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── akita-transcript v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   │   │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   ├── jolt-poly v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   │   │   ├── rand_core v0.6.4 (*)
+│           │   │   │   ├── shake v0.1.0 (*)
+│           │   │   │   └── tracing v0.1.44 (*)
+│           │   │   └── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   └── akita-params v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           ├── aerie-simd v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+│           ├── akita-config v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           ├── akita-params v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           ├── akita-serialization v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           ├── akita-sumcheck v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           ├── akita-transcript v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           ├── akita-types v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           ├── akita-verifier v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+│           │   ├── akita-algebra v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── akita-challenges v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── akita-config v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── akita-error v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── akita-params v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── akita-serialization v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── akita-sumcheck v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── akita-transcript v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── akita-types v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4) (*)
+│           │   ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   ├── jolt-poly v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           │   └── tracing v0.1.44 (*)
+│           ├── jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d) (*)
+│           ├── spongefish v0.7.4 (https://github.com/arkworks-rs/spongefish?rev=ef9741346a150039427d9e0c02d6b2d73e93ec81#ef974134) (*)
+│           └── tracing v0.1.44 (*)
+└── snarkvm-recovery v0.1.0 (/workspace/snarkVM-aerie/recovery/core)
+    └── sha3 v0.10.9
+        ├── digest v0.10.7
+        │   ├── block-buffer v0.10.4
+        │   │   └── generic-array v0.14.9
+        │   │       └── typenum v1.20.1
+        │   └── crypto-common v0.1.6
+        │       ├── generic-array v0.14.9 (*)
+        │       └── typenum v1.20.1
+        └── keccak v0.1.6

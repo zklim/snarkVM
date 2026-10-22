@@ -1,0 +1,23 @@
+[package]
+name = "snarkvm-recovery-aerie"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+
+[features]
+default = []
+producer = ["aerie/prover", "dep:snarkvm-recovery-signatures"]
+parallel = ["aerie/parallel"]
+
+[dependencies]
+snarkvm-recovery = { path = "../core", version = "=0.1.0" }
+aerie = { git = "https://github.com/a16z/aerie", rev = "49b6c212c209286c536196f53618823ffdf0e899", default-features = false, features = ["verifier"] }
+
+snarkvm-recovery-signatures = { path = "../signatures", version = "=0.1.0", optional = true }
+
+[dev-dependencies]
+snarkvm-recovery-signatures = { path = "../signatures", version = "=0.1.0" }
+fn-dsa = "=0.3.0"
+rand_chacha = "=0.3.1"
+rand_core = "=0.6.4"
