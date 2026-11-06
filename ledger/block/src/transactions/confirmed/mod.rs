@@ -32,6 +32,8 @@ pub enum ConfirmedTransaction<N: Network> {
     /// The accepted execute transaction is composed of `(index, execute_transaction, finalize_operations)`.
     /// The finalize operations can contain operations from the executing the finalize scope and fee transition.
     AcceptedExecute(u32, Transaction<N>, Vec<FinalizeOperation<N>>),
+    /// An accepted native recovery operation and its full state-root transition.
+    AcceptedRecovery(u32, Transaction<N>, Vec<FinalizeOperation<N>>),
     /// The rejected deploy transaction is composed of `(index, fee_transaction, rejected_deployment, finalize_operations)`.
     /// The finalize operations can contain operations from the fee transition.
     RejectedDeploy(u32, Transaction<N>, Rejected<N>, Vec<FinalizeOperation<N>>),
@@ -50,7 +52,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         // Retrieve the program and fee from the deployment transaction, and ensure the transaction is a deploy transaction.
         let (program, fee) = match &transaction {
             Transaction::Deploy(_, _, _, deployment, fee) => (deployment.program(), fee),
-            Transaction::Execute(..) | Transaction::Fee(..) => {
+            Transaction::Execute(..) | Transaction::Fee(..) | Transaction::Recovery(..) => {
                 bail!("Transaction '{}' is not a deploy transaction", transaction.id())
             }
         };
@@ -123,7 +125,8 @@ impl<N: Network> ConfirmedTransaction<N> {
                 | FinalizeOperation::RemoveKeyValue(..) => (),
                 FinalizeOperation::InitializeMapping(..)
                 | FinalizeOperation::ReplaceMapping(..)
-                | FinalizeOperation::RemoveMapping(..) => {
+                | FinalizeOperation::RemoveMapping(..)
+                | FinalizeOperation::Recovery(..) => {
                     bail!("Transaction '{}' (execute) contains an invalid finalize operation type", transaction.id())
                 }
             }
@@ -133,6 +136,24 @@ impl<N: Network> ConfirmedTransaction<N> {
             true => Ok(Self::AcceptedExecute(index, transaction, finalize_operations)),
             false => bail!("Transaction '{}' is not an execute transaction", transaction.id()),
         }
+    }
+
+    /// Recovery commits one native state-root update and an optional credits-pool update.
+    pub fn accepted_recovery(
+        index: u32,
+        transaction: Transaction<N>,
+        finalize_operations: Vec<FinalizeOperation<N>>,
+    ) -> Result<Self> {
+        ensure!(transaction.is_recovery(), "Expected a recovery transaction");
+        ensure!(
+            matches!(
+                finalize_operations.as_slice(),
+                [FinalizeOperation::Recovery(_, _)]
+                    | [FinalizeOperation::UpdateKeyValue(..), FinalizeOperation::Recovery(_, _)]
+            ),
+            "Recovery requires a final state-root transition and at most one preceding credits-pool update"
+        );
+        Ok(Self::AcceptedRecovery(index, transaction, finalize_operations))
     }
 
     /// Returns a new instance of a rejected deploy transaction.
@@ -153,7 +174,8 @@ impl<N: Network> ConfirmedTransaction<N> {
                 | FinalizeOperation::RemoveKeyValue(..) => (),
                 FinalizeOperation::InitializeMapping(..)
                 | FinalizeOperation::ReplaceMapping(..)
-                | FinalizeOperation::RemoveMapping(..) => {
+                | FinalizeOperation::RemoveMapping(..)
+                | FinalizeOperation::Recovery(..) => {
                     bail!("Transaction '{}' (fee) contains an invalid finalize operation type", transaction.id())
                 }
             }
@@ -189,7 +211,8 @@ impl<N: Network> ConfirmedTransaction<N> {
                 | FinalizeOperation::RemoveKeyValue(..) => (),
                 FinalizeOperation::InitializeMapping(..)
                 | FinalizeOperation::ReplaceMapping(..)
-                | FinalizeOperation::RemoveMapping(..) => {
+                | FinalizeOperation::RemoveMapping(..)
+                | FinalizeOperation::Recovery(..) => {
                     bail!("Transaction '{}' (fee) contains an invalid finalize operation type", transaction.id())
                 }
             }
@@ -206,7 +229,7 @@ impl<N: Network> ConfirmedTransaction<N> {
     /// Returns 'true' if the confirmed transaction is accepted.
     pub const fn is_accepted(&self) -> bool {
         match self {
-            Self::AcceptedDeploy(..) | Self::AcceptedExecute(..) => true,
+            Self::AcceptedDeploy(..) | Self::AcceptedExecute(..) | Self::AcceptedRecovery(..) => true,
             Self::RejectedDeploy(..) | Self::RejectedExecute(..) => false,
         }
     }
@@ -228,6 +251,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         match self {
             Self::AcceptedDeploy(index, ..) => *index,
             Self::AcceptedExecute(index, ..) => *index,
+            Self::AcceptedRecovery(index, ..) => *index,
             Self::RejectedDeploy(index, ..) => *index,
             Self::RejectedExecute(index, ..) => *index,
         }
@@ -238,6 +262,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         match self {
             Self::AcceptedDeploy(..) => "accepted deploy",
             Self::AcceptedExecute(..) => "accepted execute",
+            Self::AcceptedRecovery(..) => "accepted recovery",
             Self::RejectedDeploy(..) => "rejected deploy",
             Self::RejectedExecute(..) => "rejected execute",
         }
@@ -251,6 +276,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         match self {
             Self::AcceptedDeploy(_, transaction, _) => transaction,
             Self::AcceptedExecute(_, transaction, _) => transaction,
+            Self::AcceptedRecovery(_, transaction, _) => transaction,
             Self::RejectedDeploy(_, transaction, _, _) => transaction,
             Self::RejectedExecute(_, transaction, _, _) => transaction,
         }
@@ -261,6 +287,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         match self {
             Self::AcceptedDeploy(_, transaction, _) => transaction,
             Self::AcceptedExecute(_, transaction, _) => transaction,
+            Self::AcceptedRecovery(_, transaction, _) => transaction,
             Self::RejectedDeploy(_, transaction, _, _) => transaction,
             Self::RejectedExecute(_, transaction, _, _) => transaction,
         }
@@ -271,6 +298,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         match self {
             Self::AcceptedDeploy(_, _, finalize) => finalize.len(),
             Self::AcceptedExecute(_, _, finalize) => finalize.len(),
+            Self::AcceptedRecovery(_, _, finalize) => finalize.len(),
             Self::RejectedDeploy(_, _, _, finalize) => finalize.len(),
             Self::RejectedExecute(_, _, _, finalize) => finalize.len(),
         }
@@ -281,6 +309,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         match self {
             Self::AcceptedDeploy(_, _, finalize) => finalize,
             Self::AcceptedExecute(_, _, finalize) => finalize,
+            Self::AcceptedRecovery(_, _, finalize) => finalize,
             Self::RejectedDeploy(_, _, _, finalize) => finalize,
             Self::RejectedExecute(_, _, _, finalize) => finalize,
         }
@@ -299,7 +328,9 @@ impl<N: Network> ConfirmedTransaction<N> {
     /// Returns the rejected ID, if the confirmed transaction is rejected.
     pub fn to_rejected_id(&self) -> Result<Option<Field<N>>> {
         match self {
-            ConfirmedTransaction::AcceptedDeploy(..) | ConfirmedTransaction::AcceptedExecute(..) => Ok(None),
+            ConfirmedTransaction::AcceptedDeploy(..)
+            | ConfirmedTransaction::AcceptedExecute(..)
+            | ConfirmedTransaction::AcceptedRecovery(..) => Ok(None),
             ConfirmedTransaction::RejectedDeploy(_, _, rejected, _) => Ok(Some(rejected.to_id()?)),
             ConfirmedTransaction::RejectedExecute(_, _, rejected, _) => Ok(Some(rejected.to_id()?)),
         }
@@ -308,7 +339,9 @@ impl<N: Network> ConfirmedTransaction<N> {
     /// Returns the rejected object, if the confirmed transaction is rejected.
     pub fn to_rejected(&self) -> Option<&Rejected<N>> {
         match self {
-            ConfirmedTransaction::AcceptedDeploy(..) | ConfirmedTransaction::AcceptedExecute(..) => None,
+            ConfirmedTransaction::AcceptedDeploy(..)
+            | ConfirmedTransaction::AcceptedExecute(..)
+            | ConfirmedTransaction::AcceptedRecovery(..) => None,
             ConfirmedTransaction::RejectedDeploy(_, _, rejected, _) => Some(rejected),
             ConfirmedTransaction::RejectedExecute(_, _, rejected, _) => Some(rejected),
         }
@@ -321,6 +354,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         match self {
             Self::AcceptedDeploy(_, transaction, _) => Ok(transaction.id()),
             Self::AcceptedExecute(_, transaction, _) => Ok(transaction.id()),
+            Self::AcceptedRecovery(_, transaction, _) => Ok(transaction.id()),
             Self::RejectedDeploy(_, fee_transaction, rejected, _)
             | Self::RejectedExecute(_, fee_transaction, rejected, _) => {
                 Ok(rejected.to_unconfirmed_id(&fee_transaction.fee_transition())?.into())
@@ -335,6 +369,7 @@ impl<N: Network> ConfirmedTransaction<N> {
         match self {
             Self::AcceptedDeploy(_, transaction, _) => Ok(transaction.clone()),
             Self::AcceptedExecute(_, transaction, _) => Ok(transaction.clone()),
+            Self::AcceptedRecovery(_, transaction, _) => Ok(transaction.clone()),
             Self::RejectedDeploy(_, fee_transaction, rejected, _) => Transaction::from_deployment(
                 rejected
                     .program_owner()

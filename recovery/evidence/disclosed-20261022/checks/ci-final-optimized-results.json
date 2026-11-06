@@ -1,0 +1,135 @@
+{
+  "status": "PASS",
+  "started_utc": "2026-10-29T17:40:09.279362+00:00",
+  "command": [
+    ".ci/test_devnet.sh"
+  ],
+  "cwd": "/workspace/snarkOS",
+  "binary": "/workspace/snarkOS/target/release/snarkos",
+  "binary_sha256": "026fa716dd87b6fa9822d36eb280ccb389599dd4688af26fd94616a420800eb4",
+  "binary_bytes": 145323264,
+  "build_manifest": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-node-build-after.json",
+  "build_manifest_sha256": "9e71734e50dfaa0fd7627f825b5b61aa25ba79691d4c953eff7ecb8d350793e6",
+  "candidate_manifest_sha256": "04f49bc92e6ba7cd5e018099332c61af6f32cd8f0ebf55fc5e24809fbcbf39dd",
+  "scripts": {
+    ".ci/test_devnet.sh": {
+      "sha256": "6288cc7c5e8c655d3602f87dfe10b0b36aa96985ef63b25700a26d939b925b59",
+      "bytes": 19994
+    },
+    ".ci/utils.sh": {
+      "sha256": "eddbfa37aea02016f3b48fd3b81150b38a826641a9091711fc49f9326045f5c3",
+      "bytes": 30363
+    }
+  },
+  "environment": {
+    "RAYON_NUM_THREADS": "2",
+    "TOKIO_WORKER_THREADS": "2",
+    "PATH_prefix": "/workspace/snarkOS/target/release"
+  },
+  "unset_environment": [
+    "CONSENSUS_VERSION_HEIGHTS",
+    "SNARKVM_RECOVERY_EXIT_BEFORE_COMMIT_HEIGHT",
+    "TEST_BOOTSTRAP_PEERS"
+  ],
+  "defaults": {
+    "validators": 4,
+    "clients": 4,
+    "network_id": 0,
+    "minimum_height": 60,
+    "max_validator_log_bytes": 2097152,
+    "max_client_log_bytes": 1048576
+  },
+  "raw_log": "/workspace/security-evaluation/disclosed-recovery-20261022/ci-final-optimized/raw.log",
+  "limits": [
+    "No CI script or threshold edits",
+    "No other localhost devnet may run simultaneously",
+    "No native recovery acceptance claim from ordinary CI",
+    "Raw logs remain external; development private/view-key patterns redacted in source-retainable summary"
+  ],
+  "runner_pid": 263534,
+  "exit_code": 0,
+  "elapsed_seconds": 208.19039440096822,
+  "finished_utc": "2026-10-29T17:43:37.601232+00:00",
+  "raw_log_bytes": 8331300,
+  "raw_log_sha256": "6816f360a5f64b26a294d291eac7cb3cb93bf612ce1d5ad6f958db2f7a5d9a0d",
+  "unchanged_scripts_after": {
+    ".ci/test_devnet.sh": true,
+    ".ci/utils.sh": true
+  },
+  "unchanged_binary_after": true,
+  "node_log_directories": [
+    "/workspace/snarkOS/.logs-20261029174009"
+  ],
+  "node_logs": {
+    "/workspace/snarkOS/.logs-20261029174009/validator-2.log": {
+      "bytes": 1589955,
+      "sha256": "9a8332eceb961f720adf5f256a7f2f72aec0f88f60e23b1022e47636c170f7e7",
+      "maximum_bytes": 2097152,
+      "within_cap": true,
+      "error_lines": 0
+    },
+    "/workspace/snarkOS/.logs-20261029174009/validator-0.log": {
+      "bytes": 1628212,
+      "sha256": "5da080c656384ffb1145bd812f8577b67492806b26472bba24272ac39190597c",
+      "maximum_bytes": 2097152,
+      "within_cap": true,
+      "error_lines": 0
+    },
+    "/workspace/snarkOS/.logs-20261029174009/validator-1.log": {
+      "bytes": 1589633,
+      "sha256": "b618f3940f781f90ceb47a4511eb07fc88c6d607a8ac7cbde5090bc2cdae9985",
+      "maximum_bytes": 2097152,
+      "within_cap": true,
+      "error_lines": 0
+    },
+    "/workspace/snarkOS/.logs-20261029174009/validator-3.log": {
+      "bytes": 1592853,
+      "sha256": "0d1d4e16003257cb145b82d31c03baf6e0a23d7f94773b5eade16ab7b71d8286",
+      "maximum_bytes": 2097152,
+      "within_cap": true,
+      "error_lines": 0
+    },
+    "/workspace/snarkOS/.logs-20261029174009/client-1.log": {
+      "bytes": 237098,
+      "sha256": "a1a2cc57f56db7e1033d73bf89bda4a9fdac9e4e8c3324e71edfe0f7f6f25dce",
+      "maximum_bytes": 1048576,
+      "within_cap": true,
+      "error_lines": 0
+    },
+    "/workspace/snarkOS/.logs-20261029174009/client-2.log": {
+      "bytes": 237153,
+      "sha256": "42862a09a49a3f32d0acd948e963d89a34bab880ae33e3a122b5886df6d46b52",
+      "maximum_bytes": 1048576,
+      "within_cap": true,
+      "error_lines": 0
+    },
+    "/workspace/snarkOS/.logs-20261029174009/client-3.log": {
+      "bytes": 236390,
+      "sha256": "b3919ebd6ab974e69dcaa7cbe4a2108e9bd26884a77a650be506933bb347e689",
+      "maximum_bytes": 1048576,
+      "within_cap": true,
+      "error_lines": 0
+    },
+    "/workspace/snarkOS/.logs-20261029174009/ci-runner.log": {
+      "bytes": 15065,
+      "sha256": "a2d3d503b9a3d528f897933ff1f244fb3d829d0ef069f8ca341350f9e0b3bfe7",
+      "maximum_bytes": null,
+      "within_cap": null,
+      "error_lines": 0
+    },
+    "/workspace/snarkOS/.logs-20261029174009/client-0.log": {
+      "bytes": 237266,
+      "sha256": "f754d8cae685541f0f9ae2d9514058921b281a3d5a5abf29df35afcf477e6160",
+      "maximum_bytes": 1048576,
+      "within_cap": true,
+      "error_lines": 0
+    }
+  },
+  "public_runner_summary": {
+    "file": "/workspace/security-evaluation/disclosed-recovery-20261022/ci-final-optimized/runner-summary.log",
+    "bytes": 5718,
+    "sha256": "189e3ced00685a3267bbccaad07df4583f409dc0ab9ba063d97157a0841b8462"
+  },
+  "independent_node_log_scan_passed": true,
+  "all_evidence_identities_unchanged": true
+}

@@ -32,7 +32,7 @@ use console::{
     network::prelude::*,
     program::{Identifier, ProgramID},
 };
-use snarkvm_ledger_block::{Deployment, Execution, Transaction};
+use snarkvm_ledger_block::{Deployment, Execution, Recovery, Transaction};
 use snarkvm_synthesizer_program::Program;
 use snarkvm_synthesizer_snark::{Certificate, VerifyingKey};
 
@@ -49,12 +49,16 @@ pub enum TransactionType {
     Execute,
     /// A transaction that is a fee.
     Fee,
+    /// A native disclosed recovery transaction.
+    Recovery,
 }
 
 /// A trait for transaction storage.
 pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
     /// The mapping of `transaction ID` to `transaction type`.
     type IDMap: for<'a> Map<'a, N::TransactionID, TransactionType>;
+    /// Native recovery envelopes archived under their canonical transaction identity.
+    type RecoveryMap: for<'a> Map<'a, N::TransactionID, Recovery<N>>;
     /// The deployment storage.
     type DeploymentStorage: DeploymentStorage<N, FeeStorage = Self::FeeStorage>;
     /// The execution storage.
@@ -69,6 +73,8 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
 
     /// Returns the ID map.
     fn id_map(&self) -> &Self::IDMap;
+    /// Returns native recovery transaction envelopes.
+    fn recovery_map(&self) -> &Self::RecoveryMap;
     /// Returns the deployment store.
     fn deployment_store(&self) -> &DeploymentStore<N, Self::DeploymentStorage>;
     /// Returns the execution store.
@@ -90,6 +96,7 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
     /// Starts an atomic batch write operation.
     fn start_atomic(&self) {
         self.id_map().start_atomic();
+        self.recovery_map().start_atomic();
         self.deployment_store().start_atomic();
         self.execution_store().start_atomic();
         self.fee_store().start_atomic();
@@ -98,6 +105,7 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
     /// Checks if an atomic batch is in progress.
     fn is_atomic_in_progress(&self) -> bool {
         self.id_map().is_atomic_in_progress()
+            || self.recovery_map().is_atomic_in_progress()
             || self.deployment_store().is_atomic_in_progress()
             || self.execution_store().is_atomic_in_progress()
             || self.fee_store().is_atomic_in_progress()
@@ -106,6 +114,7 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
     /// Checkpoints the atomic batch.
     fn atomic_checkpoint(&self) {
         self.id_map().atomic_checkpoint();
+        self.recovery_map().atomic_checkpoint();
         self.deployment_store().atomic_checkpoint();
         self.execution_store().atomic_checkpoint();
         self.fee_store().atomic_checkpoint();
@@ -114,6 +123,7 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
     /// Clears the latest atomic batch checkpoint.
     fn clear_latest_checkpoint(&self) {
         self.id_map().clear_latest_checkpoint();
+        self.recovery_map().clear_latest_checkpoint();
         self.deployment_store().clear_latest_checkpoint();
         self.execution_store().clear_latest_checkpoint();
         self.fee_store().clear_latest_checkpoint();
@@ -122,6 +132,7 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
     /// Rewinds the atomic batch to the previous checkpoint.
     fn atomic_rewind(&self) {
         self.id_map().atomic_rewind();
+        self.recovery_map().atomic_rewind();
         self.deployment_store().atomic_rewind();
         self.execution_store().atomic_rewind();
         self.fee_store().atomic_rewind();
@@ -130,6 +141,7 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
     /// Aborts an atomic batch write operation.
     fn abort_atomic(&self) {
         self.id_map().abort_atomic();
+        self.recovery_map().abort_atomic();
         self.deployment_store().abort_atomic();
         self.execution_store().abort_atomic();
         self.fee_store().abort_atomic();
@@ -138,6 +150,7 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
     /// Finishes an atomic batch write operation.
     fn finish_atomic(&self) -> Result<()> {
         self.id_map().finish_atomic()?;
+        self.recovery_map().finish_atomic()?;
         self.deployment_store().finish_atomic()?;
         self.execution_store().finish_atomic()?;
         self.fee_store().finish_atomic()
@@ -158,6 +171,10 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
                     self.id_map().insert(transaction.id(), TransactionType::Execute)?;
                     // Store the execution transaction.
                     self.execution_store().insert(transaction)?;
+                }
+                Transaction::Recovery(id, recovery) => {
+                    self.id_map().insert(*id, TransactionType::Recovery)?;
+                    self.recovery_map().insert(*id, recovery.as_ref().clone())?;
                 }
                 Transaction::Fee(_, fee) => {
                     // Store the transaction type.
@@ -188,6 +205,7 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
                 TransactionType::Execute => self.execution_store().remove(transaction_id)?,
                 // Remove the fee transaction.
                 TransactionType::Fee => self.fee_store().remove(transaction_id)?,
+                TransactionType::Recovery => self.recovery_map().remove(transaction_id)?,
             }
             Ok(())
         })
@@ -260,6 +278,14 @@ pub trait TransactionStorage<N: Network>: Clone + Send + Sync {
             // Return the execution transaction.
             TransactionType::Execute => self.execution_store().get_transaction(transaction_id),
             // Return the fee transaction.
+            TransactionType::Recovery => match self.recovery_map().get_confirmed(transaction_id)? {
+                Some(recovery) => {
+                    let transaction = Transaction::from_recovery(recovery.into_owned())?;
+                    ensure!(transaction.id() == *transaction_id, "Recovery transaction identity mismatch in storage");
+                    Ok(Some(transaction))
+                }
+                None => bail!("Missing recovery transaction '{transaction_id}'"),
+            },
             TransactionType::Fee => match self.fee_store().get_fee(transaction_id)? {
                 Some(fee) => Ok(Some(Transaction::Fee(*transaction_id, fee))),
                 None => bail!("Failed to get fee for transaction '{transaction_id}'"),
@@ -352,6 +378,245 @@ impl<N: Network, T: TransactionStorage<N>> TransactionStore<N, T> {
     }
 }
 
+#[cfg(test)]
+mod recovery_tests {
+    use super::*;
+    use crate::helpers::memory::{TransactionMemory, TransitionMemory};
+    use console::network::MainnetV0;
+    use snarkvm_recovery::{Effects, Evidence, Key, Operation, Owner, Profile, Record, RecordVersion};
+
+    type N = MainnetV0;
+
+    // Storage tests intentionally do not assert signature validity; authorization belongs to the VM.
+    fn recovery_transaction(nonce: u8) -> Result<Transaction<N>> {
+        let key = Key { profile: Profile::ML_DSA_65, bytes: vec![7; 1952] };
+        Transaction::from_recovery(Recovery::new(
+            snarkvm_recovery::Transaction {
+                effects: Effects {
+                    network: [1; 64],
+                    protocol: 1,
+                    policy: 1,
+                    policy_commitment: [2; 64],
+                    operation: Operation::Migrate,
+                    valid_from: 40,
+                    valid_until: 80,
+                    replay: [nonce; 64],
+                    inputs: vec![[9; 64]],
+                    outputs: vec![Record {
+                        version: RecordVersion::V3,
+                        owner: Owner::Enrolled(key),
+                        amount: 99,
+                        nonce: [10; 64],
+                        opening: [11; 64],
+                    }],
+                    fee: 1,
+                },
+                legacy: vec![],
+                authorization: Evidence::Direct(vec![vec![1; 3309], vec![2; 3309]]),
+            },
+            vec![],
+        )?)
+    }
+
+    fn check_recovery_archive<T: TransactionStorage<N>>(store: TransactionStore<N, T>) -> Result<()> {
+        let a = recovery_transaction(3)?;
+        let b = recovery_transaction(4)?;
+        assert_ne!(a.id(), b.id());
+        store.start_atomic();
+        store.insert(&a)?;
+        assert_eq!(store.get_transaction(&a.id())?, None);
+        store.abort_atomic();
+        assert_eq!(store.get_transaction(&a.id())?, None);
+        store.start_atomic();
+        store.insert(&a)?;
+        store.atomic_checkpoint();
+        store.insert(&b)?;
+        store.atomic_rewind();
+        store.finish_atomic()?;
+        assert_eq!(store.get_transaction(&a.id())?, Some(a.clone()));
+        assert_eq!(store.get_transaction(&b.id())?, None);
+        assert_eq!(store.get_edition(&a.id())?, None);
+        assert!(store.get_execution(&a.id()).is_err());
+        assert!(store.get_deployment(&a.id()).is_err());
+        store.start_atomic();
+        store.remove(&a.id())?;
+        store.abort_atomic();
+        assert_eq!(store.get_transaction(&a.id())?, Some(a.clone()));
+        store.remove(&a.id())?;
+        assert_eq!(store.get_transaction(&a.id())?, None);
+        assert!(!store.storage.recovery_map().contains_key_confirmed(&a.id())?);
+        Ok(())
+    }
+
+    fn check_recovery_consensus_batch<C: crate::ConsensusStorage<N>>(store: crate::ConsensusStore<N, C>) -> Result<()> {
+        let transaction = recovery_transaction(5)?;
+        let finalize = store.finalize_store();
+        let archive = store.transaction_store();
+        let serial = console::types::Field::from_u64(1);
+        store.start_atomic();
+        finalize.set_recovery_state(10, vec![1])?;
+        finalize.recovery_mark_serial(serial, 10)?;
+        archive.insert(&transaction)?;
+        assert_eq!(archive.get_transaction(&transaction.id())?, None);
+        assert_eq!(finalize.recovery_state_confirmed()?, None);
+        store.abort_atomic();
+        assert_eq!(archive.get_transaction(&transaction.id())?, None);
+        assert_eq!(finalize.recovery_state_confirmed()?, None);
+        assert!(!finalize.recovery_contains_serial(&serial)?);
+
+        store.start_atomic();
+        finalize.set_recovery_state(10, vec![1])?;
+        finalize.recovery_mark_serial(serial, 10)?;
+        archive.insert(&transaction)?;
+        store.finish_atomic()?;
+        assert_eq!(archive.get_transaction(&transaction.id())?, Some(transaction.clone()));
+        assert_eq!(finalize.recovery_state_confirmed()?, Some(vec![1]));
+        assert!(finalize.recovery_contains_serial(&serial)?);
+
+        store.start_atomic();
+        archive.remove(&transaction.id())?;
+        finalize.recovery_rewind_to_height(9)?;
+        store.abort_atomic();
+        assert_eq!(archive.get_transaction(&transaction.id())?, Some(transaction.clone()));
+        assert_eq!(finalize.recovery_state_confirmed()?, Some(vec![1]));
+        assert!(finalize.recovery_contains_serial(&serial)?);
+
+        store.start_atomic();
+        archive.remove(&transaction.id())?;
+        finalize.recovery_rewind_to_height(9)?;
+        store.finish_atomic()?;
+        assert_eq!(archive.get_transaction(&transaction.id())?, None);
+        assert_eq!(finalize.recovery_state_confirmed()?, None);
+        assert!(!finalize.recovery_contains_serial(&serial)?);
+        Ok(())
+    }
+
+    #[test]
+    fn test_recovery_memory_transaction_archive() -> Result<()> {
+        let transition_store = TransitionStore::<N, TransitionMemory<N>>::open(StorageMode::new_test(None))?;
+        check_recovery_archive(TransactionStore::<N, TransactionMemory<N>>::open(transition_store)?)
+    }
+
+    #[test]
+    fn test_recovery_memory_consensus_batch() -> Result<()> {
+        check_recovery_consensus_batch(crate::ConsensusStore::<N, crate::helpers::memory::ConsensusMemory<N>>::open(
+            StorageMode::new_test(None),
+        )?)
+    }
+
+    #[cfg(feature = "rocks")]
+    #[test]
+    fn test_recovery_rocks_transaction_archive() -> Result<()> {
+        use crate::helpers::rocksdb::{TransactionDB, TransitionDB};
+        let dir = std::sync::Arc::new(tempfile::tempdir()?);
+        let transition_store = TransitionStore::<N, TransitionDB<N>>::open(dir)?;
+        check_recovery_archive(TransactionStore::<N, TransactionDB<N>>::open(transition_store)?)
+    }
+
+    #[cfg(feature = "rocks")]
+    #[test]
+    fn test_recovery_rocks_consensus_batch() -> Result<()> {
+        let dir = std::sync::Arc::new(tempfile::tempdir()?);
+        check_recovery_consensus_batch(crate::ConsensusStore::<N, crate::helpers::rocksdb::ConsensusDB<N>>::open(dir)?)
+    }
+
+    #[cfg(feature = "rocks")]
+    #[test]
+    fn test_recovery_rocks_consensus_process_child() -> Result<()> {
+        let Ok(path) = std::env::var("ALEO_RECOVERY_CONSENSUS_TEST_PATH") else {
+            return Ok(());
+        };
+        let mode = std::env::var("ALEO_RECOVERY_CONSENSUS_TEST_MODE")?;
+        let store = crate::ConsensusStore::<N, crate::helpers::rocksdb::ConsensusDB<N>>::open(StorageMode::Custom(
+            path.into(),
+            None,
+        ))?;
+        let a = recovery_transaction(5)?;
+        let b = recovery_transaction(6)?;
+        let serial_a = console::types::Field::from_u64(1);
+        let serial_b = console::types::Field::from_u64(2);
+        let finalize = store.finalize_store();
+        let archive = store.transaction_store();
+        match mode.as_str() {
+            "committed" => {
+                store.start_atomic();
+                finalize.set_recovery_state(10, vec![1])?;
+                finalize.recovery_mark_serial(serial_a, 10)?;
+                archive.insert(&a)?;
+                store.finish_atomic()?;
+            }
+            "abandoned" | "partial-finalize" => {
+                assert_eq!(archive.get_transaction(&a.id())?, Some(a.clone()));
+                assert_eq!(finalize.recovery_state_confirmed()?, Some(vec![1]));
+                store.start_atomic();
+                finalize.set_recovery_state(11, vec![2])?;
+                finalize.recovery_mark_serial(serial_b, 11)?;
+                archive.insert(&b)?;
+                if mode == "partial-finalize" {
+                    // Finishing the finalize maps queues their writes while the
+                    // transaction and block maps keep the database batch open.
+                    finalize.finish_atomic()?;
+                    assert_eq!(finalize.recovery_state_confirmed()?, Some(vec![1]));
+                    assert_eq!(archive.get_transaction(&b.id())?, None);
+                }
+            }
+            "read" => {
+                assert_eq!(archive.get_transaction(&a.id())?, Some(a));
+                assert_eq!(archive.get_transaction(&b.id())?, None);
+                assert_eq!(finalize.recovery_state_confirmed()?, Some(vec![1]));
+                assert!(finalize.recovery_contains_serial(&serial_a)?);
+                assert!(!finalize.recovery_contains_serial(&serial_b)?);
+            }
+            _ => bail!("Unknown recovery consensus test mode"),
+        }
+        use std::io::Write;
+        println!("RECOVERY_CONSENSUS_TEST_READY");
+        std::io::stdout().flush()?;
+        loop {
+            std::thread::park();
+        }
+    }
+
+    #[cfg(feature = "rocks")]
+    #[test]
+    fn test_recovery_rocks_consensus_batch_survives_process_kill() -> Result<()> {
+        use std::{io::BufRead, process::Stdio, sync::mpsc, time::Duration};
+        let dir = tempfile::tempdir()?;
+        for mode in ["committed", "abandoned", "partial-finalize", "read"] {
+            let mut child = std::process::Command::new(std::env::current_exe()?)
+                .args(["test_recovery_rocks_consensus_process_child", "--nocapture", "--test-threads=1"])
+                .env("ALEO_RECOVERY_CONSENSUS_TEST_PATH", dir.path())
+                .env("ALEO_RECOVERY_CONSENSUS_TEST_MODE", mode)
+                .stdout(Stdio::piped())
+                .stderr(Stdio::piped())
+                .spawn()?;
+            let stdout = child.stdout.take().ok_or_else(|| std::io::Error::other("Missing consensus child stdout"))?;
+            let (ready_tx, ready_rx) = mpsc::channel();
+            let reader = std::thread::spawn(move || {
+                let ready = std::io::BufReader::new(stdout)
+                    .lines()
+                    .map_while(std::result::Result::ok)
+                    .any(|line| line.contains("RECOVERY_CONSENSUS_TEST_READY"));
+                let _ = ready_tx.send(ready);
+            });
+            let ready = ready_rx.recv_timeout(Duration::from_secs(30));
+            if !matches!(ready, Ok(true)) {
+                let _ = child.kill();
+                let output = child.wait_with_output()?;
+                reader.join().expect("Consensus test reader has no panic paths");
+                bail!(
+                    "Recovery consensus child failed before checkpoint ({mode}): {}",
+                    String::from_utf8_lossy(&output.stderr)
+                );
+            }
+            child.kill()?;
+            assert!(!child.wait()?.success());
+            reader.join().expect("Consensus test reader has no panic paths");
+        }
+        Ok(())
+    }
+}
+
 impl<N: Network, T: TransactionStorage<N>> TransactionStore<N, T> {
     /// Returns the transaction for the given `transaction ID`.
     pub fn get_transaction(&self, transaction_id: &N::TransactionID) -> Result<Option<Transaction<N>>> {
@@ -372,6 +637,7 @@ impl<N: Network, T: TransactionStorage<N>> TransactionStore<N, T> {
             TransactionType::Execute => bail!("Tried to get a deployment for execution transaction '{transaction_id}'"),
             // Throw an error.
             TransactionType::Fee => bail!("Tried to get a deployment for fee transaction '{transaction_id}'"),
+            TransactionType::Recovery => bail!("Tried to get a deployment for recovery transaction '{transaction_id}'"),
         }
     }
 
@@ -389,6 +655,7 @@ impl<N: Network, T: TransactionStorage<N>> TransactionStore<N, T> {
             TransactionType::Execute => self.storage.execution_store().get_execution(transaction_id),
             // Throw an error.
             TransactionType::Fee => bail!("Tried to get an execution for fee transaction '{transaction_id}'"),
+            TransactionType::Recovery => bail!("Tried to get an execution for recovery transaction '{transaction_id}'"),
         }
     }
 
@@ -409,7 +676,7 @@ impl<N: Network, T: TransactionStorage<N>> TransactionStore<N, T> {
             // Return 'None'.
             TransactionType::Execute => Ok(None),
             // Return 'None'.
-            TransactionType::Fee => Ok(None),
+            TransactionType::Fee | TransactionType::Recovery => Ok(None),
         }
     }
 

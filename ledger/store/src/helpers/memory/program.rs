@@ -44,6 +44,10 @@ pub struct FinalizeMemory<N: Network> {
     key_value_map: NestedMemoryMap<(ProgramID<N>, Identifier<N>), Plaintext<N>, Value<N>>,
     /// The rejection reason map.
     rejected_reason_map: MemoryMap<Field<N>, RejectedReason<N>>,
+    /// Canonical recovery checkpoints, including pending candidate writes.
+    recovery_state_map: MemoryMap<u32, Vec<u8>>,
+    /// Legacy serials consumed by native preparation.
+    recovery_serial_map: MemoryMap<Field<N>, u32>,
 
     /// The storage mode.
     storage_mode: StorageMode,
@@ -55,6 +59,8 @@ impl<N: Network> FinalizeStorage<N> for FinalizeMemory<N> {
     type ProgramIDMap = MemoryMap<ProgramID<N>, IndexSet<Identifier<N>>>;
     type KeyValueMap = NestedMemoryMap<(ProgramID<N>, Identifier<N>), Plaintext<N>, Value<N>>;
     type RejectedReasonMap = MemoryMap<Field<N>, RejectedReason<N>>;
+    type RecoveryStateMap = MemoryMap<u32, Vec<u8>>;
+    type RecoverySerialMap = MemoryMap<Field<N>, u32>;
 
     /// Initializes the finalize storage.
     fn open<S: Into<StorageMode>>(storage: S) -> Result<Self> {
@@ -68,6 +74,8 @@ impl<N: Network> FinalizeStorage<N> for FinalizeMemory<N> {
             program_id_map: MemoryMap::default(),
             key_value_map: NestedMemoryMap::default(),
             rejected_reason_map: MemoryMap::default(),
+            recovery_state_map: MemoryMap::default(),
+            recovery_serial_map: MemoryMap::default(),
 
             storage_mode: storage,
         })
@@ -91,6 +99,16 @@ impl<N: Network> FinalizeStorage<N> for FinalizeMemory<N> {
     /// Returns the rejection reason map.
     fn rejected_reason_map(&self) -> &Self::RejectedReasonMap {
         &self.rejected_reason_map
+    }
+
+    /// Returns the recovery checkpoint map.
+    fn recovery_state_map(&self) -> &Self::RecoveryStateMap {
+        &self.recovery_state_map
+    }
+
+    /// Returns recovery-consumed legacy serials.
+    fn recovery_serial_map(&self) -> &Self::RecoverySerialMap {
+        &self.recovery_serial_map
     }
 
     /// Returns the storage mode.

@@ -123,6 +123,7 @@ pub trait ExecutionStorage<N: Network>: Clone + Send + Sync {
         let (transaction_id, execution, fee) = match transaction {
             Transaction::Deploy(..) => bail!("Attempted to insert a deploy transaction into execution storage."),
             Transaction::Execute(transaction_id, _, execution, fee) => (transaction_id, execution, fee),
+            Transaction::Recovery(..) => bail!("Attempted to insert a recovery transaction into execution storage."),
             Transaction::Fee(..) => bail!("Attempted to insert a fee transaction into execution storage."),
         };
 

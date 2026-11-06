@@ -1,0 +1,45 @@
+{
+  "creator_repository": "https://github.com/zklim/snarkVM",
+  "creator_revision": "9741f1159a8cd18e2d676d5a095eeffad71ab52c",
+  "creator_package_version": "3.7.1",
+  "network_id": 0,
+  "record_version": 0,
+  "program": "credits.aleo",
+  "record_name": "credits",
+  "owner": "aleo1xqxvp7w3jp0xvc0n95psvxz8s59g2krnf9mmpyuzx4t9uw6fmspq2k95g2",
+  "public_fixture_seed": "42field",
+  "microcredits": 1000000000,
+  "commitment": "3109791241098555702859943956521075512572155053516236673835844260192329977444field",
+  "serial": "1597376653746253526342060118595360572033781219174608543106124589097919789261field",
+  "scope": "historical constructor and commitment fixture; not an on-chain inclusion claim",
+  "files": {
+    "record.bin": {
+      "bytes": 96,
+      "sha256": "f47bf0d8cc136f62a4e20ef50c9993bcfa05d05fc2bfa9b3ee26f760cf7bbd79"
+    },
+    "record.txt": {
+      "bytes": 223,
+      "sha256": "9965c14543994cf75225a0247ad4dddbde349948bb88c59bdf5825bbf488cea5"
+    },
+    "ciphertext.bin": {
+      "bytes": 118,
+      "sha256": "cff00100bbeb4cc82a91b0a9acb55e3fddbda1733851e886576589183203aa70"
+    },
+    "ciphertext.txt": {
+      "bytes": 202,
+      "sha256": "d8edc97bfc5292fd2211f5868545e09ec2dc0fcb5ee527dc8931dc5a15493732"
+    },
+    "commitment.bin": {
+      "bytes": 32,
+      "sha256": "368636e9817e19322f5ca26389246379da15fd25d69aacd607bd53d69f224a64"
+    },
+    "serial.bin": {
+      "bytes": 32,
+      "sha256": "30e1e3fac7a09a1ba5972fe1574d5868a4017f620719e9541faf78928e26f876"
+    },
+    "record-view-key.bin": {
+      "bytes": 32,
+      "sha256": "cd0528cfd483234e4a439a12111d2da4fb1a57b2f9e2c24020928e6ae5c78a0a"
+    }
+  }
+}

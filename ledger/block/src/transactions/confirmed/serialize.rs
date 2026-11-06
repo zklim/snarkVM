@@ -20,6 +20,15 @@ impl<N: Network> Serialize for ConfirmedTransaction<N> {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         match serializer.is_human_readable() {
             true => match self {
+                Self::AcceptedRecovery(index, transaction, finalize_operations) => {
+                    let mut object = serializer.serialize_struct("ConfirmedTransaction", 5)?;
+                    object.serialize_field("status", "accepted")?;
+                    object.serialize_field("type", "recovery")?;
+                    object.serialize_field("index", index)?;
+                    object.serialize_field("transaction", transaction)?;
+                    object.serialize_field("finalize", finalize_operations)?;
+                    object.end()
+                }
                 Self::AcceptedDeploy(index, transaction, finalize_operations) => {
                     let mut object = serializer.serialize_struct("ConfirmedTransaction", 5)?;
                     object.serialize_field("status", "accepted")?;
@@ -83,6 +92,10 @@ impl<'de, N: Network> Deserialize<'de> for ConfirmedTransaction<N> {
 
                 // Recover the confirmed transaction.
                 match (status, type_) {
+                    (Some("accepted"), Some("recovery")) => {
+                        let finalize: Vec<_> = DeserializeExt::take_from_value::<D>(&mut object, "finalize")?;
+                        Self::accepted_recovery(index, transaction, finalize).map_err(de::Error::custom)
+                    }
                     (Some("accepted"), Some("deploy")) => {
                         // Parse the finalize operations.
                         let finalize: Vec<_> = DeserializeExt::take_from_value::<D>(&mut object, "finalize")?;

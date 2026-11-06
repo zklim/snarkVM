@@ -1,0 +1,33 @@
+{
+  "scope": "native recovery wire and persistent storage",
+  "results": {
+    "tests.log": {
+      "passed": 19,
+      "failed": 0,
+      "seconds": 7.27,
+      "sha256": "70ff20ee8d5a1a6e999877cd7f86650373d1b06ed53a07b8f33addbdbc2f4539"
+    },
+    "schema.log": {
+      "passed": 5,
+      "failed": 0,
+      "seconds": 0.15,
+      "sha256": "5a887d524009cf9b15b48b03b714883b7131edbb7817ddd0ce337c01a31960e9"
+    },
+    "wire.log": {
+      "passed": 4,
+      "failed": 0,
+      "seconds": 0.14,
+      "sha256": "832c836cef35de810f929c1ad7b70c635f9e3427a39c290ae6ffde3be856ced7"
+    },
+    "format.log": {
+      "exit_code": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "finalize-encoding.log": {
+      "passed": 5,
+      "failed": 0,
+      "seconds": 0.0,
+      "sha256": "e706d86f2413950cf360c2bdec126ad87ecf0797371f731a2195f232856af63c"
+    }
+  }
+}

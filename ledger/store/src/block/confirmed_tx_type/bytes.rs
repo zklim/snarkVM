@@ -26,7 +26,8 @@ impl<N: Network> FromBytes for ConfirmedTxType<N> {
             1 => Ok(Self::AcceptedExecute(u32::read_le(&mut reader)?)),
             2 => Ok(Self::RejectedDeploy(u32::read_le(&mut reader)?, Rejected::read_le(&mut reader)?)),
             3 => Ok(Self::RejectedExecute(u32::read_le(&mut reader)?, Rejected::read_le(&mut reader)?)),
-            4.. => Err(error("Invalid confirmed transaction type variant")),
+            4 => Ok(Self::AcceptedRecovery(u32::read_le(&mut reader)?)),
+            5.. => Err(error("Invalid confirmed transaction type variant")),
         }
     }
 }
@@ -46,6 +47,10 @@ impl<N: Network> ToBytes for ConfirmedTxType<N> {
                 // Write the variant.
                 1u8.write_le(&mut writer)?;
                 // Write the index.
+                index.write_le(&mut writer)
+            }
+            Self::AcceptedRecovery(index) => {
+                4u8.write_le(&mut writer)?;
                 index.write_le(&mut writer)
             }
             Self::RejectedDeploy(index, rejected) => {

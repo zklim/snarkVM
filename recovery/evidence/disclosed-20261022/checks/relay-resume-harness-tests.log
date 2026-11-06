@@ -1,0 +1,15 @@
+test_aborted_id_or_rejected_confirmation_is_not_acceptance (test_recovery_harness.AcceptanceEvidence.test_aborted_id_or_rejected_confirmation_is_not_acceptance) ... ok
+test_aborted_lookup_does_not_query_confirmation_endpoint (test_recovery_harness.AcceptanceEvidence.test_aborted_lookup_does_not_query_confirmation_endpoint) ... ok
+test_accepted_and_aborted_cannot_both_count (test_recovery_harness.AcceptanceEvidence.test_accepted_and_aborted_cannot_both_count) ... ok
+test_changed_effects_or_type (test_recovery_harness.AcceptanceEvidence.test_changed_effects_or_type) ... ok
+test_exact_accepted_effects (test_recovery_harness.AcceptanceEvidence.test_exact_accepted_effects) ... ok
+test_missing_duplicate_or_changed_block_entry (test_recovery_harness.AcceptanceEvidence.test_missing_duplicate_or_changed_block_entry) ... ok
+test_429_retry_is_bounded_and_other_failures_propagate (test_recovery_harness.RateLimitedReads.test_429_retry_is_bounded_and_other_failures_propagate) ... ok
+test_cached_proof_must_upgrade_exact_historical_serial (test_recovery_harness.ResumeIntegrity.test_cached_proof_must_upgrade_exact_historical_serial) ... ok
+test_each_node_identity_survives_and_tampering_fails (test_recovery_harness.ResumeIntegrity.test_each_node_identity_survives_and_tampering_fails) ... ok
+test_symlink_is_not_a_retained_snapshot (test_recovery_harness.ResumeIntegrity.test_symlink_is_not_a_retained_snapshot) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.011s
+
+OK

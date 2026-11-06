@@ -76,7 +76,12 @@ impl<N: Network> FromBytes for Transaction<N> {
                 // Return the ID and the transaction.
                 (id, transaction)
             }
-            3.. => return Err(error("Invalid transaction variant")),
+            3 => {
+                let id = N::TransactionID::read_le(&mut reader)?;
+                let recovery = Recovery::read_le(&mut reader)?;
+                (id, Self::from_recovery(recovery).map_err(error)?)
+            }
+            4.. => return Err(error("Invalid transaction variant")),
         };
 
         // Ensure the transaction ID matches.
@@ -126,6 +131,11 @@ impl<N: Network> ToBytes for Transaction<N> {
                         fee.write_le(&mut writer)
                     }
                 }
+            }
+            Self::Recovery(id, recovery) => {
+                3u8.write_le(&mut writer)?;
+                id.write_le(&mut writer)?;
+                recovery.write_le(&mut writer)
             }
             Self::Fee(id, fee) => {
                 // Write the variant.

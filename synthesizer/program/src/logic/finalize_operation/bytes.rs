@@ -68,7 +68,14 @@ impl<N: Network> FromBytes for FinalizeOperation<N> {
                 // Return the finalize operation.
                 Ok(Self::RemoveMapping(mapping_id))
             }
-            6.. => Err(error(format!("Failed to decode finalize operation variant {variant}"))),
+            6 => {
+                let mut before = [0u8; 64];
+                let mut after = [0u8; 64];
+                reader.read_exact(&mut before)?;
+                reader.read_exact(&mut after)?;
+                Ok(Self::Recovery(before, after))
+            }
+            7.. => Err(error(format!("Failed to decode finalize operation variant {variant}"))),
         }
     }
 }
@@ -77,6 +84,11 @@ impl<N: Network> ToBytes for FinalizeOperation<N> {
     /// Writes the finalize operation to buffer.
     fn write_le<W: Write>(&self, mut writer: W) -> IoResult<()> {
         match self {
+            Self::Recovery(before, after) => {
+                6u8.write_le(&mut writer)?;
+                writer.write_all(before)?;
+                writer.write_all(after)?;
+            }
             Self::InitializeMapping(mapping_id) => {
                 // Write the variant.
                 0u8.write_le(&mut writer)?;

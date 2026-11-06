@@ -272,6 +272,7 @@ pub trait DeploymentStorage<N: Network>: Clone + Send + Sync {
         let (transaction_id, owner, deployment, fee) = match transaction {
             Transaction::Deploy(transaction_id, _, owner, deployment, fee) => (transaction_id, owner, deployment, fee),
             Transaction::Execute(..) => bail!("Attempted to insert an execute transaction into deployment storage."),
+            Transaction::Recovery(..) => bail!("Attempted to insert a recovery transaction into deployment storage."),
             Transaction::Fee(..) => bail!("Attempted to insert fee transaction into deployment storage."),
         };
 

@@ -1,0 +1,33 @@
+    Blocking waiting for file lock on build directory
+   Compiling snarkvm-recovery-records v0.1.0 (/workspace/snarkVM/recovery/records)
+   Compiling snarkvm-ledger-block v4.12.0 (/workspace/snarkVM/ledger/block)
+   Compiling snarkvm-ledger-store v4.12.0 (/workspace/snarkVM/ledger/store)
+   Compiling snarkvm-ledger-query v4.12.0 (/workspace/snarkVM/ledger/query)
+   Compiling snarkvm-synthesizer-process v4.12.0 (/workspace/snarkVM/synthesizer/process)
+   Compiling snarkvm-ledger-test-helpers v4.12.0 (/workspace/snarkVM/ledger/test-helpers)
+    Finished `test` profile [optimized + debuginfo] target(s) in 29m 37s
+     Running unittests src/lib.rs (/workspace/snarkOS/target/debug/deps/snarkvm_ledger_store-c032d3ba74a82333)
+
+running 19 tests
+test consensus::recovery::tests::test_recovery_snapshot_domain_separation_and_duplicates ... ok
+test consensus::recovery::tests::test_recovery_snapshot_preserves_address_and_composite_mapping_keys ... ok
+test consensus::recovery::tests::test_recovery_snapshot_propagates_writer_errors ... ok
+test consensus::recovery::tests::test_recovery_snapshot_rejects_unsupported_and_incomplete_storage ... ok
+test consensus::recovery::tests::test_recovery_snapshot_roundtrip_and_mapping_coverage ... ok
+test consensus::recovery::tests::test_recovery_snapshot_state_binding_and_canonical_order ... ok
+test consensus::recovery::tests::test_recovery_snapshot_tampering_and_truncation ... ok
+test helpers::rocksdb::internal::id::tests::test_recovery_namespaces_append_to_the_existing_schema ... ok
+test helpers::rocksdb::internal::schema::tests::test_recovery_schema_migration_preserves_existing_values ... ok
+test program::recovery::tests::test_recovery_memory_atomic_checkpoint_abort_and_rollback ... ok
+test program::recovery::tests::test_recovery_rocks_atomic_checkpoint_abort_and_rollback ... ok
+test program::recovery::tests::test_recovery_rocks_process_child ... ok
+test program::recovery::tests::test_recovery_rocks_reopen_and_abandoned_candidate ... ok
+test transaction::recovery_tests::test_recovery_memory_consensus_batch ... ok
+test transaction::recovery_tests::test_recovery_memory_transaction_archive ... ok
+test transaction::recovery_tests::test_recovery_rocks_consensus_batch ... ok
+test transaction::recovery_tests::test_recovery_rocks_consensus_batch_survives_process_kill ... ok
+test transaction::recovery_tests::test_recovery_rocks_consensus_process_child ... ok
+test transaction::recovery_tests::test_recovery_rocks_transaction_archive ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 125 filtered out; finished in 7.27s
+

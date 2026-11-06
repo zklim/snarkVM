@@ -1,0 +1,153 @@
+{
+  "source_revision": "f0f726c7fcaed39e1f5aeb29add1875f14fecdbe",
+  "scope": "Historical classical credits proving only; no post-quantum ownership proof claim",
+  "installation": "Staging only; no Aleo home or system configuration modified",
+  "files": [
+    {
+      "file": "fee_public.prover.f72b6ff",
+      "sha256": "f72b6ff291415fb17a3653f447dbf95a5fe48480f7bbd6cf1dfb33963ff6ad58",
+      "bytes": 29174402,
+      "targets": [
+        "testnet/credits/fee_public",
+        "testnet/credits_v0/fee_public"
+      ],
+      "metadata": [
+        "parameters/src/testnet/resources/credits/fee_public.metadata",
+        "parameters/src/testnet/resources/credits_v0/fee_public.metadata"
+      ],
+      "metadata_sha256": [
+        "b6e92152abe1317c4a67d00cfe9654502bbaa5b4609907fe289ed28268c23274",
+        "b6e92152abe1317c4a67d00cfe9654502bbaa5b4609907fe289ed28268c23274"
+      ],
+      "retrieval": "already staged; size and full SHA-256 rechecked"
+    },
+    {
+      "file": "inclusion.prover.8faa4d3",
+      "sha256": "8faa4d3aaaa5e786d20b61f825e50901f9dcf470455d1d2994e091eefcc66a4e",
+      "bytes": 233812212,
+      "targets": [
+        "mainnet/credits_v0/inclusion",
+        "testnet/credits_v0/inclusion"
+      ],
+      "metadata": [
+        "parameters/src/mainnet/resources/credits_v0/inclusion.metadata",
+        "parameters/src/testnet/resources/credits_v0/inclusion.metadata"
+      ],
+      "metadata_sha256": [
+        "c0a892c24b7b9ecaa4b81cfd8b6b9be4e122a47b1b95e87040621aed705fd535",
+        "c0a892c24b7b9ecaa4b81cfd8b6b9be4e122a47b1b95e87040621aed705fd535"
+      ],
+      "retrieval": "already staged; size and full SHA-256 rechecked"
+    },
+    {
+      "file": "inclusion.prover.9fe710f",
+      "sha256": "9fe710fa8f9e85a33e706be93099225b06ee56ce0d951fde0f64b9b7b79d2109",
+      "bytes": 233828980,
+      "targets": [
+        "mainnet/credits/inclusion",
+        "testnet/credits/inclusion"
+      ],
+      "metadata": [
+        "parameters/src/mainnet/resources/credits/inclusion.metadata",
+        "parameters/src/testnet/resources/credits/inclusion.metadata"
+      ],
+      "metadata_sha256": [
+        "7d9b3b9a119a539dadc162f2ad5815ff162017125c19c43f8464a2fd455be169",
+        "7d9b3b9a119a539dadc162f2ad5815ff162017125c19c43f8464a2fd455be169"
+      ],
+      "retrieval": "already staged; size and full SHA-256 rechecked"
+    },
+    {
+      "file": "powers-of-beta-18.usrs.7a12bcb",
+      "sha256": "7a12bcb6de982aa3010dde16a7be73ec399a46717b37ea189112ef14f4c88cca",
+      "bytes": 12582920,
+      "targets": [
+        "mainnet/powers-of-beta-18"
+      ],
+      "metadata": [
+        "parameters/src/mainnet/resources/powers-of-beta-18.metadata"
+      ],
+      "metadata_sha256": [
+        "5594a61584f0aee85b0b09a0e0069b3e6e69bc81095a1e8c79bbdbdf2b6833a6"
+      ],
+      "retrieval": "already staged; size and full SHA-256 rechecked"
+    },
+    {
+      "file": "powers-of-beta-19.usrs.e535d44",
+      "sha256": "e535d44614ef8e667ac39132cad61516dc4dcbce62d74c396b670b21c9b4e16a",
+      "bytes": 25165832,
+      "targets": [
+        "mainnet/powers-of-beta-19"
+      ],
+      "metadata": [
+        "parameters/src/mainnet/resources/powers-of-beta-19.metadata"
+      ],
+      "metadata_sha256": [
+        "9560b3946e5e75386aa62569d1afb2db597d60ff83d10fb80439eff144440f44"
+      ],
+      "url": "https://parameters.provable.com/mainnet/powers-of-beta-19.usrs.e535d44",
+      "tls_verification": "Python default verified SSL context"
+    },
+    {
+      "file": "shifted-powers-of-beta-18.usrs.9a1859e",
+      "sha256": "9a1859e01968284239e3ca3e33246a6a1af35aee1ccc82990ff5af4c3b50cac4",
+      "bytes": 12582920,
+      "targets": [
+        "mainnet/shifted-powers-of-beta-18"
+      ],
+      "metadata": [
+        "parameters/src/mainnet/resources/shifted-powers-of-beta-18.metadata"
+      ],
+      "metadata_sha256": [
+        "fb145d9f11f06aae3377bee61bf48d29af07bae52fb24536775721a494d39199"
+      ],
+      "retrieval": "already staged; size and full SHA-256 rechecked"
+    },
+    {
+      "file": "shifted-powers-of-beta-19.usrs.662e343",
+      "sha256": "662e3437feba9da7d1206f4cfa9297c2835124a639c9f6c5ce3e0da81f55658c",
+      "bytes": 25165832,
+      "targets": [
+        "mainnet/shifted-powers-of-beta-19"
+      ],
+      "metadata": [
+        "parameters/src/mainnet/resources/shifted-powers-of-beta-19.metadata"
+      ],
+      "metadata_sha256": [
+        "65a9f0f18993eae6c50a2dc793d624050e2bf7f3b077eea8563701f5b1573c0f"
+      ],
+      "url": "https://parameters.provable.com/mainnet/shifted-powers-of-beta-19.usrs.662e343",
+      "tls_verification": "Python default verified SSL context"
+    },
+    {
+      "file": "transfer_private.prover.6733de3",
+      "sha256": "6733de36be3291a1a6f95ed7b986ccb29fc69707788582fa672395abe3446e80",
+      "bytes": 75949172,
+      "targets": [
+        "testnet/credits_v0/transfer_private"
+      ],
+      "metadata": [
+        "parameters/src/testnet/resources/credits_v0/transfer_private.metadata"
+      ],
+      "metadata_sha256": [
+        "3c2f32eac0556eceb662e30001b1cf33896a52f56d607696f311d574baa9889f"
+      ],
+      "retrieval": "already staged; size and full SHA-256 rechecked"
+    },
+    {
+      "file": "transfer_private.prover.b7a5035",
+      "sha256": "b7a503500c9ce4ffc21e9c5f8dd06637d9f13fbce5b37d938e6d00ece436504c",
+      "bytes": 116746954,
+      "targets": [
+        "testnet/credits/transfer_private"
+      ],
+      "metadata": [
+        "parameters/src/testnet/resources/credits/transfer_private.metadata"
+      ],
+      "metadata_sha256": [
+        "27654881b9cdba014188f0698a48e79fe3a2bc0daea91c44fa4d98b77a4b90c5"
+      ],
+      "retrieval": "already staged; size and full SHA-256 rechecked"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "creator_git_commit": "9741f1159a8cd18e2d676d5a095eeffad71ab52c",
+  "creator_commit_time": "2025-06-10T21:31:24-07:00",
+  "creator_subject": "Introduce ConsensusVersion::V8",
+  "generator_source_sha256": {
+    "Cargo.toml": "7020439eae939ab31fc6f08712c7af72f33a84c975d832046f062ea8737ac221",
+    "Cargo.lock": "a642e24b07b33132e51dc48db331487d6325001cb23288bac4760d4c228317fc",
+    "src/main.rs": "5478c4784fd48221ff78f3c574ae40aa1166bc1b7226c59e1e0e6809225f670e"
+  },
+  "rust_toolchain": "1.96.1",
+  "scope": "Old source read from exact Git revision; generator does not change a record version field.",
+  "genesis_manifest_sha256": "d320e741474050e33b367e3fb51d7662c92a5455bbbf12188367234075293b50",
+  "original_normal_target_generator_source_sha256": {
+    "Cargo.toml": "588047b65dbde2d17726e6d059f6d2dc6ba0da3057b28d3e101266bb18a87105",
+    "Cargo.lock": "a642e24b07b33132e51dc48db331487d6325001cb23288bac4760d4c228317fc",
+    "src/main.rs": "5478c4784fd48221ff78f3c574ae40aa1166bc1b7226c59e1e0e6809225f670e"
+  },
+  "helper_feature_update": "Added test_targets forwarding to the pinned upstream console/test_targets; original fixture bytes and old source revision are unchanged.",
+  "development_target_genesis": {
+    "fixture": "fixtures/v0-testnet-dev-genesis",
+    "genesis_hash": "ab1njne0yg0ygw9kwyldxw942syzvhvx7gjdp87nadermkt45w4x5ps88sgkx",
+    "genesis_sha256": "05f9da76ecb1531021634e3227367fe842867966dfceb2f5476303bc42e7dc36",
+    "manifest_sha256": "a66d03bc1ca81a7b51c0386a8acb7ad5cc839513051467a0f2186c16a7b2bc44",
+    "build_provenance_sha256": "c191a29e18bd1fa83e6f601d19733bd56f72b2478376d6e1bda0bd4037e94c3b"
+  }
+}

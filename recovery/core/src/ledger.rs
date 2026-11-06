@@ -105,7 +105,7 @@ impl Policy {
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Transaction {
     pub effects: Effects,
     /// Exactly one legacy authorization per input for Prepare, otherwise empty.
@@ -169,6 +169,33 @@ impl Ledger {
             }
         }
         Ok(ledger)
+    }
+
+    /// Adds a legacy source after the host has authenticated its opening,
+    /// ownership certificate, ledger origin and current serial unspentness.
+    /// The host must discard this candidate if the enclosing transaction fails.
+    pub fn import_verified_source(&mut self, record: Record, backends: &Backends) -> Result<()> {
+        backends.require(&self.policy.profiles, &self.policy.aggregates)?;
+        record.validate()?;
+        if !matches!(record.version, RecordVersion::V0 | RecordVersion::V1) || !matches!(record.owner, Owner::Legacy(_))
+        {
+            return Err(Error::Ownership);
+        }
+        if self.records.len() >= MAX_STATE_RECORDS {
+            return Err(Error::Limit);
+        }
+        let id = record.id(&self.network);
+        if self.records.contains_key(&id) {
+            return Err(Error::Spent);
+        }
+        self.records.insert(id, record);
+        Ok(())
+    }
+
+    /// Full-width digest of the canonical recovery state, including enrollment,
+    /// consumption, replay identities and accumulated native fees.
+    pub fn state_root(&self) -> Digest64 {
+        digest(b"AleoRecoveryStateRoot1", &[&self.checkpoint()])
     }
 
     fn validate_key(&self, key: &Key, backends: &Backends) -> Result<()> {

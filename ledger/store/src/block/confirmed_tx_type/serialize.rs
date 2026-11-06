@@ -32,6 +32,12 @@ impl<N: Network> Serialize for ConfirmedTxType<N> {
                     confirmed_tx_type.serialize_field("index", index)?;
                     confirmed_tx_type.end()
                 }
+                Self::AcceptedRecovery(index) => {
+                    let mut confirmed_tx_type = serializer.serialize_struct("ConfirmedTxType", 2)?;
+                    confirmed_tx_type.serialize_field("type", "AcceptedRecovery")?;
+                    confirmed_tx_type.serialize_field("index", index)?;
+                    confirmed_tx_type.end()
+                }
                 Self::RejectedDeploy(index, rejected) => {
                     let mut confirmed_tx_type = serializer.serialize_struct("ConfirmedTxType", 3)?;
                     confirmed_tx_type.serialize_field("type", "RejectedDeploy")?;
@@ -67,6 +73,10 @@ impl<'de, N: Network> Deserialize<'de> for ConfirmedTxType<N> {
                             .map_err(de::Error::custom)?,
                     )),
                     "AcceptedExecute" => Ok(Self::AcceptedExecute(
+                        DeserializeExt::take_from_value::<D>(&mut confirmed_tx_type, "index")
+                            .map_err(de::Error::custom)?,
+                    )),
+                    "AcceptedRecovery" => Ok(Self::AcceptedRecovery(
                         DeserializeExt::take_from_value::<D>(&mut confirmed_tx_type, "index")
                             .map_err(de::Error::custom)?,
                     )),

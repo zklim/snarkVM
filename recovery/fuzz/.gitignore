@@ -2,3 +2,6 @@
 /artifacts/
 /corpus/effects/*
 !/corpus/effects/canonical
+/corpus/transaction/*
+!/corpus/transaction/prepare-direct
+!/corpus/transaction/prepare-aggregate

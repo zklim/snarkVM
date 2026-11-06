@@ -1,0 +1,97 @@
+{
+  "creator_repository": "https://github.com/zklim/snarkVM",
+  "creator_revision": "9741f1159a8cd18e2d676d5a095eeffad71ab52c",
+  "creator_package_version": "3.7.1",
+  "network_id": 1,
+  "genesis_hash": "ab1nnulyh65kyndy2e0n4p79hg9sc0llzv4yy4d2apnpfzktc8wjgxs0s63gr",
+  "validator_addresses": [
+    "aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px",
+    "aleo1s3ws5tra87fjycnjrwsjcrnw2qxr8jfqqdugnf0xzqqw29q9m5pqem2u4t",
+    "aleo1ashyu96tjwe63u0gtnnv8z5lhapdu4l5pjsl2kha7fv7hvz2eqxs5dz0rg",
+    "aleo12ux3gdauck0v60westgcpqj7v8rrcr3v346e4jtq04q7kkt22czsh808v2"
+  ],
+  "public_test_rng_seed": 1234567890,
+  "private_record_microcredits": 1000000000,
+  "record_version": 0,
+  "scope": "genuine historical VM-generated genesis and creating transactions; current-VM acceptance must be independently tested",
+  "records": [
+    {
+      "index": 0,
+      "record": "{\n  owner: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,\n  microcredits: 1000000000u64.private,\n  _nonce: 3666670146276262240199958044811329632452609778779651964870759629195088099828group.public\n}",
+      "commitment": "5522770322461788144226777704736651451341496981902509953914383159141403291591field",
+      "serial": "152357267588476303237468609449940992684501331772783206313495603055471815990field"
+    },
+    {
+      "index": 1,
+      "record": "{\n  owner: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,\n  microcredits: 1000000000u64.private,\n  _nonce: 4536868268814456227312360347031739423312689137706933033938812386306238998060group.public\n}",
+      "commitment": "958814677496135169440790112167569645238016346480431071274529110566427356252field",
+      "serial": "3392306765490444131061680891721241093378500699485854957234736001322059878350field"
+    },
+    {
+      "index": 2,
+      "record": "{\n  owner: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,\n  microcredits: 1000000000u64.private,\n  _nonce: 205967862164714901379497326815256981526025583494109091059194305832749867953group.public\n}",
+      "commitment": "5072188770166435803144014101657606550623652483133112911257422317043482123797field",
+      "serial": "3908852945236361053258132976190147146470045954807682570054048309737631091507field"
+    },
+    {
+      "index": 3,
+      "record": "{\n  owner: aleo1rhgdu77hgyqd3xjj8ucu3jj9r2krwz6mnzyd80gncr5fxcwlh5rsvzp9px.private,\n  microcredits: 1000000000u64.private,\n  _nonce: 4424806931746512507605174575961455750579179367541686805196254590136284583805group.public\n}",
+      "commitment": "5949308522104814703201371235040082961066967696871074136975218607409638470245field",
+      "serial": "6708615682658691687825710677847185515387589212735878462129534798821612107787field"
+    }
+  ],
+  "files": {
+    "genesis.bin": {
+      "bytes": 14379,
+      "sha256": "78ea18989b5148bcca838814ecbaf2f898de35e09765fa043732ab5948434c5d"
+    },
+    "record-0.bin": {
+      "bytes": 96,
+      "sha256": "99f5f8eef584cd7d53f3510de26d5cc89bd22641b5584e05632e50d69a693ee5"
+    },
+    "ciphertext-0.bin": {
+      "bytes": 118,
+      "sha256": "1fbe10f353bb0cb6e891d9312a184ec0cbcc1255fea72faa65254dbd2e5669c4"
+    },
+    "record-view-key-0.bin": {
+      "bytes": 32,
+      "sha256": "fc4d57039b362d1eb04335d2d763162d2e2f4daa1d091aaba77aac9eee687a63"
+    },
+    "record-1.bin": {
+      "bytes": 96,
+      "sha256": "88e45b3b5fc88054746e00d0ba2fbcc436c67c96fa333f13671fb600bf10c82b"
+    },
+    "ciphertext-1.bin": {
+      "bytes": 118,
+      "sha256": "126f63deda57b68348038ae04880c2410080b3738a8996e030dd6d498d1833e3"
+    },
+    "record-view-key-1.bin": {
+      "bytes": 32,
+      "sha256": "364b69110142fd5fc321c56eb1a95a40f2af89eece718c4313bb7c78c52313e6"
+    },
+    "record-2.bin": {
+      "bytes": 96,
+      "sha256": "548d337e4b416b5c66199bc01104f40a4f5870141813f3ed4f2c9e9ae1f20997"
+    },
+    "ciphertext-2.bin": {
+      "bytes": 118,
+      "sha256": "ee62a094a8120cda7ff86f9db277ee29ee84aef04a76cd92731651159eeb8b46"
+    },
+    "record-view-key-2.bin": {
+      "bytes": 32,
+      "sha256": "6bab4f004b4733972b59104cb89f10be0b7765b755d50e650f03fefe7f6d1ed5"
+    },
+    "record-3.bin": {
+      "bytes": 96,
+      "sha256": "c87fc0481e3773724b876363655801f63ee18430885077fcc5c4f01fb07ea08e"
+    },
+    "ciphertext-3.bin": {
+      "bytes": 118,
+      "sha256": "a5b05a0eb5e24dd052c7ee8922724be2c5335f5d5b0605b1410e1f2ce2751d39"
+    },
+    "record-view-key-3.bin": {
+      "bytes": 32,
+      "sha256": "791be10f2d2e4d1c35ef766147dd46474f27a36164e9de0fbc54c45bcc46ccc6"
+    }
+  }
+}

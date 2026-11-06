@@ -215,6 +215,7 @@ pub fn execute_compute_cost_in_microcredits(
 /// Returns the compute spend for a transaction in microcredits.
 /// This is used to limit the amount of single-threaded compute in block generation and finalization hot paths.
 /// This does NOT represent the full cost which a user has to pay.
+/// Resource estimation does not authorize a transaction; the VM enforces activation at the candidate height.
 pub fn transaction_compute_spend_in_microcredits<N: Network>(
     process: &Process<N>,
     transaction: &Transaction<N>,
@@ -229,6 +230,7 @@ pub fn transaction_compute_spend_in_microcredits<N: Network>(
             let (_, cost_details) = execution_cost(process, execution, consensus_version)?;
             Ok(execute_compute_cost_in_microcredits(cost_details, consensus_version))
         }
+        Transaction::Recovery(_, recovery) => recovery.minimum_fee(),
         Transaction::Fee(id, _) => bail!("Fee transaction '{id}' does not have deployment or execution spend"),
     }
 }

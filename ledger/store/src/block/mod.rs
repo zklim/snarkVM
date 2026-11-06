@@ -76,6 +76,9 @@ fn to_confirmed_tuple<N: Network>(
             // Return the confirmed tuple.
             Ok((ConfirmedTxType::AcceptedExecute(index), tx, finalize_operations))
         }
+        ConfirmedTransaction::AcceptedRecovery(index, tx, finalize_operations) => {
+            Ok((ConfirmedTxType::AcceptedRecovery(index), tx, finalize_operations))
+        }
         ConfirmedTransaction::RejectedDeploy(index, tx, rejected, finalize_operations) => {
             // Return the confirmed tuple.
             Ok((ConfirmedTxType::RejectedDeploy(index, rejected), tx, finalize_operations))
@@ -100,6 +103,9 @@ fn to_confirmed_transaction<N: Network>(
         ConfirmedTxType::AcceptedExecute(index) => {
             // Return the confirmed transaction.
             ConfirmedTransaction::accepted_execute(index, transaction, finalize_operations)
+        }
+        ConfirmedTxType::AcceptedRecovery(index) => {
+            ConfirmedTransaction::accepted_recovery(index, transaction, finalize_operations)
         }
         ConfirmedTxType::RejectedDeploy(index, rejected) => {
             // Return the confirmed transaction.

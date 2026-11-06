@@ -1,0 +1,16 @@
+{
+  "command": [
+    "cargo",
+    "+nightly-2026-04-02",
+    "fmt",
+    "--all",
+    "--",
+    "--check"
+  ],
+  "cwd": "/workspace/snarkVM",
+  "observed_exit_code": 0,
+  "elapsed_seconds": 4.584,
+  "log": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-vm-format.log",
+  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "bytes": 0
+}

@@ -25,3 +25,6 @@ artifacts
 !.claude/CLAUDE.md
 !.claude/.gitignore
 !.claude/skills/
+
+# Python tooling
+__pycache__/

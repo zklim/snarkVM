@@ -108,7 +108,18 @@ impl<N: Network> FromBytes for ConfirmedTransaction<N> {
                 // Return the confirmed transaction.
                 Self::rejected_execute(index, transaction, rejected, finalize).map_err(error)
             }
-            4.. => Err(error(format!("Failed to decode confirmed transaction variant {variant}"))),
+            4 => {
+                let index = u32::read_le(&mut reader)?;
+                let transaction = Transaction::<N>::read_le(&mut reader)?;
+                let count = NumFinalizeSize::read_le(&mut reader)?;
+                if !(1..=2).contains(&count) {
+                    return Err(error("Recovery requires one or two finalize operations"));
+                }
+                let operations =
+                    (0..count).map(|_| FinalizeOperation::read_le(&mut reader)).collect::<IoResult<Vec<_>>>()?;
+                Self::accepted_recovery(index, transaction, operations).map_err(error)
+            }
+            5.. => Err(error(format!("Failed to decode confirmed transaction variant {variant}"))),
         }
     }
 }
@@ -117,6 +128,13 @@ impl<N: Network> ToBytes for ConfirmedTransaction<N> {
     /// Writes the confirmed transaction to a buffer.
     fn write_le<W: Write>(&self, mut writer: W) -> IoResult<()> {
         match self {
+            Self::AcceptedRecovery(index, transaction, finalize) => {
+                4u8.write_le(&mut writer)?;
+                index.write_le(&mut writer)?;
+                transaction.write_le(&mut writer)?;
+                NumFinalizeSize::try_from(finalize.len()).map_err(error)?.write_le(&mut writer)?;
+                finalize.iter().try_for_each(|operation| operation.write_le(&mut writer))
+            }
             Self::AcceptedDeploy(index, transaction, finalize) => {
                 // Write the variant.
                 0u8.write_le(&mut writer)?;

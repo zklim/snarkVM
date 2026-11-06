@@ -190,6 +190,7 @@ pub enum TransitionOutputMap {
 #[repr(u16)]
 pub enum TransactionMap {
     ID = DataID::TransactionIDMap as u16,
+    Recovery = DataID::RecoveryTransactionMap as u16,
 }
 
 /// The RocksDB map prefix for transition-related entries.
@@ -218,6 +219,8 @@ pub enum ProgramMap {
     MappingUpdateHeights = DataID::MappingUpdateHeightsMap as u16,
     StakingRewards = DataID::StakingRewardsMap as u16,
     RejectedReason = DataID::RejectedReasonMap as u16,
+    RecoveryState = DataID::RecoveryStateMap as u16,
+    RecoverySerial = DataID::RecoverySerialMap as u16,
 }
 
 /// The RocksDB map prefix for storage metadata.
@@ -359,6 +362,11 @@ enum DataID {
     // Storage metadata: the schema version and the history sync cursor.
     StorageMetadataMap,
 
+    // Native recovery state; append-only identifiers preserve existing database prefixes.
+    RecoveryStateMap,
+    RecoverySerialMap,
+    RecoveryTransactionMap,
+
     // Testing
     #[cfg(test)]
     Test,
@@ -370,4 +378,20 @@ enum DataID {
     Test4,
     #[cfg(test)]
     Test5,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_recovery_namespaces_append_to_the_existing_schema() {
+        // These established prefixes must not move when recovery maps are introduced.
+        assert_eq!(u16::from(MapID::Transaction(TransactionMap::ID)), 51);
+        assert_eq!(u16::from(MapID::Program(ProgramMap::KeyValueID)), 59);
+        assert_eq!(u16::from(MapID::Metadata(MetadataMap::Metadata)), 77);
+        assert_eq!(u16::from(MapID::Program(ProgramMap::RecoveryState)), 78);
+        assert_eq!(u16::from(MapID::Program(ProgramMap::RecoverySerial)), 79);
+        assert_eq!(u16::from(MapID::Transaction(TransactionMap::Recovery)), 80);
+    }
 }

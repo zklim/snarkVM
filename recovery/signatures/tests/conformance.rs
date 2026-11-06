@@ -25,6 +25,92 @@ use snarkvm_recovery_signatures::*;
 
 const NETWORK: Digest64 = [41; 64];
 
+#[test]
+#[ignore = "local timing experiment; no portable performance threshold"]
+fn backend_verification_costs() -> Result<()> {
+    use std::time::Instant;
+
+    let backends = backends()?;
+    let source = source(RecordVersion::V1)?;
+    let ledger = Ledger::from_trusted_records(NETWORK, policy(), vec![source.clone()], &backends)?;
+    for profile in [Profile::ML_DSA_65, Profile::FALCON_512] {
+        let signer = SignerKey::new(profile, 61);
+        let effects = effects(source.id(&NETWORK), output(&signer, RecordVersion::V2, 99, 15), Operation::Prepare, 15);
+        let plan = ledger.plan(30, &effects, &backends)?;
+        let statement = &plan.signatures[0];
+        let signature = signer.sign(statement.message())?;
+        backends.verify(statement, &signature)?;
+        let mut samples = Vec::with_capacity(128);
+        for _ in 0..128 {
+            let start = Instant::now();
+            backends.verify(statement, &signature)?;
+            samples.push(start.elapsed().as_nanos());
+        }
+        samples.sort_unstable();
+        println!(
+            "backend={profile:?} samples={} key_bytes={} signature_bytes={} message_bytes={} mean_ns={} median_ns={} p95_ns={}",
+            samples.len(),
+            signer.key().bytes.len(),
+            signature.len(),
+            statement.message().len(),
+            samples.iter().sum::<u128>() / samples.len() as u128,
+            samples[samples.len() / 2],
+            samples[samples.len() * 95 / 100],
+        );
+    }
+    Ok(())
+}
+
+#[test]
+fn legacy_compromise_cannot_reenroll_or_authorize_pq_spends() -> Result<()> {
+    use std::sync::atomic::{AtomicUsize, Ordering};
+
+    // This test adversary can forge every legacy authorization, but has no enrolled PQ key.
+    struct CompromisedLegacy(AtomicUsize);
+    impl LegacyVerifier for CompromisedLegacy {
+        fn verify(&self, _: &[u8], _: &[u8], _: &[u8]) -> Result<()> {
+            self.0.fetch_add(1, Ordering::SeqCst);
+            Ok(())
+        }
+    }
+    let compromised = CompromisedLegacy(AtomicUsize::new(0));
+    let backends = backends()?;
+    let owner = SignerKey::new(Profile::ML_DSA_65, 62);
+    let attacker = SignerKey::new(Profile::ML_DSA_65, 63);
+    let old = source(RecordVersion::V1)?;
+    let enrolled = output(&owner, RecordVersion::V2, 100, 12);
+    let mut ledger = Ledger::from_trusted_records(NETWORK, policy(), vec![old.clone(), enrolled.clone()], &backends)?;
+
+    // A still-unspent legacy record cannot be enrolled after the preparation window closes.
+    let late_enrollment = sign(
+        &ledger,
+        30,
+        effects(old.id(&NETWORK), output(&attacker, RecordVersion::V2, 99, 13), Operation::Prepare, 13),
+        &[&attacker],
+        &backends,
+    )?;
+    let before = ledger.clone();
+    assert_eq!(ledger.apply(40, &late_enrollment, &compromised, &backends), Err(Error::Policy));
+    assert_eq!(ledger, before);
+
+    // Public enrollment data permits construction of the exact statements, not their signatures.
+    let migration = effects(enrolled.id(&NETWORK), output(&owner, RecordVersion::V3, 99, 14), Operation::Migrate, 14);
+    let plan = ledger.plan(40, &migration, &backends)?;
+    let forged = Transaction {
+        effects: migration.clone(),
+        legacy: vec![],
+        authorization: Evidence::Direct(
+            plan.signatures.iter().map(|statement| attacker.sign(statement.message())).collect::<Result<Vec<_>>>()?,
+        ),
+    };
+    assert!(ledger.apply(40, &forged, &compromised, &backends).is_err());
+    assert_eq!(ledger, before);
+    let legitimate = sign(&ledger, 40, migration, &[&owner], &backends)?;
+    ledger.apply(40, &legitimate, &compromised, &backends)?;
+    assert_eq!(compromised.0.load(Ordering::SeqCst), 0, "post-activation acceptance must not consult legacy authority");
+    Ok(())
+}
+
 enum SignerKey {
     Ml(ml_dsa::SigningKey<MlDsa65>),
     Falcon(Vec<u8>, Vec<u8>),

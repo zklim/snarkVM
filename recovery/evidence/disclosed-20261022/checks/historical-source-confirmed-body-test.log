@@ -1,0 +1,16 @@
+   Compiling snarkvm-synthesizer v4.12.0 (/workspace/snarkVM/synthesizer)
+    Finished `test` profile [optimized + debuginfo] target(s) in 7m 46s
+     Running unittests src/lib.rs (/workspace/snarkOS/target/debug/deps/snarkvm_synthesizer-19bf1c6812b18e77)
+
+running 1 test
+Error: Invalid block metadata — Genesis block check failed — Invalid coinbase target for genesis block: Was 536870911 but expected 31.
+test vm::recovery_tests::historical_source_requires_confirmed_creation_not_an_aborted_index ... FAILED
+
+failures:
+
+failures:
+    vm::recovery_tests::historical_source_requires_confirmed_creation_not_an_aborted_index
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 209 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p snarkvm-synthesizer --lib`

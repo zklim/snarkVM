@@ -1,0 +1,35 @@
+{
+  "status": "FAIL",
+  "command": ".ci/test_devnet.sh",
+  "binary_sha256": "0a2ed553ec48ddf3791a166803eaa2b13f31b6653aa9ee0eba8fa43edd10765f",
+  "source_log": "/workspace/security-evaluation/disclosed-ci-devnet-warm.log",
+  "source_log_sha256": "e332ee4818c18e76b6fd2ef48c7481492c4ff2ec1a029552e0f2c33c913e2a45",
+  "source_log_bytes": 53406225,
+  "failed_check": {
+    "validator": 0,
+    "log_bytes": 10704834,
+    "maximum_log_bytes": 2097152,
+    "source_line": 355309
+  },
+  "completed_cases": [
+    "Static-query transfer_public",
+    "Program deployment and edition retrieval",
+    "View function evaluation",
+    "V1 and V2 program execution",
+    "Confirmed transaction and rejected-finalization reason",
+    "REST error handling",
+    "Record scan returned4records",
+    "All8nodes reached minimum height60"
+  ],
+  "limits": [
+    "Overall CI command failed; functional-case completion does not override log-size gate",
+    "Existing2097152-byte threshold unchanged",
+    "Ordinary historical CI transactions; not native two-stage recovery acceptance",
+    "Source log contains public dev test-key prints; only runner summary with key patterns redacted copied here"
+  ],
+  "summary": {
+    "file": "ci-devnet-warm-summary.log",
+    "bytes": 7020,
+    "sha256": "933d60454e2a43356ce83071fed9e347d71d7736db392f10246e29b2b853a23b"
+  }
+}

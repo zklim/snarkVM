@@ -1,0 +1,114 @@
+   Compiling hybrid-array v0.4.14
+   Compiling snarkvm-utilities v4.12.0 (/workspace/snarkVM/utilities)
+   Compiling der v0.8.2
+   Compiling keccak v0.1.6
+   Compiling sha3 v0.10.9
+   Compiling snarkvm-metrics v4.12.0 (/workspace/snarkVM/metrics)
+   Compiling snarkvm-fields v4.12.0 (/workspace/snarkVM/fields)
+   Compiling snarkvm-recovery v0.1.0 (/workspace/snarkVM/recovery/core)
+   Compiling crypto-common v0.2.2
+   Compiling block-buffer v0.12.1
+   Compiling crypto-bigint v0.7.5
+   Compiling sec1 v0.8.1
+   Compiling digest v0.11.3
+   Compiling snarkvm-curves v4.12.0 (/workspace/snarkVM/curves)
+   Compiling sha2 v0.11.0
+   Compiling signature v3.0.0
+   Compiling hmac v0.13.0
+   Compiling librocksdb-sys v0.17.3+10.4.2
+   Compiling snarkvm-console-network-environment v4.12.0 (/workspace/snarkVM/console/network/environment)
+   Compiling snarkvm-parameters v4.12.0 (/workspace/snarkVM/parameters)
+   Compiling snarkvm-console-types-boolean v4.12.0 (/workspace/snarkVM/console/types/boolean)
+   Compiling rand_core v0.6.4
+   Compiling snarkvm-console-types-field v4.12.0 (/workspace/snarkVM/console/types/field)
+   Compiling primefield v0.14.0
+   Compiling snarkvm-console-types-scalar v4.12.0 (/workspace/snarkVM/console/types/scalar)
+   Compiling elliptic-curve v0.14.1
+   Compiling wnaf v0.14.1
+   Compiling snarkvm-console-types-group v4.12.0 (/workspace/snarkVM/console/types/group)
+   Compiling snarkvm-console-types-integers v4.12.0 (/workspace/snarkVM/console/types/integers)
+   Compiling rfc6979 v0.6.0
+   Compiling ecdsa v0.17.0
+   Compiling snarkvm-console-types-address v4.12.0 (/workspace/snarkVM/console/types/address)
+   Compiling snarkvm-console-types-string v4.12.0 (/workspace/snarkVM/console/types/string)
+   Compiling primeorder v0.14.0
+   Compiling snarkvm-console-types v4.12.0 (/workspace/snarkVM/console/types)
+   Compiling fn-dsa-comm v0.3.0
+   Compiling k256 v0.14.0
+   Compiling rocksdb v0.24.0
+   Compiling snarkvm-console-algorithms v4.12.0 (/workspace/snarkVM/console/algorithms)
+   Compiling snarkvm-algorithms v4.12.0 (/workspace/snarkVM/algorithms)
+   Compiling snarkvm-console-collections v4.12.0 (/workspace/snarkVM/console/collections)
+   Compiling keccak v0.2.2
+   Compiling sponge-cursor v0.1.0
+   Compiling shake v0.1.0
+   Compiling fn-dsa-vrfy v0.3.0
+   Compiling fn-dsa-kgen v0.3.0
+   Compiling fn-dsa-sign v0.3.0
+   Compiling module-lattice v0.2.3
+   Compiling ml-dsa v0.1.1
+   Compiling fn-dsa v0.3.0
+   Compiling snarkos-utilities v4.12.0 (/workspace/snarkOS/utilities)
+   Compiling snarkos-node-sync-communication-service v4.12.0 (/workspace/snarkOS/node/sync/communication-service)
+   Compiling snarkvm-console-network v4.12.0 (/workspace/snarkVM/console/network)
+   Compiling snarkvm-console-account v4.12.0 (/workspace/snarkVM/console/account)
+   Compiling snarkvm-circuit-environment v4.12.0 (/workspace/snarkVM/circuit/environment)
+   Compiling snarkvm-console-program v4.12.0 (/workspace/snarkVM/console/program)
+   Compiling snarkvm-recovery-signatures v0.1.0 (/workspace/snarkVM/recovery/signatures)
+   Compiling snarkvm-circuit-types-boolean v4.12.0 (/workspace/snarkVM/circuit/types/boolean)
+   Compiling snarkvm-circuit-types-field v4.12.0 (/workspace/snarkVM/circuit/types/field)
+   Compiling snarkvm-circuit-types-scalar v4.12.0 (/workspace/snarkVM/circuit/types/scalar)
+   Compiling snarkvm-circuit-types-group v4.12.0 (/workspace/snarkVM/circuit/types/group)
+   Compiling snarkvm-circuit-types-integers v4.12.0 (/workspace/snarkVM/circuit/types/integers)
+   Compiling snarkvm-circuit-types-address v4.12.0 (/workspace/snarkVM/circuit/types/address)
+   Compiling snarkvm-circuit-types-string v4.12.0 (/workspace/snarkVM/circuit/types/string)
+   Compiling snarkvm-circuit-types v4.12.0 (/workspace/snarkVM/circuit/types)
+   Compiling snarkvm-circuit-algorithms v4.12.0 (/workspace/snarkVM/circuit/algorithms)
+   Compiling snarkvm-circuit-collections v4.12.0 (/workspace/snarkVM/circuit/collections)
+   Compiling snarkvm-console v4.12.0 (/workspace/snarkVM/console)
+   Compiling snarkvm-synthesizer-error v4.12.0 (/workspace/snarkVM/synthesizer/error)
+   Compiling snarkvm-ledger-puzzle v4.12.0 (/workspace/snarkVM/ledger/puzzle)
+   Compiling snarkvm-circuit-network v4.12.0 (/workspace/snarkVM/circuit/network)
+   Compiling snarkvm-ledger-narwhal-data v4.12.0 (/workspace/snarkVM/ledger/narwhal/data)
+   Compiling snarkvm-recovery-records v0.1.0 (/workspace/snarkVM/recovery/records)
+   Compiling snarkvm-ledger-narwhal-transmission-id v4.12.0 (/workspace/snarkVM/ledger/narwhal/transmission-id)
+   Compiling snarkvm-ledger-narwhal-batch-header v4.12.0 (/workspace/snarkVM/ledger/narwhal/batch-header)
+   Compiling snarkvm-ledger-narwhal-batch-certificate v4.12.0 (/workspace/snarkVM/ledger/narwhal/batch-certificate)
+   Compiling snarkvm-ledger-committee v4.12.0 (/workspace/snarkVM/ledger/committee)
+   Compiling snarkvm-circuit-account v4.12.0 (/workspace/snarkVM/circuit/account)
+   Compiling snarkvm-ledger-narwhal-subdag v4.12.0 (/workspace/snarkVM/ledger/narwhal/subdag)
+   Compiling snarkvm-circuit-program v4.12.0 (/workspace/snarkVM/circuit/program)
+   Compiling snarkvm-ledger-authority v4.12.0 (/workspace/snarkVM/ledger/authority)
+   Compiling snarkvm-circuit v4.12.0 (/workspace/snarkVM/circuit)
+   Compiling snarkvm-synthesizer-snark v4.12.0 (/workspace/snarkVM/synthesizer/snark)
+   Compiling snarkvm-synthesizer-program v4.12.0 (/workspace/snarkVM/synthesizer/program)
+   Compiling snarkvm-ledger-block v4.12.0 (/workspace/snarkVM/ledger/block)
+   Compiling snarkvm-ledger-store v4.12.0 (/workspace/snarkVM/ledger/store)
+   Compiling snarkvm-ledger-narwhal-transmission v4.12.0 (/workspace/snarkVM/ledger/narwhal/transmission)
+   Compiling snarkvm-ledger-narwhal v4.12.0 (/workspace/snarkVM/ledger/narwhal)
+   Compiling snarkvm-ledger-query v4.12.0 (/workspace/snarkVM/ledger/query)
+   Compiling snarkvm-synthesizer-process v4.12.0 (/workspace/snarkVM/synthesizer/process)
+   Compiling snarkvm-ledger-puzzle-epoch v4.12.0 (/workspace/snarkVM/ledger/puzzle/epoch)
+   Compiling snarkvm-synthesizer v4.12.0 (/workspace/snarkVM/synthesizer)
+   Compiling snarkvm-ledger v4.12.0 (/workspace/snarkVM/ledger)
+   Compiling snarkvm v4.12.0 (/workspace/snarkVM)
+   Compiling snarkos-node-metrics v4.12.0 (/workspace/snarkOS/node/metrics)
+   Compiling snarkos-node-sync-locators v4.12.0 (/workspace/snarkOS/node/sync/locators)
+   Compiling snarkos-account v4.12.0 (/workspace/snarkOS/account)
+   Compiling snarkos-node-bft-storage-service v4.12.0 (/workspace/snarkOS/node/bft/storage-service)
+   Compiling snarkos-node-tcp v4.12.0 (/workspace/snarkOS/node/tcp)
+   Compiling snarkos-node-bft-ledger-service v4.12.0 (/workspace/snarkOS/node/bft/ledger-service)
+   Compiling snarkos-node-cdn v4.12.0 (/workspace/snarkOS/node/cdn)
+   Compiling snarkos-node-network v4.12.0 (/workspace/snarkOS/node/network)
+   Compiling snarkos-node-bft-events v4.12.0 (/workspace/snarkOS/node/bft/events)
+   Compiling snarkos-node-router-messages v4.12.0 (/workspace/snarkOS/node/router/messages)
+   Compiling snarkos-node-router v4.12.0 (/workspace/snarkOS/node/router)
+   Compiling snarkos-node-sync v4.12.0 (/workspace/snarkOS/node/sync)
+   Compiling snarkos-node-bft v4.12.0 (/workspace/snarkOS/node/bft)
+   Compiling snarkos-node-consensus v4.12.0 (/workspace/snarkOS/node/consensus)
+   Compiling snarkos-node-rest v4.12.0 (/workspace/snarkOS/node/rest)
+   Compiling snarkos-node v4.12.0 (/workspace/snarkOS/node)
+   Compiling snarkos-display v4.12.0 (/workspace/snarkOS/display)
+   Compiling snarkos-cli v4.12.0 (/workspace/snarkOS/cli)
+   Compiling snarkos v4.12.0 (/workspace/snarkOS)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6m 53s

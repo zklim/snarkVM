@@ -71,6 +71,11 @@ impl<N: Network> Transaction<N> {
                 // Error if the transition ID was not found.
                 bail!("Transition ID not found in execution transaction");
             }
+            Self::Recovery(_, recovery) => {
+                let leaf_id = recovery.compatibility_leaf_id()?;
+                ensure!(*id == leaf_id, "Recovery leaf ID not found");
+                Ok(TransactionLeaf::new_execution(0, leaf_id))
+            }
             Self::Fee(_, fee) => {
                 if *id == **fee.id() {
                     // Return the transaction leaf.
@@ -101,6 +106,7 @@ impl<N: Network> Transaction<N> {
             }
             // Compute the fee tree.
             Transaction::Fee(_, fee) => Self::fee_tree(fee),
+            Transaction::Recovery(_, recovery) => Self::recovery_tree(recovery),
         }
     }
 }
@@ -135,6 +141,12 @@ impl<N: Network> Transaction<N> {
         }
         // Return the transaction tree.
         Ok(deployment_or_execution_tree)
+    }
+
+    /// The legacy Merkle compatibility index; full recovery digests remain in the envelope.
+    pub fn recovery_tree(recovery: &Recovery<N>) -> Result<TransactionTree<N>> {
+        let leaf = TransactionLeaf::new_execution(0, recovery.compatibility_leaf_id()?).to_bits_le();
+        N::merkle_tree_bhp::<TRANSACTION_DEPTH>(&[leaf])
     }
 
     /// Returns the Merkle tree for the given deployment.

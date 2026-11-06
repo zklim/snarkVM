@@ -1,179 +1,154 @@
-# Private credits recovery: construction and acceptance boundary
+# Disclosed credits recovery relation
 
-**Status: target relation, not an implemented proof or production protocol.** The
-public-value ledger in `core` is unchanged. No private migration is accepted by
-snarkOS. Backend qualification and its blocker are in
-[PROOF_BACKENDS.md](PROOF_BACKENDS.md). The source and test record is in
-[INTEGRATION_STATUS.md](INTEGRATION_STATUS.md).
+The current acceptance scope permits disclosed record data, values, openings and
+membership information. Confidentiality, zero knowledge and unlinkability are
+not acceptance criteria. Reusable account and PQ signing secrets remain secret.
+This removes the need to hide an ownership witness inside a general proof
+backend; it does not remove any authorization or authenticated-state check.
+Implementation and test status are tracked in [INTEGRATION_STATUS.md](INTEGRATION_STATUS.md).
 
-## Threat and timing
+## Threat, timing and surviving authority
 
-Let H1 be preparation activation, H2 recovery activation, and Tq the first time an
-adversary can forge legacy group-based authorization or proofs. Heights are policy
-inputs; **all public-network H1/H2 values remain unscheduled**. The target requires
-authenticated preparation and finalization before Tq and H2 no later than Tq.
-Preparation performed after compromise cannot distinguish an original owner from
-an adversary with equivalent legacy authority. If a transition is allowed to rely
-only on legacy authorization between H1 and H2, that interval must precede Tq.
+Let H1 be preparation activation, H2 recovery activation, and Tq the first time
+legacy group-based authorization can be forged. The design requires the accepted
+V2 enrollment and its authenticated checkpoint to precede Tq. H2 must be no later
+than that compromise. Public H1/H2 remain unscheduled. Owners must act during
+`[H1,H2)`; validators cannot infer their witnesses or enroll keys for dormant
+records. A stage-one-only local policy can leave preparation open indefinitely,
+but only while its classical assumptions remain valid.
 
-The adversary observes history and mempools, copies messages/nonces, schedules
-competing transactions and partitions, and can run quantum algorithms and make
-quantum queries in any claimed QROM analysis. It can eventually break discrete
-logarithms, pairing-based proofs and classical BFT authentication. It cannot be
-assumed to lose access to old ciphertexts. Account-seed theft and compromise of an
-enrolled PQ signing secret are separate exclusions: an attacker with the owner's
-surviving witness/authority is indistinguishable from the owner.
+The attacker observes records and mempools, copies nonces and signed messages,
+changes proposed effects, submits competing spends, chooses malformed encodings,
+and can later recover legacy discrete logarithms and forge classical proofs and
+signatures. After Tq it must still lack the enrolled PQ signing secret and be
+unable to forge that scheme, substitute a committed key, or corrupt the assumed
+authenticated ledger. Theft of the surviving PQ secret defeats authorization.
+No protocol can distinguish its original owner from an attacker with that secret.
 
-The surviving authority is a PQ key enrolled by an authenticated owner transaction
-before Tq. A hidden random per-record consumption secret must also survive for
-private deterministic nullifiers. A seed-derived SHA3 credential may support a
-different recovery relation, but a naked digest opening supplies neither record
-membership nor authority to enroll an arbitrary new key. This design does not send
-the seed or consumption secret to validators or an untrusted remote prover.
+A disclosed opening supplies data, not authority. Post-H2 replacement effects
+require signatures by keys already enrolled in authenticated V2/V3 state. Merely
+opening SHA3-512, knowing a historical record, or wrapping a classical proof in a
+PQ signature does not establish that authority.
 
-The legacy seed has at most roughly 253 bits of field entropy; hashing it to 512
-bits does not enlarge that entropy. Ideal quantum exhaustive search over such a
-seed has a roughly 2^126.5 query upper bound, independent of the output length.
-This is a generic bound, not a measured attack or a proof of achieved security.
+## Authenticated state is an explicit assumption
 
-There must be a **pre-compromise authenticated anchor** of V2 commitments and
-enrollments, and an authenticated continuing state. A newly hashed archive of
-untrusted legacy data does not provide one. A trusted finalized checkpoint is an
-explicit additional assumption until block authentication/consensus is itself
-protected against quantum forgery. This feature alone does not upgrade BFT.
+Preparation uses normal source transaction/block indexes and the original
+commitment and serial-number rules. A previously authenticated, pre-compromise
+checkpoint must fix the enrolled keys, recovery state and consumed legacy
+serials. Continuing state must preserve that checkpoint and enforce the same
+transition rules. A fresh hash of attacker-provided old history is insufficient.
 
-Proof privacy and encryption privacy are different. Historical Aleo DH
-encryption can lose confidentiality after discrete-log compromise. If V2 openings
-or rho are encrypted only with that same scheme, they cannot be assumed to stay
-secret from a harvest-now/decrypt-later attacker. Enrolled PQ signatures can
-still protect authorization, but do not restore historical confidentiality or
-private nullifier unlinkability. A pinned hybrid/PQ encryption and wallet-secret
-storage design is a separate missing construction. Public keys, input/output
-counts, fees, timing and proof length can also reveal information even if a
-private relation eventually has a ZK argument.
+No independently PQ-authenticated checkpoint transport or quantum-safe consensus
+replacement is implemented; a local SHA3 root alone is not an anchor.
+This feature does not make Aleo validator consensus quantum safe. Block/header
+commitments, legacy transaction indexes, BFT signatures and historical proof
+systems retain classical assumptions. If quantum attackers can manufacture an
+alternative accepted finalized history or control quorum authentication, enrolled
+record authorization alone cannot protect the ledger. Recovery claims are
+conditional on a trusted pre-compromise anchor and continuing authenticated
+consensus/state, or a separately deployed mechanism that supplies those properties.
+No such quantum-safe consensus upgrade is claimed here.
 
-## Record classes and windows
+## Exact supported relation
 
-| Candidate height | Permitted target behavior |
-| --- | --- |
-| `< H1` | Existing V0/V1 verification and execution, under historical policy |
-| `[H1,H2)` | Owner-provided V0/V1 preparation or supported credits spending; every newly created private output must be authenticated V2 with enrolled PQ authority |
-| `>= H2` | Freeze unprepared V0/V1; V2-to-V3 migration preserving enrolled authority; V3 spending/authorized rotation only |
+The source class is historical `credits.aleo/credits` with private owner address,
+one private `microcredits: u64` entry, and version V0 or V1. Reject alternate
+programs, public-owner records, altered schema, dynamic/external output classes
+and unsupported versions. A plaintext fixture proves no inclusion; acceptance
+requires the source's creating output, transaction and block in authenticated
+storage. Genuine old-version generator provenance is in
+[history-tools/README.md](history-tools/README.md).
 
-H1-to-H2 is the preparation window, not an automatic ledger rewrite. V2-to-V3
-migration opens at H2 and has no deadline in the target policy. Dormant unprepared
-records do not acquire new authority after H2. Changing that policy requires a new
-construction and consensus decision. Historical verification uses the historical
-height and state; an old proof is not a current spending authorization.
-
-Only the exact native `credits.aleo/credits` private schema is in scope:
-`owner as address.private; microcredits as u64.private`. Fixtures using an `amount`
-field are not historical Aleo credits. Imported plaintext fixtures are not proof of
-historical provenance. A production test must retain original ciphertext,
-commitment, creating transaction/block and inclusion path from a pinned historical
-implementation for **both V0 and V1**. Those end-to-end fixtures are not supplied by
-the new qualification probe. Reject public-owner records, external programs,
-dynamic records, unknown schemas and unsupported credits functions. No generic
-program-preservation claim follows from knowing a record's owner.
-
-The proposed first path contains prepare, migrate, private transfer and key
-rotation, with explicit microcredit conservation. Bonding, public-balance
-conversion, deployments and arbitrary calls need separate semantics and are out
-of scope. Fees and change are exact authorized effects; no hidden fee may be
-deducted and no fee output may return to a retired record format.
-
-## Public statement and canonical encoding
-
-The core, never an adapter, must construct the expected statement from decoded
-effects, policy and authenticated state. The prospective ownership relation is:
-
-`R(policy, chain, roots, effects, consumed, replacements; witness) = true`.
-
-Public inputs comprise chain ID **and genesis identity**, protocol/relation
-version, program/schema/function IDs, policy commitment, proof-backend/profile
-and parameter digest, activation/validity window, approved input-anchor roots,
-ordered input versions/consumed identifiers, ordered full replacement commitments
-and enrollment commitments, fee disposition, replay nonce and complete effects
-digest. They also bind encryption/ciphertext commitments if those are part of the
-transaction. The verifier must pin the relation circuit/guest image ID; an adapter
-must not supply a different program with the same public-output shape.
-
-Use a new domain `AleoPrivateRecoveryStatement1`, fixed-width little-endian
-integers, u32 length-prefixed bounded byte strings and lists, explicit enum tags,
-and full 64-byte SHA3-512 digests. Reject unknown IDs, noncanonical values,
-duplicate inputs, integer overflow and trailing bytes. Do not reduce a 512-bit
-commitment to a field element. Effects identity excludes randomized signature and
-proof bytes; the wire/evidence commitment includes them. Both require consensus
-definitions. The existing `AleoRecoveryEffects1` public-record codec is **not**
-this production envelope; no wire tag or transaction-tree layout is allocated here.
-
-## Private witness and relation
-
-The prover supplies canonical source plaintexts, opening randomness/view-key
-material, source provenance and Merkle paths, output plaintexts/randomness and
-consumption secrets, and the ownership material required by the selected branch.
-No secret is a public input merely because a host-side check needs it.
-
-| Relation requirement | Inside the ownership proof | Current-state validator check |
+| Required relation | Deterministic or cryptographic check | Current-state responsibility |
 | --- | --- | --- |
-| Historical V0/V1 source | Recompute exact historical commitment and owner relation; prove source inclusion and bind original legacy serial | Approved historical root/class; serial unspent; transaction authorized before Tq/H2 |
-| V2/V3 source | Open full authenticated commitment and enrollment, prove inclusion and permitted controlling key | Root in policy-approved history; enrolled key/profile still eligible |
-| Consumed resource | Prove canonical deterministic identifier from fixed per-record secret and source identity; bind any legacy serial bridge | Shared conflict index, including pending candidate spends and fee inputs |
-| Program semantics | Exact private credits schema, function/owner authorization, integer range constraints and conservation | Supported function/profile; candidate-height policy; actual fee rules |
-| Replacement effects | Recompute every output, key enrollment, ciphertext commitment and fee; bind ordered effects digest | Output uniqueness, valid fee recipient/rate, canonical transaction identity |
-| PQ authorization | Bind expected eligible key identity to the same complete effects | Verify PQ signatures separately; exact optional aggregate member list |
+| Exact historical opening | Recompute the original native commitment from canonical disclosed plaintext and per-record view key | Locate the matching supported creating output and authenticated block |
+| Historical owner authority | Verify an Aleo signature on the core-generated complete-effects source statement | Accept only before H2 and before assumed compromise |
+| Canonical legacy consumption | Verify equal discrete logs linking the signature compute key to `gamma`; use native `serial_number_from_gamma` | Exclude that exact serial in both legacy and recovery indexes, including candidate transactions and fees |
+| V2/V3 enrollment and ownership | Look up the full SHA3-512 record ID and exact algorithm/profile/public key in recovery state | Require unspent state and consensus-permitted profile |
+| Replacement authority | Verify enrolled input PQ signatures and output key proofs of possession over core-generated effects | Enforce operation/version/window, uniqueness, policy and replay rules |
+| Program semantics and conservation | Exact credits schema; checked totals equal outputs plus authorized fee | Enforce fee minimum, historical source limits and shared upgrade pool |
 
-Preparation must prove actual legacy owner control and authenticate the V2
-replacement/enrollment in one transaction, with old authority and new-key proof
-of possession over the exact effects. Recomputing an output from arbitrary host
-plaintext is insufficient. The existing SHA3 helper's digest includes a seed
-credential and view key but **does not bind the enrolled PQ key/profile**. An
-algorithm-bound enrollment commitment and a new, specified record commitment
-profile are additional work, not an interpretation of that helper.
+For V0 the historical commitment ignores the per-record view key, so disclosure
+normalizes it to zero. V1 uses its commitment-bound view key. The plaintext and
+per-record view key are disclosed; the account seed and reusable signature
+exponent are not. The mapped source ID additionally binds network, schema,
+canonical disclosed data, original commitment and value. This SHA3 mapping does
+not replace the historical commitment check or canonical legacy serial.
 
-For example, a new private record can carry hidden random `rho` committed in its
-opening. Its stable consumed ID is domain-separated SHA3-512 of chain, immutable
-source commitment and rho. Membership and the opening, including rho, must be
-proved. A key rotation consumes the old record and creates a different record;
-it cannot select a second nullifier for the old record. The precise commitment
-layout and consumption-secret lifecycle are **unimplemented design obligations**.
-They cannot be patched into V2 by adding an unconstrained host field.
+The pre-compromise certificate proves `P=xG` and `gamma=xH(commitment)` share x:
+`A=rG; B=rH; c=SHA3-512(framed statement); s=r-cx`; the verifier checks
+`sG+cP=A` and `sH+c gamma=B`. The challenge binds network/genesis, native network
+ID, core source authorization message, commitment, P, gamma, A and B. A fresh
+CSPRNG nonce and checked subgroup encodings are required. This Chaum–Pedersen
+Fiat–Shamir certificate is classical; no post-quantum soundness is attributed to
+it. It is never an alternative authorization after H2. See
+[records/README.md](records/README.md) for the exact construction and encoding.
 
-Historical V0/V1 consumption must use the exact serial already used by execution
-and private fees. If a legacy serial is also exposed for a prepared successor,
-its derivation must be proof-bound and remain deterministic across authorization
-paths. After a clean H2 freeze, legacy sources have no alternative migration
-path. No proof of membership can establish current unspentness by itself.
+Native recovery V2/V3 are a distinct disclosed credits record class. Their
+full-width record IDs bind version, algorithm/profile, complete public key,
+amount, nonce and context-opening digest. They are not reinterpreted legacy
+private `console::Record` ciphertexts or the earlier V2 hashing helper. An
+opening digest is bound metadata; arbitrary metadata is not a new ownership
+witness. Membership and the enrolled key come from validated state.
 
-Migrate V2-to-V3 preserves enrolled algorithm/profile/key. Rotation requires old
-authority and new-key possession over the full effects; enforce consensus
-parameter/category policy and prohibit key/algorithm substitution. A signature or
-Aerie aggregate is not a substitute for any row of the ownership relation.
+## Windows and supported effects
 
-## Atomicity and finality contract
+| Candidate height | Permitted behavior |
+| --- | --- |
+| `< H1` | Existing legacy behavior; native recovery unavailable |
+| `[H1,H2)` | Owner-authorized V0/V1 preparation to V2; V2 rotation; legacy record-consuming or producing operations and private fees frozen |
+| `>= H2` | Unprepared V0/V1 frozen; V2-to-V3 migration under the same enrolled key; V3 spending and rotation |
 
-Decode and verify against candidate height, approved roots and a speculative
-overlay. Reserve all inputs, including private fee inputs, in one shared
-consumption domain. An accepted transition commits consumption, outputs,
-enrollment/rotation, fees, transaction indexes, recovery root and block state as
-one durable operation. On proof/authorization failure it commits nothing.
+The H1 freeze is necessary because the existing legacy circuits do not create
+this authenticated native V2 class. Record-free legacy operations retain their
+historical policy until H2; legacy transaction authorization is retired at H2.
+V2-to-V3 migration has no terminal deadline. Both local activations are fixed
+before enrollment; enabling a previously unscheduled H2 after V2 state exists
+requires a separate, unimplemented consensus-gated policy/checkpoint upgrade. Preparation never occurs
+implicitly. Historical decoding is retained; historical verification needs its
+historical height and state and is not a current spending authorization.
 
-A rejected execution that charges a fee is a **different, explicitly authorized
-fee-only outcome**. It must consume only its valid fee input, share the same
-conflict index and obey retirement policy. It must not consume a recovery source
-without creating its authorized replacements. Recovery operations without such
-an authorized outcome must abort without charge. Binding a fee to a recovery
-effects ID and its rejected outcome remains a production format obligation.
+The native credits path does not support arbitrary program calls, bonding,
+public-balance conversion or private circuit output creation. Inputs and outputs
+are ordered complete effects. Every output key co-signs its enrollment; payments
+are therefore interactive. Migration preserves the enrolled key. Rotation
+consumes the old record, requires its existing key's signature and the new key's
+possession, and cannot reduce the permitted security category. Spending cannot
+bypass that category rule. Copied fully signed transactions may be relayed, but
+the relay cannot change outputs, fees or policy. Fair ordering is not promised.
 
-Dry-run speculation must not persist enrollment or consumption. Atomic checkpoints
-must rewind all affected indexes. A crash must recover either the preceding
-committed block or the complete new block, with consistent roots and indexes;
-application-level batching alone is not evidence of crash atomicity. A new side
-database needs a shared durable batch or a specified recoverable commit protocol.
-Speculative rollback is supported in the target model. Reverting a finalized BFT
-block is not assumed; test only the actual ledger's supported rollback, and label
-conflicting finalized histories a consensus failure, not a successful reorg.
+Sources created at or before the existing inclusion-upgrade height retain its
+limits: 10^12 microcredits per historical source and 4*10^12 cumulative shared
+`credits.aleo/pool` accounting, when recovery occurs at or after that upgrade.
+The full source amount counts, before native fees. Native minimum fee is 1,000
+microcredits plus canonical envelope bytes; this is an initial bounded test
+profile, not a measured production gas model.
 
-The TLA+ model checks a small abstraction of these requirements. Neither it nor a
-successful signature test establishes cryptographic ownership, implementation
-refinement, native/circuit parity, production durability or network finality.
+## Statement, consumption and atomicity
+
+[RECOVERY_ARCHITECTURE.md](../RECOVERY_ARCHITECTURE.md) specifies canonical
+encodings. The core determines the complete statement: network plus full genesis
+identity, protocol/policy and policy commitment, exact profile and key, operation,
+ordered inputs/outputs, fees, validity window and replay field. Neither a signer
+backend nor an aggregate producer chooses relevant effects.
+
+Native consumption is deterministic and linkable: a domain-separated full-width
+hash of chain and input ID. Historical preparation also reserves the original
+legacy serial, shared with execution and private fees. An input cannot receive a
+second consumption identifier through rotation or disclosure. Replay exclusion
+uses the complete effects identity, so copying an unrelated nonce alone cannot
+prevent another owner's valid transaction.
+
+Speculation applies complete ordered transitions in an overlay. Successful
+finalization must atomically commit consumption, replacement outputs, enrollment,
+fees, native root and block/transaction indexes. Invalid native operations have
+no separate fee-only accepted outcome. Rejected legacy fee outcomes must obey
+retirement and shared consumption checks. Batch abort and checkpoint rewind must
+restore every index. Crash safety requires durable shared storage tests, not just
+an in-memory clone. See the evidence matrix for the measured implementation
+status. Finalized BFT history is not freely reorganizable; speculative rewind or
+store rollback does not establish network reorganization safety.
+
+No general ownership-proof backend is retained for the disclosed relation.
+Remaining Fiat–Shamir/proof assumptions, independent of direct signature
+assumptions, are assessed in [PROOF_BACKENDS.md](PROOF_BACKENDS.md).

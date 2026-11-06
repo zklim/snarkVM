@@ -332,6 +332,9 @@ mod tests {
                         .unwrap(),
                     false => process.verify_fee_public(VarunaVersion::V1, InclusionVersion::V0, &&fee).unwrap(),
                 },
+                Transaction::Recovery(..) => {
+                    panic!("Classical fee fixtures cannot contain native recovery transactions")
+                }
             }
         }
     }

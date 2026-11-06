@@ -1,0 +1,17 @@
+   Compiling snarkvm-synthesizer-process v4.12.0 (/workspace/snarkVM/synthesizer/process)
+   Compiling snarkvm-ledger-test-helpers v4.12.0 (/workspace/snarkVM/ledger/test-helpers)
+    Finished `test` profile [optimized + debuginfo] target(s) in 3m 38s
+     Running tests/recovery_cost.rs (/workspace/snarkOS/target/debug/deps/recovery_cost-ec8a48873b66ddd5)
+
+running 1 test
+Error: Native recovery is not activated
+test recovery_cost_is_available_for_parent_and_candidate_versions ... FAILED
+
+failures:
+
+failures:
+    recovery_cost_is_available_for_parent_and_candidate_versions
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.20s
+
+error: test failed, to rerun pass `-p snarkvm-synthesizer-process --test recovery_cost`

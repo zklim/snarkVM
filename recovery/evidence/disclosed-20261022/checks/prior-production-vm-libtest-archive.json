@@ -1,0 +1,13 @@
+{
+  "reason": "Preserve unused prior VM production-test binary losslessly and reclaim linking space; current focused-test binary remains available",
+  "original": "/workspace/snarkOS/target/debug/deps/snarkvm_synthesizer-06a705040ef0ddcd",
+  "original_sha256": "a289eb3facbd4525838cdbe715d636f026a8027985fad38d68de6ca966ace6fb",
+  "original_bytes": 350071712,
+  "archive": "/workspace/security-evaluation/disclosed-recovery-20261022/prior-production-vm-libtest.gz",
+  "archive_sha256": "53dc814f26043e76e1a637f68f62eebf687773ae79c9a8aaf9297ca7fcc6a218",
+  "archive_bytes": 76760123,
+  "decompression_verified": true,
+  "restore_path": "/workspace/snarkOS/target/debug/deps/snarkvm_synthesizer-06a705040ef0ddcd",
+  "restore_command": "gzip -dc /workspace/security-evaluation/disclosed-recovery-20261022/prior-production-vm-libtest.gz > /workspace/snarkOS/target/debug/deps/snarkvm_synthesizer-06a705040ef0ddcd && chmod 700 /workspace/snarkOS/target/debug/deps/snarkvm_synthesizer-06a705040ef0ddcd",
+  "elapsed_seconds": 4.964824267022777
+}

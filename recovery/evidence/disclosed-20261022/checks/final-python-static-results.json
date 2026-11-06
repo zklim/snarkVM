@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "repo": "snarkOS",
+      "command": [
+        "cargo",
+        "+nightly-2026-04-02",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 5.5367641299963,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-snarkOS-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "repo": "snarkOS",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "seconds": 92.45044816000154,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-snarkOS-clippy.log",
+      "sha256": "aeea241b114f93672aa7732c27ce378f067bb8e4523c2e0627f6d94f9150b503"
+    },
+    {
+      "repo": "snarkOS-aerie",
+      "command": [
+        "cargo",
+        "+nightly-2026-04-02",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 8.057028212002479,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-snarkOS-aerie-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "repo": "snarkOS-aerie",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "seconds": 114.3083114240435,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-snarkOS-aerie-clippy.log",
+      "sha256": "dfe8db219834714a2df798d920c7033c676216c5b500f6d7613afac70727dbaf"
+    }
+  ]
+}

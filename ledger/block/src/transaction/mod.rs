@@ -22,6 +22,9 @@ pub use execution::*;
 mod fee;
 pub use fee::*;
 
+mod recovery;
+pub use recovery::*;
+
 mod bytes;
 mod merkle;
 mod serialize;
@@ -55,6 +58,8 @@ pub enum Transaction<N: Network> {
     Execute(N::TransactionID, ExecutionID<N>, Box<Execution<N>>, Option<Fee<N>>),
     /// The fee transaction represents a fee paid to the network, used for rejected transactions.
     Fee(N::TransactionID, Fee<N>),
+    /// A native disclosed recovery operation, with independently enrolled PQ authorization.
+    Recovery(N::TransactionID, Box<Recovery<N>>),
 }
 
 impl<N: Network> Transaction<N> {
@@ -105,6 +110,24 @@ impl<N: Network> Transaction<N> {
         let id = *Self::fee_tree(&fee)?.root();
         // Construct the execution transaction.
         Ok(Self::Fee(id.into(), fee))
+    }
+}
+
+impl<N: Network> Transaction<N> {
+    pub fn from_recovery(recovery: Recovery<N>) -> Result<Self> {
+        let id = *Self::recovery_tree(&recovery)?.root();
+        Ok(Self::Recovery(id.into(), Box::new(recovery)))
+    }
+
+    pub const fn is_recovery(&self) -> bool {
+        matches!(self, Self::Recovery(..))
+    }
+
+    pub fn recovery(&self) -> Option<&Recovery<N>> {
+        match self {
+            Self::Recovery(_, recovery) => Some(recovery),
+            _ => None,
+        }
     }
 }
 
@@ -188,6 +211,7 @@ enum IterWrap<T, I1: Iterator<Item = T>, I2: Iterator<Item = T>, I3: Iterator<It
     Deploy(I1),
     Execute(I2),
     Fee(I3),
+    Empty,
 }
 
 impl<T, I1: Iterator<Item = T>, I2: Iterator<Item = T>, I3: Iterator<Item = T>> Iterator for IterWrap<T, I1, I2, I3> {
@@ -198,6 +222,7 @@ impl<T, I1: Iterator<Item = T>, I2: Iterator<Item = T>, I3: Iterator<Item = T>> 
             Self::Deploy(iter) => iter.next(),
             Self::Execute(iter) => iter.next(),
             Self::Fee(iter) => iter.next(),
+            Self::Empty => None,
         }
     }
 }
@@ -210,6 +235,7 @@ impl<T, I1: DoubleEndedIterator<Item = T>, I2: DoubleEndedIterator<Item = T>, I3
             Self::Deploy(iter) => iter.next_back(),
             Self::Execute(iter) => iter.next_back(),
             Self::Fee(iter) => iter.next_back(),
+            Self::Empty => None,
         }
     }
 }
@@ -221,6 +247,7 @@ impl<N: Network> Transaction<N> {
             Self::Deploy(id, ..) => *id,
             Self::Execute(id, ..) => *id,
             Self::Fee(id, ..) => *id,
+            Self::Recovery(id, ..) => *id,
         }
     }
 
@@ -231,6 +258,7 @@ impl<N: Network> Transaction<N> {
             Self::Execute(_, _, _, Some(fee)) => fee.amount(),
             Self::Execute(_, _, _, None) => Ok(U64::zero()),
             Self::Fee(_, fee) => fee.amount(),
+            Self::Recovery(_, recovery) => Ok(U64::new(recovery.transaction().effects.fee)),
         }
     }
 
@@ -241,6 +269,7 @@ impl<N: Network> Transaction<N> {
             Self::Execute(_, _, _, Some(fee)) => fee.base_amount(),
             Self::Execute(_, _, _, None) => Ok(U64::zero()),
             Self::Fee(_, fee) => fee.base_amount(),
+            Self::Recovery(_, recovery) => Ok(U64::new(recovery.transaction().effects.fee)),
         }
     }
 
@@ -251,6 +280,7 @@ impl<N: Network> Transaction<N> {
             Self::Execute(_, _, _, Some(fee)) => fee.priority_amount(),
             Self::Execute(_, _, _, None) => Ok(U64::zero()),
             Self::Fee(_, fee) => fee.priority_amount(),
+            Self::Recovery(..) => Ok(U64::zero()),
         }
     }
 
@@ -260,6 +290,7 @@ impl<N: Network> Transaction<N> {
             Self::Deploy(_, _, _, _, fee) => Some(fee.clone()),
             Self::Execute(_, _, _, fee) => fee.clone(),
             Self::Fee(_, fee) => Some(fee.clone()),
+            Self::Recovery(..) => None,
         }
     }
 }
@@ -277,12 +308,13 @@ impl<N: Network> Transaction<N> {
             }
             // Check the fee.
             Self::Fee(_, fee) => fee.id() == transition_id,
+            Self::Recovery(..) => false,
         }
     }
 
     /// Returns `true` if the transaction contains the given serial number.
     pub fn contains_serial_number(&self, serial_number: &Field<N>) -> bool {
-        self.transitions().any(|transition| transition.contains_serial_number(serial_number))
+        self.serial_numbers().any(|serial| serial == serial_number)
     }
 
     /// Returns `true` if the transaction contains the given commitment.
@@ -312,6 +344,7 @@ impl<N: Network> Transaction<N> {
                 true => Some(fee.transition()),
                 false => None,
             },
+            Self::Recovery(..) => None,
         }
     }
 
@@ -345,6 +378,7 @@ impl<N: Network> Transaction<N> {
                 IterWrap::Execute(execution.transitions().chain(fee.as_ref().map(|fee| fee.transition())))
             }
             Self::Fee(_, fee) => IterWrap::Fee(Some(fee.transition()).into_iter()),
+            Self::Recovery(..) => IterWrap::Empty,
         }
     }
 
@@ -357,7 +391,9 @@ impl<N: Network> Transaction<N> {
 
     /// Returns an iterator over the serial numbers, for all transition inputs that are records.
     pub fn serial_numbers(&self) -> impl '_ + Iterator<Item = &Field<N>> {
-        self.transitions().flat_map(Transition::serial_numbers)
+        self.transitions()
+            .flat_map(Transition::serial_numbers)
+            .chain(self.recovery().into_iter().flat_map(|recovery| recovery.legacy_serial_numbers().iter()))
     }
 
     /// Returns an iterator over the tags, for all transition inputs that are records.
@@ -412,6 +448,7 @@ impl<N: Network> Transaction<N> {
                 IterWrap::Execute(execution.into_transitions().chain(fee.map(|fee| fee.into_transition())))
             }
             Self::Fee(_, fee) => IterWrap::Fee(Some(fee.into_transition()).into_iter()),
+            Self::Recovery(..) => IterWrap::Empty,
         }
     }
 
@@ -427,7 +464,8 @@ impl<N: Network> Transaction<N> {
 
     /// Returns a consuming iterator over the serial numbers, for all transition inputs that are records.
     pub fn into_serial_numbers(self) -> impl Iterator<Item = Field<N>> {
-        self.into_transitions().flat_map(Transition::into_serial_numbers)
+        let recovery_serials = self.recovery().map(|r| r.legacy_serial_numbers().to_vec()).unwrap_or_default();
+        self.into_transitions().flat_map(Transition::into_serial_numbers).chain(recovery_serials)
     }
 
     /// Returns a consuming iterator over the commitments, for all transition outputs that are records.

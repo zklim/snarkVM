@@ -1,0 +1,35 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "snarkvm-synthesizer-process",
+    "--features",
+    "test,snarkvm-console/test_targets",
+    "--test",
+    "recovery_cost",
+    "--",
+    "--nocapture"
+  ],
+  "test_source_sha256": "4d9619b847eee690d6229d31c3a77013eb9068af8710a10087a93833ff09d0b1",
+  "fixture_sha256": "f61731a8e73a341d45c7fa0089587ff3405c84d593ca30afb02d53597a5bec10",
+  "checks": [
+    {
+      "stage": "red",
+      "exit_code": 101,
+      "seconds": 218.62473677896196,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-red.log",
+      "source_sha256": "aca1ffd0382a79f78f971cb4d801219740a7015bd8d822d5fbbd9f6ab4385b75",
+      "log_sha256": "ee234d62d862ef7ce3acc0741a4f7c676948f6a37bc409394a38692855dd7454"
+    },
+    {
+      "stage": "green",
+      "exit_code": 0,
+      "seconds": 219.2351964910049,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-green.log",
+      "source_sha256": "95a605f7b641dfccb6eff2384e2fe9c43243c2bd4c027bbb17aab60fe968a618",
+      "log_sha256": "20d2b3bcf4464f588ff26dd0ba6625c9be9e6748cdd302a824db6816a9eb086c"
+    }
+  ]
+}

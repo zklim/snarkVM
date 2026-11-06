@@ -1,0 +1,35 @@
+{
+  "result": "passed",
+  "metadata_codec_source_revision": "9741f1159a8cd18e2d676d5a095eeffad71ab52c",
+  "genesis_hash": "ab1njne0yg0ygw9kwyldxw942syzvhvx7gjdp87nadermkt45w4x5ps88sgkx",
+  "genesis_bytes": 14379,
+  "genesis_sha256": "05f9da76ecb1531021634e3227367fe842867966dfceb2f5476303bc42e7dc36",
+  "decoded_metadata": {
+    "version": 1,
+    "network": 1,
+    "round": 0,
+    "height": 0,
+    "coinbase_target": 31,
+    "proof_target": 8,
+    "last_coinbase_target": 31,
+    "last_coinbase_timestamp": 1715776496,
+    "timestamp": 1715776496
+  },
+  "identical_historical_record_artifacts": [
+    "record-0.bin",
+    "ciphertext-0.bin",
+    "record-view-key-0.bin",
+    "record-1.bin",
+    "ciphertext-1.bin",
+    "record-view-key-1.bin",
+    "record-2.bin",
+    "ciphertext-2.bin",
+    "record-view-key-2.bin",
+    "record-3.bin",
+    "ciphertext-3.bin",
+    "record-view-key-3.bin"
+  ],
+  "identical_record_commitment_serial_manifest": true,
+  "unchanged_original_genesis_sha256": "78ea18989b5148bcca838814ecbaf2f898de35e09765fa043732ab5948434c5d",
+  "scope": "Byte-level target and artifact inspection, not a replacement for current Block parsing, proof verification, ledger initialization or migration acceptance."
+}

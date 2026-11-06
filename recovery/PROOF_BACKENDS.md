@@ -1,108 +1,101 @@
-# Ownership backend qualification
+# Direct verification and retained proof assumptions
 
-**Decision: no production ownership backend enabled.** The complete private Aleo
-relation has not been implemented or justified in any inspected backend. This is
-a precise dependency blocker for production migration acceptance, not a proof
-that PQ private proofs are impossible. Existing experimental code is preserved.
+The current scope permits disclosed record data, values, openings and membership
+information. The earlier private-proof qualification remains historical evidence
+under `evidence/ownership-20261022`; its confidentiality findings are not blockers
+for this scope. A general ownership-proof backend is unnecessary when validators
+can evaluate the complete relation directly.
 
-| Candidate and exact revision | What it can express / assessed evidence | Decision for this relation |
+| Construction | Actual responsibility | Security boundary |
 | --- | --- | --- |
-| Winterfell 0.13.1, `2f78ee9bf667a561bdfcdfa68668d0f9b18b8315` | Generic AIR/STARK; upstream warns it is research and does not provide perfect ZK; actual valid-proof witness extraction below | Reject unmasked default backend for private ownership |
-| RISC Zero 3.0.6, `1cc70cf05033a79ebc90f07c679cb4bd1cd301b9` | General computation; STARK and optional curve wrapper; primary IOP paper and current privacy/security caveats inspected | Candidate for further construction; no accepted PQ/ZK ownership profile established |
-| SP1 6.0.0, `f87f8d6ff005d542db22e241928319f5e96a4609` | General computation; current StackedBasefold PCS; Core/Compressed and Plonk/Groth16 modes differ | Source screening only; no Aleo proof run or qualified private/PQ profile |
-| Existing Aleo Varuna/Sonic/KZG, VM `c493bc514f0850d4e07a0135b0e4f845e38d0c73` | Historical native/circuit relation under group assumptions | Historical pre-compromise use only; PQ signature wrapping does not repair ownership soundness |
-| Aerie `49b6c212c209286c536196f53618823ffdf0e899` | Falcon aggregation relation, classical ROM argument, separate adapter | Does not prove the ownership relation or establish its privacy/quantum soundness |
+| Direct historical commitment/schema checks | Recompute canonical disclosed source and exact native commitment; authenticate source provenance | Historical commitment binding and authenticated state before compromise |
+| Preparation Aleo signature and Chaum–Pedersen certificate | Authorize exact effects and prove the original deterministic legacy serial belongs to the same signature key | Classical discrete-log and classical Fiat–Shamir assumptions; accepted only before H2/Tq |
+| Native V2/V3 state, arithmetic and hashes | Authenticate enrolled key, membership, spentness, allowed semantics, conservation and exact replacement effects | SHA3-512 and authentic continuing ledger; no hidden witness or ownership SNARK |
+| ML-DSA-65 direct authorization | Check enrolled key signatures and output key possession | FIPS 204's lattice/hash assumptions and pinned implementation; no implementation certification |
+| Falcon-512 direct authorization | Independent modular signature path/reference for Falcon aggregates | Precise padded fn-dsa profile and lattice/hash assumptions; no final FIPS 206 compatibility claim |
+| Optional Aerie adapter | Verify exactly the core-determined ordered Falcon authorization set | Separate research aggregation assumptions; not production-enabled by native policy |
+| Historical Aleo Varuna/Sonic/KZG proofs | Existing historical transaction validity | Classical group/setup assumptions; a PQ signature does not make these proofs quantum sound |
 
-## Executed counterexample: bare Winterfell privacy
+The complete disclosed predicate is specified in
+[OWNERSHIP_PROOF.md](OWNERSHIP_PROOF.md). A signature alone does not establish
+historical record ownership, inclusion or conservation. Those relations are
+checked separately before the signature adapter receives its immutable message.
+No digest opening independently authorizes replacement effects.
 
-The isolated crate [proof-evaluation/winterfell-privacy](proof-evaluation/winterfell-privacy)
-pins upstream by git SHA and has its own lockfile. It is not in the VM workspace
-or a consensus dependency. It proves `x*x = 9` with private `x` and a public counter.
-The two witnesses `3` and `-3` satisfy the **same** public statement. Both proofs
-are serialized and reconstructed solely from public bytes, then verify under the
-fixed options. A changed public square is rejected. Parsing the trace query recovers the exact
-witness, distinguishing the two cases. Retained output:
+## Preparation certificate
 
-```text
-public_square=9 valid_proof=true private_witness=3 recovered_from_proof=3 proof_bytes=12989
-public_square=9 valid_proof=true private_witness=340282366920938463463374557953744961534 recovered_from_proof=340282366920938463463374557953744961534 proof_bytes=12267
-qualification=REJECT unmasked_default_trace_is_not_zero_knowledge
-```
+The certificate follows the equal-discrete-log relation of Chaum and Pedersen,
+*Wallet Databases with Observers*, CRYPTO 1992, made noninteractive using a framed
+SHA3-512 challenge. Challenge fields, scalar-capacity truncation, subgroup checks,
+nonidentity restrictions and nonce rules are documented in
+[records/README.md](records/README.md). Its soundness relies on the legacy group
+remaining secure during preparation; a quantum attacker capable of discrete
+logarithms can forge it. Using SHA3 does not repair that group relation. No QROM
+knowledge-soundness claim or concrete quantum security level is assigned.
 
-These are public test constants, not wallet secrets. This demonstrates a privacy
-failure for this concrete use of the default trace implementation. It is not a
-forgery, an Aleo proof, or a proof that Winterfell cannot be extended with a
-separately justified zero-knowledge construction. Such masking and its proof
-would be new work; increasing hash length or FRI queries does not supply it.
+The reusable signature exponent never appears in the wire certificate. Fresh
+CSPRNG nonces must not repeat or cross-reuse legacy signature nonces. The
+surviving post-H2 secret is the enrolled PQ signing key. There is no residual
+secret opening that grants substitute authority after disclosure.
 
-## RISC Zero: distinguish vendor claims from a qualified profile
+## Direct signature profiles
 
-The pinned source includes the original paper *Scalable, Transparent Arguments of
-RISC-V Integrity*. Sections 2.3, 3 and 3.4 analyze an IOP, then apply a Fiat–Shamir
-heuristic using HMAC-SHA-256. Appendix A.3.1 describes random trace padding and
-coset evaluation. The source security calculator separates proven list-decoding
-bounds from Toy Problem and proximity conjectures. None of these passages alone
-supplies a concrete quantum knowledge-soundness bound for the exact ownership
-program, transcript and parameters.
+ML-DSA uses `ml-dsa =0.1.1`, ML-DSA-65, FIPS 204 pure mode and empty context
+(1,952-byte public key; 3,309-byte signature). Falcon uses `fn-dsa =0.3.0`, degree
+512, padded 666-byte signatures, key-prefixed raw message and empty context
+(897-byte public key). Profile identifiers are consensus-controlled and included
+in commitments and complete authorization messages. Unknown profiles and
+malformed keys/signatures fail. The two genuine schemes share ledger-transition
+logic; their algorithms are not interchangeable under one identifier.
 
-The current source `website/api/security-model.md` labels the STARK provers
-“Quantum Safe? Yes”, with ROM and Toy Problem assumptions. It also states:
-“we have not written a mathematical argument to prove that our system is
-zero-knowledge” and cautions users with critical privacy requirements. Its
-96-bit estimate, the calculator's 97-bit segment estimate, and README's 98-bit
-claim are **source claims with different contexts**, not a measured quantum
-security level. An application must select parameters and analyze that instance.
-This review neither proves an attack on RISC Zero nor dismisses STARKs as non-PQ.
+These are signature constructions with their own hash/random-oracle and lattice
+security analyses, not generic Fiat–Shamir ownership proofs. FIPS 204
+standardization does not certify this implementation, key handling, integration
+or the entire protocol. Falcon's source profile and precise transcript must be
+assessed independently. Secret-key theft, side channels, broken randomness and
+implementation bugs remain separate risks.
 
-Before accepting it, the construction must pin: STARK-only receipt kind and hash
-suite; verifier parameters/control root; exact guest image; segment/cycle/receipt
-limits; no fake/dev receipt acceptance or `circuit_debug`; rejection of unresolved
-assumptions/claims; the complete private credits predicate and canonical journal;
-and a justified hiding and QROM knowledge-soundness argument with explicit losses.
-The generic receipt verifier also accepts Groth16 (curve-based, not PQ), and fake
-receipts can verify in development mode. Using that generic API without a mode
-policy would not meet this task. Composite receipts also reveal execution length;
-padding/recursion privacy needs its own analysis.
+## Aerie is optional and separately qualified
 
-No RISC Zero ownership guest, receipt or performance result is claimed here. Its
-pinned toolchain is Rust 1.97 versus this environment's Rust 1.96.1; that is a
-reproducibility detail, not the cryptographic blocker. Parameters/image/limits and
-the relation-specific analysis remain absent, so installing another compiler
-would not resolve the acceptance failure.
+The separate adapter pins Aerie `49b6c212c209286c536196f53618823ffdf0e899`,
+Akita `e023b6a46143f7b23199ccecb2684192baf7b640`, jolt
+`c7c2d08d5bb0c7c80501f29f723e595af7fcff3c` and Spongefish
+`ef9741346a150039427d9e0c02d6b2d73e93ec81`. It supports the exact Falcon profile
+above, wire version 1, independent per-record salts, at most 32 authorizations
+and 2 MiB proof bytes. Signing, aggregate production and aggregate verification
+are separate. The core supplies the ordered complete member list, including
+output proofs of possession; omissions, duplicates, reordered messages/keys,
+unknown parameter policies and invalid evidence reject without direct fallback.
 
-## Other assumptions and limits
+Aerie's inspected argument is in the classical random-oracle model. It does not
+establish a concrete QROM argument for this pinned integration. PCS/MSIS
+assumptions, parameter generation, extraction and transcript losses require
+independent review. Its Falcon relation does not prove record membership,
+legacy ownership, consumption or conservation. Native production policy has no
+allowed aggregate identifiers, so demonstrated recovery must use direct
+signatures and must not rely on unjustified aggregation soundness.
 
-SP1 source screening found a different current PCS from older FRI descriptions.
-Its SDK's Plonk/Groth16 on-chain proof modes use BN254 and cannot supply PQ
-soundness. Core/Compressed require separate privacy, Fiat–Shamir and parameter
-analysis. Absence of a theorem in the inspected files is not evidence that no
-theorem exists; these modes remain **unqualified in this review**, not disproved.
+## Hashes, parameters and state trust
 
-SHA3-512 commitments assume a suitable quantum-resistant hash/PRF model; they do
-not yield 512-bit quantum security. SHA-256 or algebraic hashes inside a backend
-have separate assumptions/bounds. PQ signature security, hash binding, private
-proof soundness, private proof hiding and anchor/consensus authenticity are
-distinct claims. Trusted setup and universal/transparent parameter generation
-must be assessed for the selected mode, not inferred from a backend's name.
+SHA3-512 supplies domain-separated full-width record, key, effects and state
+identities. It does not imply 512-bit quantum security. Idealized generic quantum
+query bounds and seed/key entropy impose separate limits; no concrete end-to-end
+quantum bit level is established here. The recovery compatibility leaf truncates the SHA3 envelope digest to field
+capacity, then the existing BHP Merkle tree computes the transaction ID. Neither
+this classical index nor block/consensus authentication is a PQ commitment;
+full native effects and state identities remain separate.
+A trustworthy pre-compromise checkpoint and continuing authenticated ledger are
+explicit assumptions, not consequences of the new hash.
 
-In idealized query models, generic n-bit hash preimage search can take about
-2^(n/2) quantum queries and collision finding about 2^(n/3), subject to different
-memory/resource assumptions. These are not complete backend forgery estimates.
-Seed entropy can impose a lower search ceiling than the digest length, and a
-Fiat–Shamir knowledge reduction can impose additional losses. The review does
-not convert upstream classical conjectural bits into quantum bits by relabeling
-them. No concrete end-to-end quantum security level is established here.
+Direct disclosed checks need no new trusted proof setup. Historical Aleo proof
+parameters and optional Aerie parameters retain their own setup/generation and
+soundness obligations. Prior Winterfell, RISC Zero and SP1 screening is retained
+as historical material, not as a selected production dependency or proof that
+these systems cannot support other relations. None is required by the current
+disclosed authorization path.
 
-The concrete blocker is the lack of a validated private, quantum-sound profile
-implementing [the complete relation](OWNERSHIP_PROOF.md) and its authenticated V2
-enrollment/state binding. A hashing helper, caller-trusted ledger, Falcon relation
-or classical proof cannot fill that interface. The task explicitly permits
-preserving the demonstrated implementation when this construction cannot be
-justified. Production integration and its devnet acceptance remain incomplete;
-the startup refusal cannot truthfully be replaced yet.
-
-Raw pinned excerpts, the paper, SHA256 provenance, proof output and model
-counterexamples are retained under `evidence/ownership-20261022`. Direct paper and
-arXiv/ePrint HTTP fetches returned 403; the RISC Zero paper was recovered from the
-pinned git source and its hash verified. No unavailable paper was represented as
-having been read.
+Primary references: [FIPS 204](https://doi.org/10.6028/NIST.FIPS.204),
+[Falcon specification](https://falcon-sign.info/falcon.pdf),
+[Aerie paper](https://github.com/a16z/aerie/blob/49b6c212c209286c536196f53618823ffdf0e899/paper/aerie.pdf),
+[Aerie profile](https://github.com/a16z/aerie/blob/49b6c212c209286c536196f53618823ffdf0e899/specs/falcon.md),
+and [upstream release obligations](https://github.com/a16z/aerie/blob/49b6c212c209286c536196f53618823ffdf0e899/specs/release-policy.md).

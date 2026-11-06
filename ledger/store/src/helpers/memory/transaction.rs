@@ -30,6 +30,7 @@ use console::{
     program::{Identifier, ProgramID, ProgramOwner},
     types::U8,
 };
+use snarkvm_ledger_block::Recovery;
 use snarkvm_synthesizer_program::Program;
 use snarkvm_synthesizer_snark::{Certificate, Proof, VerifyingKey};
 
@@ -38,6 +39,8 @@ use snarkvm_synthesizer_snark::{Certificate, Proof, VerifyingKey};
 pub struct TransactionMemory<N: Network> {
     /// The mapping of `transaction ID` to `transaction type`.
     id_map: MemoryMap<N::TransactionID, TransactionType>,
+    /// Native recovery transaction envelopes.
+    recovery_map: MemoryMap<N::TransactionID, Recovery<N>>,
     /// The deployment store.
     deployment_store: DeploymentStore<N, DeploymentMemory<N>>,
     /// The execution store.
@@ -49,6 +52,7 @@ pub struct TransactionMemory<N: Network> {
 #[rustfmt::skip]
 impl<N: Network> TransactionStorage<N> for TransactionMemory<N> {
     type IDMap = MemoryMap<N::TransactionID, TransactionType>;
+    type RecoveryMap = MemoryMap<N::TransactionID, Recovery<N>>;
     type DeploymentStorage = DeploymentMemory<N>;
     type ExecutionStorage = ExecutionMemory<N>;
     type FeeStorage = FeeMemory<N>;
@@ -63,12 +67,17 @@ impl<N: Network> TransactionStorage<N> for TransactionMemory<N> {
         // Initialize the execution store.
         let execution_store = ExecutionStore::<N, ExecutionMemory<N>>::open(fee_store.clone())?;
         // Return the transaction storage.
-        Ok(Self { id_map: MemoryMap::default(), deployment_store, execution_store, fee_store })
+        Ok(Self { id_map: MemoryMap::default(), recovery_map: MemoryMap::default(), deployment_store, execution_store, fee_store })
     }
 
     /// Returns the ID map.
     fn id_map(&self) -> &Self::IDMap {
         &self.id_map
+    }
+
+    /// Returns native recovery transaction envelopes.
+    fn recovery_map(&self) -> &Self::RecoveryMap {
+        &self.recovery_map
     }
 
     /// Returns the deployment store.

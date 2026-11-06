@@ -1,0 +1,57 @@
+{
+  "scope": "Harness acceptance-evidence and offline input-retention regressions; not actual multi-validator transaction acceptance or cryptographic audit.",
+  "status": "PASS",
+  "tests": 9,
+  "test_seconds": 0.007,
+  "command": "python3 -m unittest discover -s scripts -p test_recovery_harness.py -v",
+  "cwd": "/workspace/snarkOS",
+  "source_files": {
+    "scripts/test_disclosed_recovery.py": {
+      "sha256": "9a656fb3f9a3443246ce331b5cb0942db18514f72ce66607f0e6c38c04d68c40",
+      "bytes": 45568
+    },
+    "scripts/recovery_resume.py": {
+      "sha256": "4eb0597cc01f1c5612393a817331c78a93614d4751f7989c5c51ea47816e56be",
+      "bytes": 7303
+    },
+    "scripts/test_recovery_harness.py": {
+      "sha256": "ffa14e5e8d18b868bd8fa60d8b33454398e52f3c4c9ffea56ac3530b56c87840",
+      "bytes": 5111
+    },
+    "scripts/recovery_checkpoint.py": {
+      "sha256": "f39c3f99b62fa862351b5cfb1053666e4b80287ba2d6600d614dc7c0bdd1fe33",
+      "bytes": 9354
+    }
+  },
+  "cases": [
+    "Actual accepted transaction effects/type and exact confirmed body",
+    "Aborted/rejected IDs are not accepted inclusion",
+    "Duplicate/missing/changed block entries",
+    "Aborted lookup does not query invalid confirmation route",
+    "Cached upgrade binds exact historical serial/program/function",
+    "Node-specific offline snapshots preserve identity and detect tampering",
+    "Retained snapshots reject symbolic links"
+  ],
+  "cache_scope": "All validators stopped during capture. Manifest hashes each validator own ledger/BFT data; proofs and source serials are checked again on restore and must be reverified by resumed validators.",
+  "runtime_status": "New optimized source-guarded build ongoing; resumed native run pending.",
+  "observed_exit_code": 0,
+  "additional_checks": {
+    "python_compile": "PASS scripts/test_disclosed_recovery.py scripts/recovery_resume.py scripts/test_recovery_harness.py",
+    "whitespace": "PASS git diff --check"
+  },
+  "prior_run_source_files": [
+    {
+      "harness_sha256": "53dd12c471eaf1beff77ca72b71c3220d9aa22d390ac93c92c326d9cbfc18e9a",
+      "meaning": "Earlier nine-regression pass before cached-positive POST/confirmation race handling"
+    }
+  ],
+  "latest_repeat": {
+    "status": "PASS",
+    "observed_exit_code": 0,
+    "tests": 9,
+    "test_seconds": 0.007,
+    "log_sha256": "08c534dfea2e34b5a153c70095b96afdf52b5ad3208fa52db934e701bd5c32f8",
+    "source_change": "Cached-positive replay submission records either 2xx or structured422 when it races existing confirmation; success still requires the exact accepted body/effects on all four validators. Ordinary submissions remain strict.",
+    "scope": "Nine existing regression cases rerun; no actual replay race or full native runtime success is claimed."
+  }
+}

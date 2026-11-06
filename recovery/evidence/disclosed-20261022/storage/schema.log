@@ -1,0 +1,10 @@
+
+running 5 tests
+test helpers::rocksdb::internal::schema::tests::test_absent_version_is_v0 ... ok
+test helpers::rocksdb::internal::schema::tests::test_delete_legacy_mapping_history_keeps_other_prefixes ... ok
+test helpers::rocksdb::internal::schema::tests::test_fresh_database_is_stamped_v1 ... ok
+test helpers::rocksdb::internal::schema::tests::test_newer_version_is_refused ... ok
+test helpers::rocksdb::internal::schema::tests::test_recovery_schema_migration_preserves_existing_values ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 139 filtered out; finished in 0.15s
+

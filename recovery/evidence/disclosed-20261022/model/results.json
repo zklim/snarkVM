@@ -1,0 +1,29 @@
+{
+  "scope": "Independent finite transition specification for disclosed credits recovery.\n\nThis models state transitions and assumes authenticated membership and valid\ncryptographic predicates. It is not extracted from Rust and does not prove\ncryptographic soundness, consensus security, or implementation refinement.\n",
+  "source_sha256": "aa3bcada2019414cd5596b3f93038f7c613220d9bce4cf8c1eaf3bb2256ae115",
+  "bounded_model": {
+    "states": 1504,
+    "accepted_edges": 1138,
+    "reachable": {
+      "prepare_v0": true,
+      "prepare_v1": true,
+      "migrate": true,
+      "spend": true,
+      "rotate_v2": true,
+      "rotate_v3": true
+    }
+  },
+  "mutation_checks": [
+    "candidate_height",
+    "shared_consumption",
+    "atomic_visibility",
+    "effect_binding",
+    "recipient_possession",
+    "category_downgrade",
+    "migration_key_substitution",
+    "rejected_snapshot",
+    "crash_to_committed_snapshot"
+  ],
+  "seconds": 0.69,
+  "boundary_vectors_sha256": "213a27dc40248c6348ca2c787d5c01f4b1565b6dd348e11699b2da478d95c71b"
+}

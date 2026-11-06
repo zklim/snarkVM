@@ -15,6 +15,11 @@
 
 use crate::*;
 
+pub const MAX_TRANSACTION_BYTES: usize = 3 * 1024 * 1024;
+pub const MAX_LEGACY_AUTHORIZATION_BYTES: usize = 4096;
+pub const MAX_SIGNATURE_BYTES: usize = 4096;
+pub const MAX_AGGREGATE_PROOF_BYTES: usize = 2 * 1024 * 1024;
+
 #[derive(Default)]
 pub(crate) struct Writer(pub Vec<u8>);
 
@@ -193,5 +198,179 @@ impl Effects {
         reader.finish()?;
         effects.validate()?;
         Ok(effects)
+    }
+}
+
+impl Transaction {
+    fn validate_evidence_shape(&self) -> Result<()> {
+        self.effects.validate()?;
+        let legacy_count = if self.effects.operation == Operation::Prepare { self.effects.inputs.len() } else { 0 };
+        if self.legacy.len() != legacy_count
+            || self.legacy.iter().any(|proof| proof.is_empty() || proof.len() > MAX_LEGACY_AUTHORIZATION_BYTES)
+        {
+            return Err(Error::Ownership);
+        }
+        let signature_count = self.effects.outputs.len()
+            + if self.effects.operation == Operation::Prepare { 0 } else { self.effects.inputs.len() };
+        match &self.authorization {
+            Evidence::Direct(signatures) => {
+                if signatures.len() != signature_count
+                    || signatures.iter().any(|signature| signature.is_empty() || signature.len() > MAX_SIGNATURE_BYTES)
+                {
+                    return Err(Error::InvalidSignature);
+                }
+            }
+            Evidence::Aggregate { identifier, proof } => {
+                if *identifier != 1 {
+                    return Err(Error::Unsupported);
+                }
+                if proof.is_empty() || proof.len() > MAX_AGGREGATE_PROOF_BYTES {
+                    return Err(Error::Limit);
+                }
+            }
+        }
+        Ok(())
+    }
+
+    /// Canonical bounded evidence envelope. Effects identity remains independent
+    /// of signature randomness; a host separately commits the complete wire bytes.
+    pub fn encode(&self) -> Result<Vec<u8>> {
+        self.validate_evidence_shape()?;
+        let mut writer = Writer::default();
+        writer.0.extend_from_slice(b"AleoRecoveryTransaction1");
+        writer.bytes(&self.effects.encode()?);
+        writer.u32(self.legacy.len() as u32);
+        for signature in &self.legacy {
+            writer.bytes(signature);
+        }
+        match &self.authorization {
+            Evidence::Direct(signatures) => {
+                writer.u8(0);
+                writer.u32(signatures.len() as u32);
+                for signature in signatures {
+                    writer.bytes(signature);
+                }
+            }
+            Evidence::Aggregate { identifier, proof } => {
+                writer.u8(1);
+                writer.u16(*identifier);
+                writer.bytes(proof);
+            }
+        }
+        if writer.0.len() > MAX_TRANSACTION_BYTES {
+            return Err(Error::Limit);
+        }
+        Ok(writer.0)
+    }
+
+    pub fn decode(bytes: &[u8]) -> Result<Self> {
+        if bytes.len() > MAX_TRANSACTION_BYTES {
+            return Err(Error::Limit);
+        }
+        let mut reader = Reader(bytes);
+        if reader.take(b"AleoRecoveryTransaction1".len())? != b"AleoRecoveryTransaction1" {
+            return Err(Error::Encoding);
+        }
+        let effects = Effects::decode(&reader.bytes(MAX_EFFECTS_BYTES)?)?;
+        let count = reader.count(MAX_INPUTS)?;
+        let mut legacy = Vec::with_capacity(count);
+        for _ in 0..count {
+            legacy.push(reader.bytes(MAX_LEGACY_AUTHORIZATION_BYTES)?);
+        }
+        let authorization = match reader.u8()? {
+            0 => {
+                let count = reader.count(MAX_INPUTS + MAX_OUTPUTS)?;
+                let mut signatures = Vec::with_capacity(count);
+                for _ in 0..count {
+                    signatures.push(reader.bytes(MAX_SIGNATURE_BYTES)?);
+                }
+                Evidence::Direct(signatures)
+            }
+            1 => Evidence::Aggregate { identifier: reader.u16()?, proof: reader.bytes(MAX_AGGREGATE_PROOF_BYTES)? },
+            _ => return Err(Error::Unsupported),
+        };
+        reader.finish()?;
+        let transaction = Self { effects, legacy, authorization };
+        transaction.validate_evidence_shape()?;
+        if transaction.encode()? != bytes {
+            return Err(Error::Encoding);
+        }
+        Ok(transaction)
+    }
+}
+
+#[cfg(test)]
+mod transaction_tests {
+    use super::*;
+
+    fn transaction() -> Transaction {
+        Transaction {
+            effects: Effects {
+                network: [1; 64],
+                protocol: PROTOCOL_VERSION,
+                policy: 1,
+                policy_commitment: [2; 64],
+                operation: Operation::Prepare,
+                valid_from: 30,
+                valid_until: 39,
+                replay: [3; 64],
+                inputs: vec![[4; 64]],
+                outputs: vec![Record {
+                    version: RecordVersion::V2,
+                    owner: Owner::Enrolled(Key { profile: Profile::ML_DSA_65, bytes: vec![5; 1952] }),
+                    amount: 99,
+                    nonce: [6; 64],
+                    opening: [7; 64],
+                }],
+                fee: 1,
+            },
+            legacy: vec![vec![8; 128]],
+            authorization: Evidence::Direct(vec![vec![9; 3309]]),
+        }
+    }
+
+    #[test]
+    fn transaction_wire_roundtrip_and_mutations() -> Result<()> {
+        let transaction = transaction();
+        let encoded = transaction.encode()?;
+        assert_eq!(Transaction::decode(&encoded)?, transaction);
+        for cut in [0, 1, 20, encoded.len() / 2, encoded.len() - 1] {
+            assert!(Transaction::decode(&encoded[..cut]).is_err());
+        }
+        let mut trailing = encoded.clone();
+        trailing.push(0);
+        assert!(Transaction::decode(&trailing).is_err());
+        let mut unknown = encoded;
+        unknown[0] ^= 1;
+        assert!(Transaction::decode(&unknown).is_err());
+        let mut changed = transaction.clone();
+        changed.effects.fee += 1;
+        assert_ne!(changed.encode()?, transaction.encode()?);
+        assert_ne!(changed.effects.id()?, transaction.effects.id()?);
+        let mut changed = transaction.clone();
+        changed.legacy[0][0] ^= 1;
+        assert_ne!(changed.encode()?, transaction.encode()?);
+        assert_eq!(changed.effects.id()?, transaction.effects.id()?);
+        Ok(())
+    }
+
+    #[test]
+    fn transaction_wire_enforces_evidence_shape_and_limits() {
+        let mut tx = transaction();
+        tx.legacy.clear();
+        assert!(tx.encode().is_err());
+        let mut tx = transaction();
+        tx.authorization = Evidence::Direct(vec![]);
+        assert!(tx.encode().is_err());
+        let mut tx = transaction();
+        tx.legacy[0] = vec![0; 4097];
+        assert!(tx.encode().is_err());
+        let mut tx = transaction();
+        tx.authorization = Evidence::Direct(vec![vec![0; 4097]]);
+        assert!(tx.encode().is_err());
+        let mut tx = transaction();
+        tx.effects.operation = Operation::Migrate;
+        assert!(tx.encode().is_err());
+        assert!(Transaction::decode(&vec![0; MAX_TRANSACTION_BYTES + 1]).is_err());
     }
 }

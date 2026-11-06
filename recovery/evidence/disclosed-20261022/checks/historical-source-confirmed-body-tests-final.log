@@ -1,0 +1,16 @@
+   Compiling snarkvm-synthesizer v4.12.0 (/workspace/snarkVM/synthesizer)
+    Finished `test` profile [optimized + debuginfo] target(s) in 6m 38s
+     Running unittests src/lib.rs (/workspace/snarkOS/target/debug/deps/snarkvm_synthesizer-19bf1c6812b18e77)
+
+running 3 tests
+
+Initializing 'TestRng' with seed '9323508124500100141'
+
+Called TestRng with seed 9323508124500100141 40 times
+test vm::helpers::rewards::tests::test_historical_mapping_uses_the_supplied_next_stake ... ok
+test vm::recovery_tests::historical_source_requires_confirmed_creation_not_an_aborted_index ... ok
+RECOVERY_HISTORICAL_V0 genesis=ab1njne0yg0ygw9kwyldxw942syzvhvx7gjdp87nadermkt45w4x5ps88sgkx coinbase_target=31 proof_target=8 commitment=5522770322461788144226777704736651451341496981902509953914383159141403291591field
+test vm::recovery_tests::pinned_historical_v0_genesis_is_authenticated_by_current_vm ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 207 filtered out; finished in 0.35s
+

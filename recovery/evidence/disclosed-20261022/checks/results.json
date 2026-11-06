@@ -1,0 +1,378 @@
+{
+  "scope": "Explicit whitelist of public validation logs and redacted CI runner summary; no wallets, account/PQ keys or runtime directories copied.",
+  "source_status": "Uncommitted core integration; exact source snapshots owned by the top-level source manifest.",
+  "pending": [],
+  "logs": {
+    "vm-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-vm-clippy-final.log",
+      "status": "PASS",
+      "meaning": "VM workspace/all-target/all-feature strict Clippy, 1m19s",
+      "bytes": 1169,
+      "sha256": "df565b44dd46bd0270dba81f2386be0007c3b8293b5cc48601506bc487b42c67"
+    },
+    "os-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-node-clippy-complete.log",
+      "status": "PASS",
+      "meaning": "OS workspace/all-target/all-feature strict Clippy, 2m17s",
+      "bytes": 7385,
+      "sha256": "cf71001e1bc8044d0f33647d9839665feac25225e0a1764cb44f362ddbd93d7a"
+    },
+    "bft-unit.log": {
+      "source": "/workspace/security-evaluation/disclosed-bft-unit-fixed.log",
+      "status": "PASS",
+      "meaning": "Full BFT unit suite, 131/131 tests, 1095.32s",
+      "bytes": 11120,
+      "sha256": "4a05a65ff057994ab3ebc7cb8533495848fd4cada8942f3150b8c9e8159e12d9"
+    },
+    "node-build-initial.log": {
+      "source": "/workspace/security-evaluation/disclosed-node-build.log",
+      "status": "PASS",
+      "meaning": "PASS earlier capable test_network build, 6m53s; superseded by the recorded source-matched prior-candidate relink",
+      "bytes": 7716,
+      "sha256": "4a2e47147924c5e3b946a97baa0472e73337a5c34d2171c9d3a780cb9f3c53fd"
+    },
+    "vm-format.log": {
+      "source": "/workspace/security-evaluation/disclosed-vm-fmt-doc-refresh.log",
+      "status": "PASS",
+      "command": "cargo +nightly-2026-04-02 fmt --all -- --check",
+      "exit_code": 0,
+      "meaning": "Fresh pinned formatting check after core source fixes; empty output with observed exit0",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "os-format.log": {
+      "source": "/workspace/security-evaluation/disclosed-os-fmt-doc-refresh.log",
+      "status": "PASS",
+      "command": "cargo +nightly-2026-04-02 fmt --all -- --check",
+      "exit_code": 0,
+      "meaning": "Fresh pinned formatting check after core source fixes; empty output with observed exit0",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "node-build-final.log": {
+      "source": "/workspace/security-evaluation/disclosed-node-build-final.log",
+      "status": "PASS",
+      "meaning": "PASS source-matched prior-candidate test_network build, 12m30s elapsed including about6min build-lock waiting; not the final hardened target",
+      "bytes": 2058,
+      "sha256": "de9883c876cd2fc39ac2e53a4ab97113930023ea9552e1d3074b08f3b1080d1d"
+    },
+    "node-final-build-inputs.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/node-final-build-after.json",
+      "status": "PASS",
+      "meaning": "Before/after compilation inputs match immutable sources-build-candidate-final; unchanged inputs; final binary identity",
+      "bytes": 280148,
+      "sha256": "d8744cae60ca2ea9dc0b62d605c9246882d5b0604a83ad2e0cca78ea2fb151fc"
+    },
+    "ci-devnet-warm-summary.log": {
+      "source": "/workspace/security-evaluation/disclosed-ci-devnet-warm.log",
+      "status": "FAIL",
+      "meaning": "Runner outcome summary with all private/view-key patterns redacted; original raw log retained externally",
+      "bytes": 7020,
+      "sha256": "933d60454e2a43356ce83071fed9e347d71d7736db392f10246e29b2b853a23b"
+    },
+    "historical-dev-targets-vm.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/historical-v0-dev-targets-vm-test.log",
+      "status": "PASS",
+      "meaning": "Pinned old development-target genesis/current VM canonical parsing, insertion and source lookup; 1/1 in0.26s, build11m58s; prior to later membership hardening",
+      "bytes": 5349,
+      "sha256": "25d48ffcd9f37240a73cca7916cfeffc86e915c26c7621e5a863c98e5d0b7a26"
+    },
+    "native-devnet-interrupted.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/devnet-native-20261029-test-targets/results.json",
+      "status": "INTERRUPTED",
+      "meaning": "Safe summary of interrupted prior-candidate four-validator run, three complete genuine upgrade proofs, no final acceptance result",
+      "bytes": 3088,
+      "sha256": "6763abbd24ffdd85b6df295e629d920b51e66078f4c1d6a33f53ead47200a125"
+    },
+    "harness-regression-tests.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/harness-regression-tests.log",
+      "status": "PASS",
+      "meaning": "9 harness evidence/cache regressions in0.007s; not network acceptance",
+      "bytes": 1361,
+      "sha256": "08c534dfea2e34b5a153c70095b96afdf52b5ad3208fa52db934e701bd5c32f8"
+    },
+    "harness-regression-results.json": {
+      "source": "Retained scoped summary",
+      "status": "PASS",
+      "meaning": "Final harness source9a656fb3\u2026; nine regressions repeatedPASS after cached-positive confirmation-race handling; prior identity retained",
+      "bytes": 2762,
+      "sha256": "1894db54402cf9dacda4eb3fcb08ba2c70dbd05bedc69bfbbe8f8564180466e5"
+    },
+    "historical-source-confirmed-body-test.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/historical-source-confirmed-body-test.log",
+      "status": "FAIL",
+      "meaning": "FAIL first membership test fixture setup (normal536870911 vs dev31) before verifier; corrected fixture retry separately PASS3/3",
+      "bytes": 794,
+      "sha256": "3195fa6354b19cd538fa7a8ed8d5287112e04fb21cdb0464aa3aeeba7e7e541d"
+    },
+    "historical-source-confirmed-body-tests-final.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/historical-source-confirmed-body-tests-final.log",
+      "status": "PASS",
+      "meaning": "PASS3/3 historical-filter tests in0.35s after6m38s build; actual confirmed origin positive plus archive/aborted-index rejection",
+      "bytes": 987,
+      "sha256": "c6fb14e6ed67d76cbacab2a8b63083a9e6506be252e99a469228cb5e5620bc5c"
+    },
+    "historical-source-results.json": {
+      "source": "Retained scoped summary",
+      "status": "PASS",
+      "meaning": "Exact production/test/binary identities, command and scoped source-membership result; proof-backed rejected-fee positive remains untested",
+      "bytes": 2692,
+      "sha256": "8065c17a9f0eeee4f384ac0e9b7dbd54ad506f45d0a9288bf2224fbd62e57e8a"
+    },
+    "confirmed-membership-clippy-results.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-clippy-results.json",
+      "status": "PASS",
+      "meaning": "Observed exact strict VM/OS commands, exits and unchanged helper/test hashes",
+      "bytes": 1465,
+      "sha256": "0fb7697447d3867ba1f8012dc6c3169a3f7d80b6398b98c5cccb88ddbf6d3549"
+    },
+    "confirmed-membership-vm-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-vm-clippy.log",
+      "status": "PASS",
+      "meaning": "Post-membership VM workspace/all-target/all-feature strict Clippy,29.44s Cargo/29.989s wall",
+      "bytes": 489,
+      "sha256": "66ae3bd9c2e5dac1373b213552239552d174fdcdc953f99144a3bba5b3f726bb"
+    },
+    "confirmed-membership-node-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-node-clippy.log",
+      "status": "PASS",
+      "meaning": "Post-membership OS workspace/all-target/all-feature strict Clippy,1m11s Cargo/71.554s wall",
+      "bytes": 2093,
+      "sha256": "37c4d0465cfc523ac8693fdaea0ec40a0541e1282f21975b3c8bf9c70f50a0cb"
+    },
+    "confirmed-membership-vm-format.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-vm-format.log",
+      "status": "PASS",
+      "meaning": "Post-membership core VM pinned nightly formatting; empty log with separately observed exit0",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "confirmed-membership-vm-format-result.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-vm-format-result.json",
+      "status": "PASS",
+      "meaning": "Observed VM pinned fmt command/exit0 and log identity",
+      "bytes": 397,
+      "sha256": "429afaabfc6e97b4be749dae0581d67ffd5f8ca79d994fe1889c2933037efe0b"
+    },
+    "confirmed-membership-os-format.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-os-format.log",
+      "status": "PASS",
+      "meaning": "Post-membership core OS pinned nightly formatting; empty log with separately observed exit0",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "confirmed-membership-os-format-result.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-os-format-result.json",
+      "status": "PASS",
+      "meaning": "Observed OS pinned fmt command/exit0 and log identity",
+      "bytes": 397,
+      "sha256": "218304f315cf05454cbdb25c11395d5fe0ff34f1bcc558b37bb43d284a242ee9"
+    },
+    "prior-capable-debug-binary-archive.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/prior-capable-debug-binary-archive.json",
+      "status": "PASS",
+      "meaning": "Lossless prior debug binary archive identity, decompression verification and restoration command; not a new target build",
+      "bytes": 908,
+      "sha256": "60e7094cd90208413c44b3597d4718b692424a64e4f20e1a922499f91cae3864"
+    },
+    "prior-production-vm-libtest-archive.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/prior-production-vm-libtest-archive.json",
+      "status": "PASS",
+      "meaning": "Lossless prior production VM libtest archive metadata; decompression SHA verified, current focused-test binary remains; no large executable copied",
+      "bytes": 1039,
+      "sha256": "889c169ba7e29c8b7306b83a2b624b77d8df849ea0b68320d0d029b43ff6f278"
+    },
+    "cost-boundary-red.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-red.log",
+      "status": "EXPECTED_FAIL",
+      "bytes": 766,
+      "sha256": "ee234d62d862ef7ce3acc0741a4f7c676948f6a37bc409394a38692855dd7454",
+      "meaning": "Focused proposer resource-cost regression using actual public native transaction; red fails with old activation guard, green passes with resource-only estimation"
+    },
+    "cost-boundary-green.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-green.log",
+      "status": "PASS",
+      "bytes": 543,
+      "sha256": "20d2b3bcf4464f588ff26dd0ba6625c9be9e6748cdd302a824db6816a9eb086c",
+      "meaning": "Focused proposer resource-cost regression using actual public native transaction; red fails with old activation guard, green passes with resource-only estimation"
+    },
+    "cost-boundary-regression-results.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-regression-results.json",
+      "status": "PASS",
+      "bytes": 1172,
+      "sha256": "70406330723bcf226b5464da0e7c42f13318e4bbfd387d6c5bc35e23ed18cf7b"
+    },
+    "cost-final-snarkVM-fmt.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-final-snarkVM-fmt.log",
+      "status": "PASS",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cost-final-snarkVM-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-final-snarkVM-clippy.log",
+      "status": "PASS",
+      "bytes": 1169,
+      "sha256": "4951798aa24dffedf99ea5c4ea239b8de30317585c9f218e9f977da7e433390c"
+    },
+    "cost-final-snarkOS-fmt.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-final-snarkOS-fmt.log",
+      "status": "PASS",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cost-final-snarkOS-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-final-snarkOS-clippy.log",
+      "status": "PASS",
+      "bytes": 1941,
+      "sha256": "fcb3a887bb42e06cf860b0bcf002acb794770f7d07148daf8119745847b36392"
+    },
+    "cost-final-snarkVM-aerie-fmt.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-final-snarkVM-aerie-fmt.log",
+      "status": "PASS",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cost-final-snarkVM-aerie-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-final-snarkVM-aerie-clippy.log",
+      "status": "PASS",
+      "bytes": 1253,
+      "sha256": "d5ccfca8bd8ec648cd0ca7df4214358616d9f3cfc33f4eb81b1cdb3b4c330271"
+    },
+    "cost-final-snarkOS-aerie-fmt.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-final-snarkOS-aerie-fmt.log",
+      "status": "PASS",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cost-final-snarkOS-aerie-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-final-snarkOS-aerie-clippy.log",
+      "status": "PASS",
+      "bytes": 2091,
+      "sha256": "99ed8c785641650b2d1c63dd576b1bfb3083090205c6c3b0048c135fbbcf0cca"
+    },
+    "cost-boundary-static-results.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-static-results.json",
+      "status": "PASS",
+      "bytes": 5311,
+      "sha256": "0e5f660c5fda4a5902d936b1e4b28802cb7ef428ce1d1a49ab795793b9a58c21"
+    },
+    "native-cost-boundary-failure.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/native-cost-boundary-failure.json",
+      "status": "FAIL_PRIOR_CANDIDATE",
+      "bytes": 1792,
+      "sha256": "479a2be00659bbd1f5ecdf262743348b44d4c3a2057dace0283b0b3fec2ffb07"
+    },
+    "native-final-summary.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/native-final-summary.json",
+      "status": "PASS",
+      "bytes": 1367497,
+      "sha256": "22d031df0eed77ebbeeda5a7de5a1f31b824017d81cd27533bcdccb9684687f9"
+    },
+    "cost-boundary-node-build-after.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-node-build-after.json",
+      "status": "PASS",
+      "bytes": 282234,
+      "sha256": "9e71734e50dfaa0fd7627f825b5b61aa25ba79691d4c953eff7ecb8d350793e6"
+    },
+    "relay-resume-harness-tests.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/relay-resume-harness-tests.log",
+      "status": "PASS",
+      "bytes": 1520,
+      "sha256": "659da1757b193e79fc91a3805d8bb0a3130d45b013ab5d5d44da69b5ec8468a2"
+    },
+    "final-python-static-results.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-static-results.json",
+      "status": "PASS",
+      "bytes": 1889,
+      "sha256": "7870d0dda6864f4812dad180785be92f391a3c8e4f16f340255a85bd6bf02ae3"
+    },
+    "ci-final-optimized-results.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/ci-final-optimized/results.json",
+      "status": "PASS",
+      "bytes": 4920,
+      "sha256": "ebd8debc853d96a7e80d3d7330d543c97e164f8ba98439129ce864d1ad4cedc3"
+    },
+    "ci-final-optimized-summary.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/ci-final-optimized/runner-summary.log",
+      "status": "PASS",
+      "bytes": 5718,
+      "sha256": "189e3ced00685a3267bbccaad07df4583f409dc0ab9ba063d97157a0841b8462"
+    },
+    "relay-and-ci-progress.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/relay-and-ci-progress.json",
+      "status": "PASS",
+      "bytes": 1805,
+      "sha256": "9cad5ad329e317e2ba8c76d93182af6a6321025e089202d87ac4febf5f1444a4"
+    },
+    "final-python-snarkOS-fmt.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-snarkOS-fmt.log",
+      "status": "PASS",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final-python-snarkOS-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-snarkOS-clippy.log",
+      "status": "PASS",
+      "bytes": 919,
+      "sha256": "aeea241b114f93672aa7732c27ce378f067bb8e4523c2e0627f6d94f9150b503"
+    },
+    "final-python-snarkOS-aerie-fmt.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-snarkOS-aerie-fmt.log",
+      "status": "PASS",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final-python-snarkOS-aerie-clippy.log": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/final-python-snarkOS-aerie-clippy.log",
+      "status": "PASS",
+      "bytes": 991,
+      "sha256": "dfe8db219834714a2df798d920c7033c676216c5b500f6d7613afac70727dbaf"
+    },
+    "native-final-state.json": {
+      "status": "PASS",
+      "bytes": 46811,
+      "sha256": "850d04c9ad593c38d4bd12e485465ffcd7e6f31c7cb91b35f007f3a5838be88b",
+      "meaning": "Public disclosed state; no signing secrets"
+    },
+    "native-final-decoded-checkpoint.json": {
+      "status": "PASS",
+      "bytes": 54069,
+      "sha256": "5be6f77b00ab499388e9ce99384676637aceccf7667c16554b712a5570e40166",
+      "meaning": "Public disclosed state; no signing secrets"
+    },
+    "final-compiled-inputs-verification.json": {
+      "source": "/workspace/security-evaluation/disclosed-recovery-20261022/final-compiled-inputs-verification.json",
+      "status": "PASS",
+      "bytes": 282234,
+      "sha256": "ff17d31560ac3b99cd60d1447d70cfe88e6cedc2e49179a9d4e0b895f6785969"
+    }
+  },
+  "refreshed_utc": "2026-10-29T12:59:22.369084+00:00",
+  "ci_devnet": {
+    "status": "FAIL",
+    "results": "ci-devnet-warm-results.json",
+    "reason": "Validator0 log10704834B exceeds2097152B cap after functional cases and8-node height60; threshold unchanged"
+  },
+  "current_target_status": "Confirmed-body membership helper focused regression PASS3/3; both core workspace/all-target/all-feature strict Clippy and pinned fmt PASS on matching source. Prior broader VM/debug evidence remains prior-candidate. Optimized build/native network revalidation pending.",
+  "prior_debug_candidate": {
+    "status": "PASS",
+    "binary_sha256": "0a2ed553ec48ddf3791a166803eaa2b13f31b6653aa9ee0eba8fa43edd10765f",
+    "candidate_manifest_sha256": "20f7c721966654edf61cee439148bd4fc50154de17e6a3fc1025302bcdc973e4",
+    "matches_candidate_compile_inputs": true,
+    "unchanged_build_inputs": true,
+    "elapsed": "12m30s including about6min lock waiting",
+    "runtime_validation": "Required CI warm retry FAIL on logfile-size gate after functional cases; native four-validator recovery acceptance pending",
+    "source_status": "Immutable prior candidate; predates subsequent production confirmed-body membership hardening."
+  },
+  "post_membership_static": {
+    "status": "PASS",
+    "vm_clippy_cargo_elapsed": "29.44s",
+    "os_clippy_cargo_elapsed": "1m11s",
+    "command": "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "environment": "Same env as historical-source-results.json focused test, except CARGO_BUILD_JOBS=2",
+    "pinned_formatting": "Both cargo +nightly-2026-04-02 fmt --all -- --check observed exit0",
+    "source_identity": "Helper and tests match confirmed-membership-clippy-results.json and historical-source-results.json",
+    "boundary": "Static checks are for the fixed candidate; optimized build and native transaction-bearing network validation remain pending."
+  },
+  "completion": "Local disclosed credits path validated, including composed resumed run. Cryptographic/public-network/scaling limits remain explicit."
+}

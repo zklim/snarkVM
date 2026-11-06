@@ -1,0 +1,36 @@
+{
+  "status": "FAIL_PROPOSER_ACTIVATION_BOUNDARY",
+  "binary_sha256": "348a089996559104c9c397d62fc00c60d63d2e535c6ab475ad9af1115b0bdbfb",
+  "h1": 60,
+  "accepted_height": 24,
+  "native_admissions": {
+    "prepare-ml": {
+      "transaction_id": "at1nxhvv3kyx5pu6vva3yrx93julu9ppm73t9qyeela7gfggwda8vys388p9w",
+      "admission": {
+        "status": 200,
+        "body": "\"at1nxhvv3kyx5pu6vva3yrx93julu9ppm73t9qyeela7gfggwda8vys388p9w\"",
+        "seconds": 0.20355315401684493
+      }
+    },
+    "prepare-competing": {
+      "transaction_id": "at1xumtqcfrwrvuk9wyu6zzgjv5vkdcwsly6t2grl7ncw9wad4fqsqqen0wtt",
+      "admission": {
+        "status": 200,
+        "body": "\"at1xumtqcfrwrvuk9wyu6zzgjv5vkdcwsly6t2grl7ncw9wad4fqsqqen0wtt\"",
+        "seconds": 0.20720847696065903
+      }
+    }
+  },
+  "discard_log_lines": [
+    "2026-10-29T16:50:34.924335Z DEBUG Proposing - Skipping and discarding transaction 'at1xumtqcfrwrvuk..' - Unable to compute transaction spent cost",
+    "2026-10-29T16:50:34.928541Z DEBUG Proposing - Skipping and discarding transaction 'at1nxhvv3kyx5pu6..' - Unable to compute transaction spent cost"
+  ],
+  "source_files": {},
+  "interpretation": "At the H1 boundary, proposer resource estimation uses the V22 parent version; a redundant activation guard rejects native cost estimation before candidate-height V23 authorization. Transactions are discarded despite REST200. Run stopped after observing failure, not counted as a timeout or pass.",
+  "confirmed_legacy_transaction_ids": [
+    "at1hajalgkx5y0ah56wczjkykyn3xga3y436ut4g5rf8ewgw2dmc5zqvm6uze",
+    "at1hajalgkx5y0ah56wczjkykyn3xga3y436ut4g5rf8ewgw2dmc5zqvm6uze",
+    "at1hajalgkx5y0ah56wczjkykyn3xga3y436ut4g5rf8ewgw2dmc5zqvm6uze",
+    "at1hajalgkx5y0ah56wczjkykyn3xga3y436ut4g5rf8ewgw2dmc5zqvm6uze"
+  ]
+}

@@ -80,7 +80,18 @@ impl<N: Network> FromBits for FinalizeOperation<N> {
                 // Return the finalize operation.
                 Ok(Self::RemoveMapping(mapping_id))
             }
-            6.. => bail!("Invalid finalize operation variant '{variant}'"),
+            6 => {
+                let mut before = [0u8; 64];
+                let mut after = [0u8; 64];
+                for byte in &mut before {
+                    *byte = u8::from_bits_le(&next_bits(8)?)?;
+                }
+                for byte in &mut after {
+                    *byte = u8::from_bits_le(&next_bits(8)?)?;
+                }
+                Ok(Self::Recovery(before, after))
+            }
+            7.. => bail!("Invalid finalize operation variant '{variant}'"),
         }
     }
 
@@ -148,7 +159,18 @@ impl<N: Network> FromBits for FinalizeOperation<N> {
                 // Return the finalize operation.
                 Ok(Self::RemoveMapping(mapping_id))
             }
-            6.. => bail!("Invalid finalize operation variant '{variant}'"),
+            6 => {
+                let mut before = [0u8; 64];
+                let mut after = [0u8; 64];
+                for byte in &mut before {
+                    *byte = u8::from_bits_be(&next_bits(8)?)?;
+                }
+                for byte in &mut after {
+                    *byte = u8::from_bits_be(&next_bits(8)?)?;
+                }
+                Ok(Self::Recovery(before, after))
+            }
+            7.. => bail!("Invalid finalize operation variant '{variant}'"),
         }
     }
 }
@@ -157,6 +179,15 @@ impl<N: Network> ToBits for FinalizeOperation<N> {
     /// Returns the little-endian bits of the finalize operation.
     fn write_bits_le(&self, vec: &mut Vec<bool>) {
         match self {
+            Self::Recovery(before, after) => {
+                6u8.write_bits_le(vec);
+                for byte in before {
+                    byte.write_bits_le(vec);
+                }
+                for byte in after {
+                    byte.write_bits_le(vec);
+                }
+            }
             Self::InitializeMapping(mapping_id) => {
                 // Write the variant.
                 0u8.write_bits_le(vec);
@@ -209,6 +240,15 @@ impl<N: Network> ToBits for FinalizeOperation<N> {
     /// Returns the big-endian bits of the finalize operation.
     fn write_bits_be(&self, vec: &mut Vec<bool>) {
         match self {
+            Self::Recovery(before, after) => {
+                6u8.write_bits_be(vec);
+                for byte in before {
+                    byte.write_bits_be(vec);
+                }
+                for byte in after {
+                    byte.write_bits_be(vec);
+                }
+            }
             Self::InitializeMapping(mapping_id) => {
                 // Write the variant.
                 0u8.write_bits_be(vec);

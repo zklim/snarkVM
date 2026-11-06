@@ -78,7 +78,7 @@ impl<N: Network, C: ConsensusStorage<N>> Ledger<N, C> {
 
     /// Returns `true` if the given serial number exists.
     pub fn contains_serial_number(&self, serial_number: &Field<N>) -> Result<bool> {
-        self.vm.transition_store().contains_serial_number(serial_number)
+        self.vm.contains_serial_number(serial_number)
     }
 
     /// Returns `true` if the given tag exists.

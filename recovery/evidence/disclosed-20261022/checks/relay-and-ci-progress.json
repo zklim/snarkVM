@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "stages": [
+    {
+      "name": "resume-native",
+      "command": [
+        "python3",
+        "/workspace/snarkOS/scripts/test_disclosed_recovery.py",
+        "--binary",
+        "/workspace/snarkOS/target/release/snarkos",
+        "--build-manifest",
+        "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-node-build-after.json",
+        "--output",
+        "/workspace/security-evaluation/disclosed-recovery-20261022/devnet-native-cost-boundary-fixed",
+        "--network",
+        "1",
+        "--h1",
+        "60",
+        "--h2",
+        "120",
+        "--genesis-file",
+        "/workspace/snarkVM/recovery/history-tools/fixtures/v0-testnet-dev-genesis/genesis.bin",
+        "--genesis-hash",
+        "ab1njne0yg0ygw9kwyldxw942syzvhvx7gjdp87nadermkt45w4x5ps88sgkx",
+        "--client-relay",
+        "--resume-relay"
+      ],
+      "status": "PASS",
+      "pid": 263085,
+      "exit_code": 0,
+      "seconds": 37.83936010196339,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/resume-native-continuation.log",
+      "log_sha256": "436c43bff23246c102e38c54769da8eef7147f74842a11b701f384185e56b7ad"
+    },
+    {
+      "name": "ordinary-ci",
+      "command": [
+        "python3",
+        "/workspace/security-evaluation/disclosed-recovery-20261022/ci-final-optimized/run.py",
+        "--build-manifest",
+        "/workspace/security-evaluation/disclosed-recovery-20261022/cost-boundary-node-build-after.json"
+      ],
+      "status": "PASS",
+      "pid": 263532,
+      "exit_code": 0,
+      "seconds": 209.02111558499746,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/ordinary-ci-continuation.log",
+      "log_sha256": "ebd8debc853d96a7e80d3d7330d543c97e164f8ba98439129ce864d1ad4cedc3"
+    }
+  ]
+}

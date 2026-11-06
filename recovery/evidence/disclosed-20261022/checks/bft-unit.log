@@ -1,0 +1,157 @@
+   Compiling snarkos-node-bft v4.12.0 (/workspace/snarkOS/node/bft)
+    Finished `test` profile [optimized + debuginfo] target(s) in 4m 48s
+     Running unittests src/lib.rs (target/debug/deps/snarkos_node_bft-02a137d709759f2f)
+
+running 131 tests
+test bft::tests::test_bft_gc_on_commit ... ok
+test bft::tests::test_is_leader_quorum_even ... ok
+test bft::tests::test_is_leader_quorum_even_out_of_sync ... ok
+test bft::tests::test_is_leader_quorum_odd ... ok
+test bft::tests::test_commit_via_is_linked_with_skipped_anchor ... ok
+test bft::tests::test_commit_via_is_linked ... ok
+test bft::tests::test_order_dag_with_dfs ... ok
+test bft::tests::test_order_dag_with_dfs_fails_on_missing_previous_certificate ... ok
+test bft::tests::test_sync_bft_dag_at_bootup ... ok
+test bft::tests::test_update_leader_certificate_bad_round ... ok
+test bft::tests::test_update_leader_certificate_even ... ok
+test bft::tests::test_update_leader_certificate_odd ... ok
+test bft::tests::test_sync_bft_dag_at_bootup_dfs ... ok
+test bft::tests::test_sync_bft_dag_at_bootup_shutdown ... ok
+test gateway::prop_tests::gateway_dev_initialization ... ok
+test gateway::prop_tests::gateway_prod_initialization ... ok
+test gateway::prop_tests::test_per_connection_queue_depth ... ok
+test gateway::prop_tests::trusted_only_suppresses_discovery_tasks ... ok
+test gateway::prop_tests::gateway_start ... ok
+test bft::tests::test_is_even_round_ready ... ok
+test helpers::cache::tests::test_seen_inbound_certificates ... ok
+test helpers::cache::tests::test_seen_inbound_connections ... ok
+test helpers::cache::tests::test_seen_inbound_events ... ok
+test helpers::cache::tests::test_seen_inbound_transmissions ... ok
+test helpers::cache::tests::test_seen_outbound_certificates ... ok
+test helpers::cache::tests::test_seen_outbound_validators_requests ... ok
+test helpers::dag::tests::test_dag_commit ... ok
+test helpers::dag::tests::test_dag_empty ... ok
+test helpers::dag::tests::test_dag_insert ... ok
+test helpers::dag::tests::test_is_linked_connected ... ok
+test helpers::dag::tests::test_is_linked_not_connected ... ok
+test helpers::dag::tests::test_is_recently_committed ... ok
+test helpers::partition::tests::test_assign_to_worker ... ok
+test helpers::pending::prop_tests::test_pending_proptest ... ok
+test helpers::cache::tests::test_seen_outbound_events ... ok
+test helpers::cache::tests::test_seen_outbound_transmissions ... ok
+test helpers::pending::tests::test_num_sent_requests ... ok
+test helpers::pending::tests::test_pending ... ok
+test helpers::proposal::prop_tests::initialize_proposal ... ok
+test gateway::prop_tests::test_is_authorized_validator ... ok
+test helpers::proposal::tests::test_bytes ... ok
+test helpers::ready::tests::test_clear_solutions ... ok
+test helpers::ready::tests::test_insert_front ... ok
+test helpers::ready::tests::test_ready ... ok
+test helpers::ready::tests::test_ready_duplicate ... ok
+test helpers::pending::tests::test_expired_items ... ok
+test helpers::signed_proposals::tests::test_is_valid ... ok
+test helpers::signed_proposals::tests::test_bytes ... ok
+test helpers::storage::tests::test_certificate_duplicate ... ok
+test helpers::storage::tests::test_certificate_insert_remove ... ok
+test helpers::storage::tests::test_certificate_insert_with_aborted_transmissions ... ok
+test helpers::storage::tests::test_check_certificate_error_other ... ok
+test helpers::storage::tests::test_check_certificate_error_round_too_low ... ok
+test helpers::storage::tests::test_check_certificate_error_same_author_and_round ... ok
+test helpers::storage::tests::test_check_certificate_error_same_certificate ... ok
+test helpers::storage::tests::test_concurrent_gc_round_updates_never_regress ... ok
+test helpers::storage::tests::test_concurrent_round_and_height_updates_never_regress ... ok
+test helpers::storage::tests::test_insert_certificate_counts_a_previously_aborted_transmission ... ok
+test helpers::storage::tests::test_invalid_certificate_insufficient_previous_certs ... ok
+test helpers::pending::tests::test_expired_callbacks ... ok
+test helpers::storage::tests::test_invalid_certificate_wrong_round_number ... ok
+test helpers::storage::tests::test_round_cancellation_token ... ok
+test helpers::storage::tests::test_invalid_incoming_certificate_missing_signature ... ok
+test helpers::storage::prop_tests::test_certificate_duplicate ... ok
+test helpers::storage::tests::test_valid_incoming_certificate ... ok
+test helpers::timestamp::prop_tests::test_check_timestamp_for_liveness ... ok
+test helpers::timestamp::prop_tests::test_check_timestamp_for_liveness_too_far_in_future ... ok
+test primary::proposal_task::tests::test_proposal_task_advances_without_leader_cert ... ok
+test primary::proposal_task::tests::test_proposal_task_calls_propose_batch_on_signal ... ok
+test primary::proposal_task::tests::test_proposal_task_exits_on_round_advancement ... ok
+test primary::proposal_task::tests::test_proposal_task_retries_after_leader_timeout ... ok
+test primary::proposal_task::tests::test_proposal_task_retries_on_false ... ok
+test primary::tests::test_add_signature_to_batch_certified_different_id ... ok
+test primary::tests::test_add_signature_to_batch_certified_matching_id ... ok
+test helpers::proposal_cache::tests::test_bytes ... ok
+test primary::tests::test_add_signature_to_batch_certifying_different_id_unknown ... ok
+test primary::tests::test_add_signature_to_batch_certifying_matching_no_quorum ... ok
+test primary::tests::test_add_signature_to_batch_certifying_matching_quorum_reached ... ok
+test primary::tests::test_add_signature_to_batch_none_state ... ok
+test helpers::storage::tests::test_sync_certificate_with_a_previously_aborted_transmission_the_ledger_does_not_know ... ok
+test helpers::storage::tests::test_sync_certificate_with_a_previously_aborted_transmission ... ok
+test primary::tests::test_add_signature_to_batch_certifying_different_id_in_storage ... ok
+test primary::tests::test_batch_propose_from_peer ... ok
+test primary::tests::test_batch_propose_from_peer_with_an_aborted_transmission ... ok
+test primary::tests::test_batch_propose_from_peer_in_round has been running for over 60 seconds
+test primary::tests::test_batch_propose_from_peer_in_round_wrong_round has been running for over 60 seconds
+test primary::tests::test_batch_propose_from_peer_wrong_round ... ok
+test primary::tests::test_batch_propose_from_peer_with_past_timestamp has been running for over 60 seconds
+test primary::tests::test_batch_propose_from_peer_in_round ... ok
+test primary::tests::test_batch_signature_from_peer ... ok
+test primary::tests::test_batch_propose_from_peer_with_past_timestamp ... ok
+test primary::tests::test_batch_signature_from_peer_batch_being_certified ... ok
+test primary::tests::test_batch_signature_from_peer_already_certified ... ok
+test primary::tests::test_batch_signature_from_peer_no_quorum ... ok
+test primary::tests::test_batch_signature_from_peer_in_round has been running for over 60 seconds
+test primary::tests::test_batch_signature_from_peer_in_round_no_quorum has been running for over 60 seconds
+test primary::tests::test_batch_signature_from_peer_unknown_id_while_certifying ... ok
+test primary::tests::test_check_proposed_batch_for_expiration has been running for over 60 seconds
+test primary::tests::test_batch_propose_from_peer_in_round_wrong_round ... ok
+test primary::tests::test_fetch_missing_transmissions_fetches_an_aborted_transmission ... ok
+test primary::tests::test_insert_certificate_with_aborted_transmissions has been running for over 60 seconds
+test primary::tests::test_check_proposed_batch_for_expiration ... ok
+test primary::tests::test_propose_batch ... ok
+test primary::tests::test_batch_signature_from_peer_in_round ... ok
+test primary::tests::test_propose_batch_in_round has been running for over 60 seconds
+test primary::tests::test_propose_batch_over_spend_limit has been running for over 60 seconds
+test primary::tests::test_insert_certificate_with_aborted_transmissions ... ok
+test primary::tests::test_propose_batch_over_spend_limit ... ok
+test primary::tests::test_propose_batch_skips_an_aborted_first_transmission ... ok
+test primary::tests::test_propose_batch_with_no_transmissions ... ok
+test primary::tests::test_propose_batch_skip_transmissions_from_previous_certificates has been running for over 60 seconds
+test primary::tests::test_propose_batch_in_round ... ok
+test primary::tests::test_batch_signature_from_peer_in_round_no_quorum ... ok
+test primary::tests::test_propose_batch_with_storage_round_behind_proposal_lock ... ok
+test primary::tests::test_propose_batch_with_storage_round_behind_proposal has been running for over 60 seconds
+test primary::tests::test_propose_batch_without_previous_round_quorum ... ok
+test primary::tests::test_signed_proposal_cache_never_moves_backwards ... ok
+test primary::tests::test_resend_supersedes_previous_resends has been running for over 60 seconds
+test primary::tests::test_sync_with_same_certificate_concurrently has been running for over 60 seconds
+test primary::tests::test_propose_batch_skip_transmissions_from_previous_certificates ... ok
+test primary::tests::test_worker_retains_a_transmission_for_an_aborted_id ... ok
+test primary::tests::test_resend_supersedes_previous_resends ... ok
+test sync::tests::test_commit_chain_with_bft has been running for over 60 seconds
+test sync::tests::test_commit_chain_with_swich_to_bft has been running for over 60 seconds
+test primary::tests::test_sync_with_same_certificate_concurrently ... ok
+test primary::tests::test_propose_batch_with_storage_round_behind_proposal ... ok
+test sync::tests::test_commit_chain_with_switch_to_fast_sync has been running for over 60 seconds
+test sync::tests::test_commit_chain_with_bft ... ok
+test sync::tests::test_finish_certificate_request_rejects_invalid_certificate ... ok
+test sync::tests::test_commit_chain_with_swich_to_bft ... ok
+test sync::tests::test_sync_updates_storage_with_block_certificates ... ok
+test worker::prop_tests::invalid_worker_id ... ok
+test worker::prop_tests::worker_initialization ... ok
+test sync::tests::test_commit_chain_without_bft has been running for over 60 seconds
+test worker::tests::test_flood_transmission_requests ... ok
+test worker::tests::test_max_redundant_requests ... ok
+test worker::tests::test_process_solution_nok ... ok
+test sync::tests::test_pending_certificates has been running for over 60 seconds
+test worker::tests::test_process_solution_ok ... ok
+test sync::tests::test_commit_chain_with_switch_to_fast_sync ... ok
+test worker::tests::test_process_transaction_nok ... ok
+test worker::tests::test_process_transmission ... ok
+test worker::tests::test_process_transmission_from_peer_ignores_capacity ... ok
+test worker::tests::test_process_transmission_from_ping_respects_capacity ... ok
+test worker::tests::test_send_transmission ... ok
+test worker::tests::test_storage_gc_on_initialization ... ok
+test sync::tests::test_commit_chain_without_bft ... ok
+test worker::tests::test_process_transaction_ok ... ok
+test sync::tests::test_pending_certificates ... ok
+
+test result: ok. 131 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1095.32s
+

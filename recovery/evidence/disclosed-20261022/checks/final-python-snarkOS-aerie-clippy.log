@@ -1,0 +1,13 @@
+   Compiling snarkos-node-network v4.12.0 (/workspace/snarkOS-aerie/node/network)
+    Checking snarkos-node-bft-events v4.12.0 (/workspace/snarkOS-aerie/node/bft/events)
+    Checking snarkos-node-router-messages v4.12.0 (/workspace/snarkOS-aerie/node/router/messages)
+    Checking snarkos-node-router v4.12.0 (/workspace/snarkOS-aerie/node/router)
+    Checking snarkos-node-sync v4.12.0 (/workspace/snarkOS-aerie/node/sync)
+    Checking snarkos-node-bft v4.12.0 (/workspace/snarkOS-aerie/node/bft)
+    Checking snarkos-node-consensus v4.12.0 (/workspace/snarkOS-aerie/node/consensus)
+    Checking snarkos-node-rest v4.12.0 (/workspace/snarkOS-aerie/node/rest)
+    Checking snarkos-node v4.12.0 (/workspace/snarkOS-aerie/node)
+    Checking snarkos-display v4.12.0 (/workspace/snarkOS-aerie/display)
+    Checking snarkos-cli v4.12.0 (/workspace/snarkOS-aerie/cli)
+   Compiling snarkos v4.12.0 (/workspace/snarkOS-aerie)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1m 53s

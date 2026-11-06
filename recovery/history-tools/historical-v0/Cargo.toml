@@ -1,0 +1,25 @@
+[package]
+name = "aleo-historical-v0-fixture"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+
+[workspace]
+
+[features]
+default = []
+genesis = ["dep:ledger", "dep:synthesizer", "dep:aleo-std"]
+test_targets = ["console/test_targets"]
+
+[dependencies]
+console = { package = "snarkvm-console", git = "https://github.com/zklim/snarkVM", rev = "9741f1159a8cd18e2d676d5a095eeffad71ab52c" }
+ledger = { package = "snarkvm-ledger", git = "https://github.com/zklim/snarkVM", rev = "9741f1159a8cd18e2d676d5a095eeffad71ab52c", optional = true }
+synthesizer = { package = "snarkvm-synthesizer", git = "https://github.com/zklim/snarkVM", rev = "9741f1159a8cd18e2d676d5a095eeffad71ab52c", optional = true }
+aleo-std = { version = "=1.0.3", optional = true }
+anyhow = "=1.0.104"
+serde_json = "=1.0.151"
+sha2 = "=0.10.9"
+rand = "=0.8.5"
+rand_chacha = "=0.3.1"
+indexmap = "=2.14.0"

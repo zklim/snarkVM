@@ -25,6 +25,8 @@ pub enum ConfirmedTxType<N: Network> {
     AcceptedDeploy(u32),
     /// An execute transaction that was accepted.
     AcceptedExecute(u32),
+    /// A native recovery transaction that was accepted.
+    AcceptedRecovery(u32),
     /// A deploy transaction that was rejected.
     RejectedDeploy(u32, Rejected<N>),
     /// An execute transaction that was rejected.
@@ -81,6 +83,7 @@ pub mod test_helpers {
         vec![
             sample_accepted_deploy(rng),
             sample_accepted_execution(rng),
+            ConfirmedTxType::AcceptedRecovery(rng.random()),
             sample_rejected_deploy(1, rng),
             sample_rejected_deploy(2, rng),
             sample_rejected_execute(rng),

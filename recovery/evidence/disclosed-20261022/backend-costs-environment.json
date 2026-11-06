@@ -1,0 +1,8 @@
+{
+  "binary_sha256": "e9fc6c51e6653214cca6ce615fb99d651d94fd7a5a73df78acd1a1ee9f848c1e",
+  "rustc": "rustc 1.96.1 (31fca3adb 2026-06-26)\nbinary: rustc\ncommit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd\ncommit-date: 2026-06-26\nhost: x86_64-unknown-linux-gnu\nrelease: 1.96.1\nLLVM version: 22.1.2\n",
+  "test_optimization": 2,
+  "rustflags": "-C target-cpu=skylake",
+  "cgroup_cpu_max": "400000 100000",
+  "scope": "128 direct signature verification samples per profile; shared host with concurrent compilation. Excludes key generation, signing, ownership and ledger verification. Not a throughput benchmark."
+}

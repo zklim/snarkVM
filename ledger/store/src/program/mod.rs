@@ -18,3 +18,5 @@ pub use committee::*;
 
 mod finalize;
 pub use finalize::*;
+
+mod recovery;

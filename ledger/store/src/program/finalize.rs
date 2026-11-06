@@ -85,6 +85,10 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
     type KeyValueMap: for<'a> NestedMap<'a, (ProgramID<N>, Identifier<N>), Plaintext<N>, Value<N>>;
     /// The mapping of `transaction ID` to `rejection reason`.
     type RejectedReasonMap: for<'a> Map<'a, Field<N>, RejectedReason<N>>;
+    /// Canonical recovery checkpoints by height; u32::MAX holds current speculative state.
+    type RecoveryStateMap: for<'a> Map<'a, u32, Vec<u8>>;
+    /// Legacy serials consumed by native preparation, indexed by acceptance height.
+    type RecoverySerialMap: for<'a> Map<'a, Field<N>, u32>;
 
     /// Initializes the program state storage.
     fn open<S: Into<StorageMode>>(storage: S) -> Result<Self>;
@@ -97,6 +101,10 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
     fn key_value_map(&self) -> &Self::KeyValueMap;
     /// Returns the rejection reason map.
     fn rejected_reason_map(&self) -> &Self::RejectedReasonMap;
+    /// Returns canonical recovery checkpoints.
+    fn recovery_state_map(&self) -> &Self::RecoveryStateMap;
+    /// Returns recovery-consumed legacy serials.
+    fn recovery_serial_map(&self) -> &Self::RecoverySerialMap;
 
     /// Returns the storage mode.
     fn storage_mode(&self) -> &StorageMode;
@@ -107,6 +115,8 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
         self.program_id_map().start_atomic();
         self.key_value_map().start_atomic();
         self.rejected_reason_map().start_atomic();
+        self.recovery_state_map().start_atomic();
+        self.recovery_serial_map().start_atomic();
     }
 
     /// Checks if an atomic batch is in progress.
@@ -115,6 +125,8 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
             || self.program_id_map().is_atomic_in_progress()
             || self.key_value_map().is_atomic_in_progress()
             || self.rejected_reason_map().is_atomic_in_progress()
+            || self.recovery_state_map().is_atomic_in_progress()
+            || self.recovery_serial_map().is_atomic_in_progress()
     }
 
     /// Checkpoints the atomic batch.
@@ -123,6 +135,8 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
         self.program_id_map().atomic_checkpoint();
         self.key_value_map().atomic_checkpoint();
         self.rejected_reason_map().atomic_checkpoint();
+        self.recovery_state_map().atomic_checkpoint();
+        self.recovery_serial_map().atomic_checkpoint();
     }
 
     /// Clears the latest atomic batch checkpoint.
@@ -131,6 +145,8 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
         self.program_id_map().clear_latest_checkpoint();
         self.key_value_map().clear_latest_checkpoint();
         self.rejected_reason_map().clear_latest_checkpoint();
+        self.recovery_state_map().clear_latest_checkpoint();
+        self.recovery_serial_map().clear_latest_checkpoint();
     }
 
     /// Rewinds the atomic batch to the previous checkpoint.
@@ -139,6 +155,8 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
         self.program_id_map().atomic_rewind();
         self.key_value_map().atomic_rewind();
         self.rejected_reason_map().atomic_rewind();
+        self.recovery_state_map().atomic_rewind();
+        self.recovery_serial_map().atomic_rewind();
     }
 
     /// Aborts an atomic batch write operation.
@@ -147,6 +165,8 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
         self.program_id_map().abort_atomic();
         self.key_value_map().abort_atomic();
         self.rejected_reason_map().abort_atomic();
+        self.recovery_state_map().abort_atomic();
+        self.recovery_serial_map().abort_atomic();
     }
 
     /// Finishes an atomic batch write operation.
@@ -155,6 +175,8 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
         self.program_id_map().finish_atomic()?;
         self.key_value_map().finish_atomic()?;
         self.rejected_reason_map().finish_atomic()?;
+        self.recovery_state_map().finish_atomic()?;
+        self.recovery_serial_map().finish_atomic()?;
 
         Ok(())
     }
@@ -532,7 +554,7 @@ pub trait FinalizeStorage<N: Network>: 'static + Clone + Send + Sync {
 #[derive(Clone)]
 pub struct FinalizeStore<N: Network, P: FinalizeStorage<N>> {
     /// The finalize storage.
-    storage: P,
+    pub(super) storage: P,
     /// PhantomData.
     _phantom: PhantomData<N>,
     /// Tracks the current block height.

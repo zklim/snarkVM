@@ -1,0 +1,7 @@
+{
+  "source": "Actual public developer preparation transaction from devnet-native-optimized-final",
+  "transaction_id": "at1nxhvv3kyx5pu6vva3yrx93julu9ppm73t9qyeela7gfggwda8vys388p9w",
+  "sha256": "f61731a8e73a341d45c7fa0089587ff3405c84d593ca30afb02d53597a5bec10",
+  "purpose": "Regression for proposer resource estimation at parentV22/candidateV23; not an ownership/admission proof test",
+  "secrets": "Contains public record opening and public authorizations; no account seed or PQ signing secret"
+}

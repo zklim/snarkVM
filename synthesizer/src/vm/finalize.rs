@@ -209,12 +209,13 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
         let timer = timer!("VM::check_speculate");
 
         // Confirmed transactions, including rejected transactions' fees, use the candidate block's authorization policy.
-        if !transactions.is_empty() {
-            N::CONSENSUS_VERSION(state.block_height())?.ensure_legacy_transaction_authorization()?;
+        for transaction in transactions.iter() {
+            self.check_authorization_policy(N::CONSENSUS_VERSION(state.block_height())?, transaction.transaction())?;
         }
 
         // Retrieve the transactions and their rejected IDs.
         let transactions_and_rejected_ids = cfg_iter!(transactions)
+            .filter(|transaction| !transaction.transaction().is_recovery())
             .map(|transaction| transaction.to_rejected_id().map(|rejected_id| (transaction.deref(), rejected_id)))
             .collect::<Result<Vec<_>>>()?;
         // Ensure each transaction is well-formed and unique.
@@ -672,6 +673,13 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
                     }
                 }
 
+                if !transaction.is_recovery() {
+                    for serial in transaction.serial_numbers() {
+                        if self.finalize_store().recovery_contains_serial(serial).map_err(|e| e.to_string())? {
+                            return Err("Legacy transaction consumes a recovered serial".to_string());
+                        }
+                    }
+                }
                 // Process the transaction in an isolated atomic batch.
                 // - If the transaction succeeds, the finalize operations are stored.
                 // - If the transaction fails, the atomic batch is aborted and no finalize operations are stored.
@@ -835,6 +843,25 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
                             }
                         }
                     }
+                    Transaction::Recovery(_, recovery) => {
+                        match transaction.to_root() {
+                            Ok(root) if *transaction.id() == root => (),
+                            _ => {
+                                aborted.push((transaction.clone(), "Incorrect native transaction ID".to_string()));
+                                continue 'outer;
+                            }
+                        }
+                        match self.finalize_native_recovery(state.block_height(), recovery) {
+                            Ok(operations) => {
+                                ConfirmedTransaction::accepted_recovery(counter, transaction.clone(), operations)
+                                    .map_err(|e| e.to_string())
+                            }
+                            Err(error) => {
+                                aborted.push((transaction.clone(), error.to_string()));
+                                continue 'outer;
+                            }
+                        }
+                    }
                     // There are no finalize operations here.
                     // Note: This will abort the entire atomic batch.
                     Transaction::Fee(..) => Err("Cannot speculate on a fee transaction".to_string()),
@@ -947,8 +974,8 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
         let timer = timer!("VM::atomic_finalize");
 
         // Finalization enforces authorization before updating persistent state.
-        if !transactions.is_empty() {
-            N::CONSENSUS_VERSION(state.block_height())?.ensure_legacy_transaction_authorization()?;
+        for transaction in transactions.iter() {
+            self.check_authorization_policy(N::CONSENSUS_VERSION(state.block_height())?, transaction.transaction())?;
         }
 
         self.store.finalize_store().block_height().store(state.block_height(), std::sync::atomic::Ordering::SeqCst);
@@ -1005,10 +1032,31 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
                     // Note: This will abort the entire atomic batch.
                     return Err(format!("Mismatch in {} transaction index", transaction.variant()));
                 }
+                if !transaction.transaction().is_recovery() {
+                    for serial in transaction.serial_numbers() {
+                        if self.finalize_store().recovery_contains_serial(serial).map_err(|e| e.to_string())? {
+                            return Err("Legacy transaction consumes a recovered serial".to_string());
+                        }
+                    }
+                }
                 // Process the transaction in an isolated atomic batch.
                 // - If the transaction succeeds, the finalize operations are stored.
                 // - If the transaction fails, the atomic batch is aborted and no finalize operations are stored.
                 let outcome: Result<(), String> = match transaction {
+                    ConfirmedTransaction::AcceptedRecovery(_, transaction, expected) => {
+                        let Some(recovery) = transaction.recovery() else {
+                            return Err("Expected native recovery transaction".to_string());
+                        };
+                        if *transaction.id() != transaction.to_root().map_err(|e| e.to_string())? {
+                            return Err("Incorrect native transaction ID".to_string());
+                        }
+                        let operations =
+                            self.finalize_native_recovery(state.block_height(), recovery).map_err(|e| e.to_string())?;
+                        if &operations != expected {
+                            return Err("Mismatch in native recovery finalize operations".to_string());
+                        }
+                        Ok(())
+                    }
                     ConfirmedTransaction::AcceptedDeploy(_, transaction, finalize) => {
                         // Extract the deployment and fee from the transaction.
                         let (deployment, fee) = match transaction {
@@ -1226,7 +1274,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
         consensus_version: ConsensusVersion,
     ) -> ShouldAbortResult {
         // Candidate authorization is enforced independently of the current head's verification cache.
-        if let Err(error) = consensus_version.ensure_legacy_transaction_authorization() {
+        if let Err(error) = self.check_authorization_policy(consensus_version, transaction) {
             return ShouldAbortResult::Abort(error.to_string());
         }
 
@@ -1298,7 +1346,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
                 return ShouldAbortResult::Abort(format!("Duplicate serial number {serial_number} in transaction"));
             }
             if candidate_transaction_details.serial_numbers.contains(serial_number)
-                || self.transition_store().contains_serial_number(serial_number).unwrap_or(true)
+                || self.contains_serial_number(serial_number).unwrap_or(true)
             {
                 return ShouldAbortResult::Abort(format!("Duplicate serial number {serial_number}"));
             }
@@ -1380,6 +1428,14 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
             }
         }
 
+        if let Transaction::Recovery(_, recovery) = transaction {
+            return match recovery_minimum_fee(recovery) {
+                Ok(cost) if cost <= transaction_spend_limit => ShouldAbortResult::Finalize(cost),
+                Ok(_) => ShouldAbortResult::Abort("Native recovery exceeds transaction resource limit".to_string()),
+                Err(error) => ShouldAbortResult::Abort(error.to_string()),
+            };
+        }
+
         // Before V16, we return without tracking any compute spend and checking deployment limits.
         if consensus_version < ConsensusVersion::V16 {
             ShouldAbortResult::Finalize(0)
@@ -1457,8 +1513,13 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
                 ShouldAbortResult::Finalize(_compute_spend) => {
                     // Track the accepted transaction details.
                     candidate_transaction_details.record_transaction(transaction);
-                    // Mark the transaction ready to verify.
-                    transactions_to_verify.push(transaction);
+                    // Stateful native checks run in canonical order inside atomic speculation.
+                    // A prior native transaction may create an input consumed later in this block.
+                    if transaction.is_recovery() {
+                        valid_transactions.push(*transaction);
+                    } else {
+                        transactions_to_verify.push(transaction);
+                    }
                 }
             }
         }
@@ -1477,7 +1538,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
             let (valid, invalid): (Vec<_>, Vec<_>) =
                 cfg_into_iter!(transactions).zip(rngs).partition_map(|(transaction, mut rng)| {
                     // Verify the transaction.
-                    match self.check_transaction(transaction, None, &mut rng) {
+                    match self.check_transaction_at_height(state.block_height(), transaction, None, &mut rng) {
                         // If the transaction is valid, add it to the list of valid transactions.
                         Ok(_) => Either::Left(*transaction),
                         // If the transaction is invalid, add it to the list of aborted transactions.

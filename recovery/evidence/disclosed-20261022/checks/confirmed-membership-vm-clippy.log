@@ -1,0 +1,7 @@
+    Checking snarkvm-synthesizer v4.12.0 (/workspace/snarkVM/synthesizer)
+    Checking snarkvm-ledger v4.12.0 (/workspace/snarkVM/ledger)
+    Checking snarkvm-wasm v4.12.0 (/workspace/snarkVM/wasm)
+    Checking snarkvm v4.12.0 (/workspace/snarkVM)
+    Checking snarkvm-testchain-generator v0.1.0 (/workspace/snarkVM/ledger/testchain-generator)
+    Checking snarkvm-parameters v4.12.0 (/workspace/snarkVM/parameters)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 29.44s

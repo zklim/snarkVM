@@ -37,6 +37,14 @@ wasm = [
 test = [ "snarkvm-synthesizer-process/test" ]
 test-helpers = [ ]
 
+[dependencies.snarkvm-recovery]
+path = "../../recovery/core"
+version = "=0.1.0"
+
+[dependencies.snarkvm-recovery-records]
+path = "../../recovery/records"
+version = "=0.1.0"
+
 [dependencies.snarkvm-console]
 workspace = true
 

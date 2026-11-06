@@ -1,0 +1,12 @@
+[package]
+name = "snarkvm-recovery-records"
+version = "0.1.0"
+edition = "2024"
+license = "Apache-2.0"
+publish = false
+
+[dependencies]
+snarkvm-recovery = { path = "../core", version = "=0.1.0" }
+snarkvm-console-account = { workspace = true }
+snarkvm-console-network = { workspace = true }
+snarkvm-console-program = { workspace = true }

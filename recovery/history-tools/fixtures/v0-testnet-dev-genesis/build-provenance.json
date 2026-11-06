@@ -1,0 +1,34 @@
+{
+  "historical_repository": "https://github.com/zklim/snarkVM",
+  "historical_revision": "9741f1159a8cd18e2d676d5a095eeffad71ab52c",
+  "historical_package_version": "3.7.1",
+  "historical_source_archive_sha256": "9ee5ac304ca9cf8e5b52358b9e6577e5cb56b668f4789e3b530ab57b493bdaae",
+  "helper_package": "aleo-historical-v0-fixture 0.1.0",
+  "helper_source_sha256": {
+    "Cargo.toml": "7020439eae939ab31fc6f08712c7af72f33a84c975d832046f062ea8737ac221",
+    "Cargo.lock": "a642e24b07b33132e51dc48db331487d6325001cb23288bac4760d4c228317fc",
+    "src/main.rs": "5478c4784fd48221ff78f3c574ae40aa1166bc1b7226c59e1e0e6809225f670e"
+  },
+  "helper_source_archive_sha256": "d7bef37db42dc413e4e4968bf7d5fafff953200fe4080413a2280ba5e45171f9",
+  "helper_binary_sha256": "3ff42a0a5d52ffeb5392149e45f24d863c54ac4bf289f07336dbfc87c1d22113",
+  "rust_toolchain": "1.96.1",
+  "rustflags": [
+    "-C",
+    "target-cpu=native"
+  ],
+  "cargo_profile": "release",
+  "cargo_features": [
+    "default",
+    "genesis",
+    "test_targets"
+  ],
+  "feature_forwarding": "test_targets = [\"console/test_targets\"]",
+  "command": "CARGO_TARGET_DIR=/workspace/historical-v0-target cargo run --offline --release --locked --features genesis,test_targets --manifest-path recovery/history-tools/historical-v0/Cargo.toml -- genesis testnet /workspace/security-evaluation/disclosed-recovery-20261029/historical-v0-dev-genesis",
+  "genesis_hash": "ab1njne0yg0ygw9kwyldxw942syzvhvx7gjdp87nadermkt45w4x5ps88sgkx",
+  "genesis_sha256": "05f9da76ecb1531021634e3227367fe842867966dfceb2f5476303bc42e7dc36",
+  "genesis_coinbase_target": 31,
+  "genesis_proof_target": 8,
+  "record_artifacts_identical_to": "../v0-testnet-genesis",
+  "inspection_scope": "Byte-level target and artifact inspection, not a replacement for current Block parsing, proof verification, ledger initialization or migration acceptance.",
+  "scope": "Genuine pinned historical VM::genesis_quorum output under upstream development targets; no record relabeling or serialized consensus-byte patch."
+}

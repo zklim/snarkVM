@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "historical_v0_status": "PASS (first test in mixed log; second test failed on missing historical SRS before cache was completed)",
+  "production_native_status": "PASS 1/1, 160.36 seconds after verified parameter cache initialization",
+  "source_base_revision": "f0f726c7fcaed39e1f5aeb29add1875f14fecdbe",
+  "source_worktree": "quantum-recoverability-pqs; implementation changes were uncommitted during validation",
+  "binary": {
+    "filename": "snarkvm_synthesizer-06a705040ef0ddcd",
+    "bytes": 350071712,
+    "sha256": "a289eb3facbd4525838cdbe715d636f026a8027985fad38d68de6ca966ace6fb"
+  },
+  "test_source": {
+    "file": "synthesizer/src/vm/recovery_tests.rs",
+    "sha256": "142552f3ca9ea8b145743f952173b67fdb5fa4594ba2fe8b39d74725780d4650"
+  },
+  "consensus_version_heights": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,30,40",
+  "build": {
+    "toolchain": "1.96.1",
+    "rustflags": "-C target-cpu=skylake",
+    "features": "test,dev-print",
+    "CARGO_INCREMENTAL": "0",
+    "profile": "test, opt-level=2"
+  },
+  "measurements": {
+    "source": "1021538061319528547964974997109101819149610890877265262960191269571951840982field",
+    "serial": "6511142820394970031938344554386685408642153947806346030629382849447625890398field",
+    "prepare": "at16kkm2vdak93tl0qppfc97f5gl7fdmhtgsyn0sxhhuwxp662zjupsud04fa",
+    "migrate": "at18mj0usvpzxxhs9rgn706uraesk4neycawas67zkqlzsg56a7dqzsj94x9z",
+    "spend": "at1gl0n96ahn8l5s3jy9z4avtguwxf3sj9fvxycax7hp6gx7qd8cggsynfazr",
+    "chain_first": "at1ey4d6au08vjx66dw8vqker5zh2a5rwygwvxd7f8tr5rnfnelkqrqhk8cuh",
+    "chain_second": "at1ufv3etqxlyemupx03zvfedualk60ntsnwfgcvd2h747xrzv04cqq3s2lhy",
+    "final_amount": 999500000,
+    "fees": 500000,
+    "root": "487fbe9bf993497402c2285f1067d2344b646999da07e0730273239b9f48cbcd5554dccc4e2c4c310d155b43a448bd3a33ad09e4964a6153841f4047327e9c37",
+    "prepare_admission_us": 68171,
+    "migration_admission_us": 18863,
+    "spend_admission_us": 19591,
+    "elapsed_ms": 160334
+  },
+  "measurement_limits": "One local test-profile admission sample per operation; not a release benchmark, multi-validator latency, or scalability claim.",
+  "demonstrated": [
+    "Unmodified pinned snarkVM 3.7.1 Testnet V0 genesis canonical parsing, VM insertion, opening and stored transaction/block membership",
+    "Genuine V1 credits source created by an inclusion-proven production legacy execution",
+    "Native preparation at H1=30, migration at H2=40, subsequent PQ spending, and an ordered two-spend native chain in one block",
+    "Canonical old serial agreement and shared exclusion of competing/repeated native preparation and legacy execution",
+    "Changed conservation-preserving effects, enrollment key, network, replay nonce and gamma rejected",
+    "Possession of original legacy signing key cannot replace enrolled PQ authorization after H2, with unchanged state root",
+    "Existing historical credits inclusion-upgrade pool boundary accepts exactly 4e12 total and rejects one microcredit above it",
+    "Competing PQ spends accepted once; native fee accumulation and conservation; transaction archival",
+    "Aborted native finalization restores state and enrollment; VM reconstruction preserves checkpoints and consumed serials"
+  ],
+  "not_demonstrated_here": [
+    "Four-validator networking, partition/reconnection, or node-level interruption; separate devnet evidence is required",
+    "Durability across an OS process kill; separate RocksDB evidence is required",
+    "A genuine historical source exceeding the per-record 1e12 inclusion-upgrade cap",
+    "Quantum-safe validator consensus, zero knowledge, unlinkability, or a generic PQ ownership-proof backend"
+  ],
+  "logs": {
+    "production-vm-success.log": {
+      "sha256": "f51f1181606af2159156a875ba3eec8f84b7590b331825b7a132bfd5115db247",
+      "bytes": 36088
+    },
+    "historical-v0-vm-mixed.log": {
+      "sha256": "29fd2cd472eeedaee54e6456d66ac105a02b2567975dc2c5fd4327a5823a709d",
+      "bytes": 34815
+    },
+    "parameter-prefetch-manifest.json": {
+      "sha256": "b338e4d2936b3a9708e63d394e5e56285b03799a206a5580ae02aad9754eee57",
+      "bytes": 5694
+    },
+    "records-relation-tests.log": {
+      "sha256": "6bb516a0d75813400f24d4ff7c1dce8edb030f9f20c28c3b3c569074c2a9e57b",
+      "bytes": 391178
+    }
+  },
+  "historical_records_relation_tests": "PASS 5/5 in0.33 seconds; independently pinned old V0 commitment/serial vector, synthetic V0/V1 native agreement, effects/network/key/serial tampering, opening/schema and malformed encoding negatives",
+  "artifact_retention": {
+    "binary_status": "Losslessly archived after validation; original target executable removed to reclaim link space. Current focused-test19bf1c binary remains separate.",
+    "archive_manifest": "checks/prior-production-vm-libtest-archive.json",
+    "archive_scope": "External immutable prior-candidate binary; no large executable copied into source evidence.",
+    "source_scope": "Prior production VM path test predates confirmed-body source-membership hardening; it is not fresh validation of the final fixed target."
+  }
+}

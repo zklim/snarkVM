@@ -1,0 +1,48 @@
+{
+  "source_files": {
+    "/workspace/snarkVM/synthesizer/src/vm/recovery.rs": "0ad389e6b61cc3c16496d62b9e344c77f626bba6d156adcd72cf1ff754d7031d",
+    "/workspace/snarkVM/synthesizer/src/vm/recovery_tests.rs": "612bf5fb352671bb004183d1a267c831011379f980278023b2c1940d196c8c49"
+  },
+  "checks": [
+    {
+      "name": "vm",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/workspace/snarkVM",
+      "started_at": "2026-10-29T12:38:41.275157+00:00",
+      "elapsed_seconds": 29.989,
+      "exit_code": 0,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-vm-clippy.log",
+      "log_sha256": "66ae3bd9c2e5dac1373b213552239552d174fdcdc953f99144a3bba5b3f726bb"
+    },
+    {
+      "name": "node",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/workspace/snarkOS",
+      "started_at": "2026-10-29T12:39:11.264578+00:00",
+      "elapsed_seconds": 71.554,
+      "exit_code": 0,
+      "log": "/workspace/security-evaluation/disclosed-recovery-20261022/confirmed-membership-node-clippy.log",
+      "log_sha256": "37c4d0465cfc523ac8693fdaea0ec40a0541e1282f21975b3c8bf9c70f50a0cb"
+    }
+  ]
+}

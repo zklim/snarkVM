@@ -1,0 +1,20 @@
+    Blocking waiting for file lock on build directory
+   Compiling snarkvm-ledger-block v4.12.0 (/workspace/snarkVM/ledger/block)
+   Compiling snarkvm-ledger-store v4.12.0 (/workspace/snarkVM/ledger/store)
+   Compiling snarkvm-ledger-query v4.12.0 (/workspace/snarkVM/ledger/query)
+   Compiling snarkvm-synthesizer-process v4.12.0 (/workspace/snarkVM/synthesizer/process)
+    Finished `test` profile [optimized + debuginfo] target(s) in 32m 39s
+     Running unittests src/lib.rs (/workspace/snarkOS/target/debug/deps/snarkvm_ledger_block-bfcf0e8f687201a1)
+
+running 4 tests
+
+Initializing 'TestRng' with seed '17'
+
+test transaction::recovery::tests::recovery_rejects_malformed_frames ... ok
+Called TestRng with seed 17 4 times
+test transaction::recovery::tests::recovery_confirmation_requires_root_transition ... ok
+test transaction::recovery::tests::preparation_exposes_native_consumption_serials ... ok
+test transaction::recovery::tests::recovery_envelope_identity_and_wire ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 114 filtered out; finished in 0.14s
+

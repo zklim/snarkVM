@@ -1,0 +1,15 @@
+{
+  "reason": "Preserve prior capable debug candidate losslessly and reclaim unused executable space for final compilation",
+  "original_sha256": "0a2ed553ec48ddf3791a166803eaa2b13f31b6653aa9ee0eba8fa43edd10765f",
+  "original_bytes": 1242838432,
+  "archive": "/workspace/security-evaluation/disclosed-recovery-20261022/prior-capable-debug-snarkos.gz",
+  "archive_sha256": "3c2efd3c9a8c65231fac69f97fb8f8457c4857b14f03dc81c23a30d3b773470e",
+  "archive_bytes": 281555274,
+  "decompression_verified": true,
+  "removed_hardlinks": [
+    "/workspace/snarkOS/target/debug/snarkos",
+    "/workspace/snarkOS/target/debug/deps/snarkos-845f9cd4ffd48be3"
+  ],
+  "restore_command": "gzip -dc /workspace/security-evaluation/disclosed-recovery-20261022/prior-capable-debug-snarkos.gz > /workspace/snarkOS/target/debug/snarkos && chmod 700 /workspace/snarkOS/target/debug/snarkos",
+  "elapsed_seconds": 35.18219266098458
+}

@@ -22,6 +22,13 @@ impl<N: Network> Serialize for FinalizeOperation<N> {
             true => {
                 // Serialize the components.
                 match self {
+                    Self::Recovery(before, after) => {
+                        let mut operation = serializer.serialize_struct("FinalizeOperation", 3)?;
+                        operation.serialize_field("type", "recovery")?;
+                        operation.serialize_field("before", before.as_slice())?;
+                        operation.serialize_field("after", after.as_slice())?;
+                        operation.end()
+                    }
                     Self::InitializeMapping(mapping_id) => {
                         let mut operation = serializer.serialize_struct("FinalizeOperation", 2)?;
                         operation.serialize_field("type", "initialize_mapping")?;
@@ -78,6 +85,15 @@ impl<'de, N: Network> Deserialize<'de> for FinalizeOperation<N> {
                 let mut operation = serde_json::Value::deserialize(deserializer)?;
                 // Recover the operation.
                 let finalize_operation = match operation.get("type").and_then(|t| t.as_str()) {
+                    Some("recovery") => {
+                        let before: Vec<u8> = DeserializeExt::take_from_value::<D>(&mut operation, "before")?;
+                        let after: Vec<u8> = DeserializeExt::take_from_value::<D>(&mut operation, "after")?;
+                        let before: [u8; 64] =
+                            before.try_into().map_err(|_| de::Error::custom("Recovery root must contain 64 bytes"))?;
+                        let after: [u8; 64] =
+                            after.try_into().map_err(|_| de::Error::custom("Recovery root must contain 64 bytes"))?;
+                        Self::Recovery(before, after)
+                    }
                     Some("initialize_mapping") => {
                         // Deserialize the mapping ID.
                         let mapping_id = DeserializeExt::take_from_value::<D>(&mut operation, "mapping_id")?;

@@ -1,0 +1,379 @@
+    Blocking waiting for file lock on build directory
+   Compiling serde_core v1.0.229
+   Compiling serde v1.0.229
+   Compiling hybrid-array v0.4.13
+   Compiling const-oid v0.10.2
+   Compiling zerocopy v0.8.52
+   Compiling crypto-common v0.2.2
+   Compiling block-buffer v0.12.1
+   Compiling digest v0.11.3
+   Compiling indexmap v2.14.0
+   Compiling der v0.8.2
+   Compiling bincode v1.3.3
+   Compiling crypto-bigint v0.7.5
+   Compiling serde_json v1.0.150
+   Compiling sec1 v0.8.1
+   Compiling snarkvm-utilities v4.12.0 (/workspace/snarkVM/utilities)
+   Compiling sha2 v0.11.0
+   Compiling snarkvm-fields v4.12.0 (/workspace/snarkVM/fields)
+   Compiling primefield v0.14.0
+   Compiling elliptic-curve v0.14.1
+   Compiling signature v3.0.0
+   Compiling hmac v0.13.0
+   Compiling wnaf v0.14.1
+   Compiling rfc6979 v0.6.0
+   Compiling rustls v0.23.45
+   Compiling primeorder v0.14.0
+   Compiling ecdsa v0.17.0
+   Compiling ahash v0.8.12
+   Compiling snarkvm-curves v4.12.0 (/workspace/snarkVM/curves)
+   Compiling k256 v0.14.0
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.10.0
+   Compiling rand_chacha v0.3.1
+   Compiling snarkvm-console-network-environment v4.12.0 (/workspace/snarkVM/console/network/environment)
+   Compiling snarkvm-console-types-boolean v4.12.0 (/workspace/snarkVM/console/types/boolean)
+   Compiling snarkvm-console-types-field v4.12.0 (/workspace/snarkVM/console/types/field)
+   Compiling rand v0.8.6
+   Compiling snarkvm-console-types-scalar v4.12.0 (/workspace/snarkVM/console/types/scalar)
+   Compiling snarkvm-console-types-integers v4.12.0 (/workspace/snarkVM/console/types/integers)
+   Compiling snarkvm-console-types-group v4.12.0 (/workspace/snarkVM/console/types/group)
+   Compiling snarkvm-console-types-string v4.12.0 (/workspace/snarkVM/console/types/string)
+   Compiling snarkvm-console-types-address v4.12.0 (/workspace/snarkVM/console/types/address)
+   Compiling snarkvm-console-types v4.12.0 (/workspace/snarkVM/console/types)
+   Compiling proptest v1.6.0
+   Compiling snarkvm-console-algorithms v4.12.0 (/workspace/snarkVM/console/algorithms)
+   Compiling ureq v3.4.2
+   Compiling snarkvm-console-collections v4.12.0 (/workspace/snarkVM/console/collections)
+   Compiling snarkvm-recovery v0.1.0 (/workspace/snarkVM/recovery/core)
+   Compiling snarkvm-parameters v4.12.0 (/workspace/snarkVM/parameters)
+   Compiling snarkvm-algorithms v4.12.0 (/workspace/snarkVM/algorithms)
+   Compiling anstyle v1.0.14
+   Compiling cpufeatures v0.2.17
+   Compiling fn-dsa-comm v0.3.0
+   Compiling regex-automata v0.4.14
+   Compiling snarkvm-console-network v4.12.0 (/workspace/snarkVM/console/network)
+   Compiling snarkvm-console-account v4.12.0 (/workspace/snarkVM/console/account)
+   Compiling snarkvm-circuit-environment v4.12.0 (/workspace/snarkVM/circuit/environment)
+   Compiling snarkvm-circuit-types-boolean v4.12.0 (/workspace/snarkVM/circuit/types/boolean)
+   Compiling snarkvm-console-program v4.12.0 (/workspace/snarkVM/console/program)
+   Compiling snarkvm-circuit-types-field v4.12.0 (/workspace/snarkVM/circuit/types/field)
+   Compiling snarkvm-circuit-types-scalar v4.12.0 (/workspace/snarkVM/circuit/types/scalar)
+   Compiling snarkvm-circuit-types-group v4.12.0 (/workspace/snarkVM/circuit/types/group)
+   Compiling snarkvm-circuit-types-integers v4.12.0 (/workspace/snarkVM/circuit/types/integers)
+   Compiling snarkvm-circuit-types-string v4.12.0 (/workspace/snarkVM/circuit/types/string)
+   Compiling snarkvm-console v4.12.0 (/workspace/snarkVM/console)
+   Compiling snarkvm-circuit-types-address v4.12.0 (/workspace/snarkVM/circuit/types/address)
+   Compiling snarkvm-ledger-puzzle v4.12.0 (/workspace/snarkVM/ledger/puzzle)
+   Compiling snarkvm-circuit-types v4.12.0 (/workspace/snarkVM/circuit/types)
+   Compiling snarkvm-circuit-algorithms v4.12.0 (/workspace/snarkVM/circuit/algorithms)
+   Compiling snarkvm-ledger-narwhal-transmission-id v4.12.0 (/workspace/snarkVM/ledger/narwhal/transmission-id)
+   Compiling snarkvm-circuit-collections v4.12.0 (/workspace/snarkVM/circuit/collections)
+   Compiling snarkvm-ledger-narwhal-batch-header v4.12.0 (/workspace/snarkVM/ledger/narwhal/batch-header)
+   Compiling snarkvm-circuit-network v4.12.0 (/workspace/snarkVM/circuit/network)
+   Compiling snarkvm-circuit-account v4.12.0 (/workspace/snarkVM/circuit/account)
+   Compiling snarkvm-circuit-program v4.12.0 (/workspace/snarkVM/circuit/program)
+   Compiling snarkvm-circuit v4.12.0 (/workspace/snarkVM/circuit)
+   Compiling snarkvm-ledger-committee v4.12.0 (/workspace/snarkVM/ledger/committee)
+   Compiling snarkvm-ledger-narwhal-batch-certificate v4.12.0 (/workspace/snarkVM/ledger/narwhal/batch-certificate)
+   Compiling snarkvm-ledger-narwhal-subdag v4.12.0 (/workspace/snarkVM/ledger/narwhal/subdag)
+   Compiling snarkvm-synthesizer-snark v4.12.0 (/workspace/snarkVM/synthesizer/snark)
+   Compiling snarkvm-synthesizer-error v4.12.0 (/workspace/snarkVM/synthesizer/error)
+   Compiling snarkvm-synthesizer-program v4.12.0 (/workspace/snarkVM/synthesizer/program)
+   Compiling snarkvm-ledger-authority v4.12.0 (/workspace/snarkVM/ledger/authority)
+   Compiling snarkvm-ledger-narwhal-data v4.12.0 (/workspace/snarkVM/ledger/narwhal/data)
+   Compiling snarkvm-recovery-records v0.1.0 (/workspace/snarkVM/recovery/records)
+   Compiling snarkvm-ledger-block v4.12.0 (/workspace/snarkVM/ledger/block)
+   Compiling utf8parse v0.2.2
+   Compiling anstyle-parse v1.0.0
+   Compiling half v2.7.1
+   Compiling spki v0.8.1
+   Compiling keccak v0.2.2
+   Compiling anstyle-query v1.1.5
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling colorchoice v1.0.5
+   Compiling sponge-cursor v0.1.0
+   Compiling plotters-backend v0.3.7
+   Compiling ciborium-io v0.2.2
+   Compiling clap_lex v1.1.0
+   Compiling clap_builder v4.6.0
+   Compiling snarkvm-ledger-store v4.12.0 (/workspace/snarkVM/ledger/store)
+   Compiling snarkvm-ledger-query v4.12.0 (/workspace/snarkVM/ledger/query)
+   Compiling snarkvm-synthesizer-process v4.12.0 (/workspace/snarkVM/synthesizer/process)
+   Compiling ciborium-ll v0.2.2
+   Compiling plotters-svg v0.3.7
+   Compiling shake v0.1.0
+   Compiling anstream v1.0.0
+   Compiling pkcs8 v0.11.0
+   Compiling matchers v0.2.0
+   Compiling fn-dsa-kgen v0.3.0
+   Compiling fn-dsa-sign v0.3.0
+   Compiling fn-dsa-vrfy v0.3.0
+   Compiling env_filter v2.0.0
+   Compiling module-lattice v0.2.3
+   Compiling itertools v0.13.0
+   Compiling same-file v1.0.6
+   Compiling cast v0.3.0
+   Compiling walkdir v2.5.0
+   Compiling tracing-subscriber v0.3.23
+   Compiling ml-dsa v0.1.1
+   Compiling criterion-plot v0.6.0
+   Compiling env_logger v0.11.11
+   Compiling fn-dsa v0.3.0
+   Compiling plotters v0.3.7
+   Compiling ciborium v0.2.2
+   Compiling clap v4.6.1
+   Compiling regex v1.12.4
+   Compiling tinytemplate v1.2.1
+   Compiling unsafe-libyaml v0.2.11
+   Compiling anes v0.1.6
+   Compiling oorandom v11.1.5
+   Compiling ryu v1.0.23
+   Compiling criterion v0.7.0
+   Compiling serde_yaml v0.9.34+deprecated
+   Compiling snarkvm-recovery-signatures v0.1.0 (/workspace/snarkVM/recovery/signatures)
+   Compiling test-log v0.2.21
+   Compiling snarkvm-ledger-puzzle-epoch v4.12.0 (/workspace/snarkVM/ledger/puzzle/epoch)
+   Compiling snarkvm-ledger-test-helpers v4.12.0 (/workspace/snarkVM/ledger/test-helpers)
+   Compiling tokio v1.52.3
+   Compiling snarkvm-synthesizer v4.12.0 (/workspace/snarkVM/synthesizer)
+    Finished `test` profile [optimized + debuginfo] target(s) in 17m 19s
+     Running unittests src/lib.rs (/workspace/snarkOS/target/debug/deps/snarkvm_synthesizer-06a705040ef0ddcd)
+
+running 2 tests
+test vm::recovery_tests::pinned_historical_v0_genesis_is_authenticated_by_current_vm ...  • BHP hasher setup (NUM_WINDOWS = 8, WINDOW_SIZE = 54, NUM_COMBINED_CHUNKS = 4, DOMAIN = 'AleoBHP1024'): 89.39 ms
+   Approximate BHP hasher size: 55055744 B
+ • BHP hasher setup (NUM_WINDOWS = 6, WINDOW_SIZE = 43, NUM_COMBINED_CHUNKS = 4, DOMAIN = 'AleoBHP512'): 95.70 ms
+   Approximate BHP hasher size: 31786624 B
+ • BHP hasher setup (NUM_WINDOWS = 15, WINDOW_SIZE = 23, NUM_COMBINED_CHUNKS = 4, DOMAIN = 'AleoBHP768'): 232.06 ms
+   Approximate BHP hasher size: 39751168 B
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+RECOVERY_HISTORICAL_V0 genesis=ab1nnulyh65kyndy2e0n4p79hg9sc0llzv4yy4d2apnpfzktc8wjgxs0s63gr commitment=5522770322461788144226777704736651451341496981902509953914383159141403291591field
+ok
+test vm::recovery_tests::production_credits_preparation_migration_spending_and_exclusion ... 
+Initializing 'TestRng' with seed '90210'
+
+ • BHP hasher setup (NUM_WINDOWS = 8, WINDOW_SIZE = 54, NUM_COMBINED_CHUNKS = 4, DOMAIN = 'AleoBHP1024'): 265.45 ms
+   Approximate BHP hasher size: 55055744 B
+ • BHP hasher setup (NUM_WINDOWS = 6, WINDOW_SIZE = 43, NUM_COMBINED_CHUNKS = 4, DOMAIN = 'AleoBHP512'): 765.19 ms
+   Approximate BHP hasher size: 31786624 B
+ • BHP hasher setup (NUM_WINDOWS = 3, WINDOW_SIZE = 57, NUM_COMBINED_CHUNKS = 4, DOMAIN = 'AleoBHP256'): 492.64 ms
+   Approximate BHP hasher size: 22249216 B
+ • BHP hasher setup (NUM_WINDOWS = 15, WINDOW_SIZE = 23, NUM_COMBINED_CHUNKS = 4, DOMAIN = 'AleoBHP768'): 315.82 ms
+   Approximate BHP hasher size: 39751168 B
+✅ Authorize            Request              (Constant: 3916, Public: 10, Private: 12128, Constraints: 12132, NonZeros: (27977, 38340, 16314))
+✅ Authorize            Function 'transfer_public_to_private()' (Constant: 4810, Public: 10, Private: 14154, Constraints: 14160, NonZeros: (31642, 42452, 19497))
+✅ Authorize            Response             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+✅ Authorize            Complete             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+ • Executing 'credits.aleo/transfer_public_to_private'...
+✅ Execute              Request              (Constant: 3916, Public: 10, Private: 12128, Constraints: 12132, NonZeros: (27977, 38340, 16314))
+✅ Execute              Function 'transfer_public_to_private()' (Constant: 4810, Public: 10, Private: 14154, Constraints: 14160, NonZeros: (31642, 42452, 19497))
+✅ Execute              Response             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+✅ Execute              Complete             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+Number of padded public variables: 16
+Number of private variables: 29055
+Number of num_constraints: 29080
+Number of non-zero entries in A: 61741
+Number of non-zero entries in B: 73726
+Number of non-zero entries in C: 43091
+Loading 65536 powers
+Loading 131072 powers
+Loading 131072 shifted powers
+Loading 65536 shifted powers
+Number of padded public variables in Prover::Init: 16
+Number of private variables: 29055
+Number of constraints: 29080
+Number of non-zero entries in A: 61741
+Number of non-zero entries in B: 73726
+Number of non-zero entries in C: 43091
+inputs_and_batch_sizes: {CircuitId([8, 141, 70, 103, 126, 42, 53, 229, 116, 159, 46, 159, 199, 112, 108, 172, 44, 81, 211, 101, 163, 175, 147, 146, 156, 104, 108, 110, 113, 202, 130, 130]): (1, [[1, 4339113604395219382684564029820871722494154334923513564647337010745670556874, 83932517398139318577700857393246902677842797575162959674442187817629286887, 437104923417057446438091693717631808408488133206187346802968627188373407631, 5344442583565256596911435520652772660271153485094042470937344128043087010355, 6114063584953306867079377242521041973910817924542789098164126167642719111961, 2023829837730360399689884176023098935737652294651506265231843620629686633417, 1, 7703515054976478587297937591673012097906940339352538301692595543520262109176, 3862783000994747472109141973554008667244278940834232856392517972434491156559, 5892707585951099453328253963610501962653403422132137797501173584069900881989, 8019100408036954195863925119722496074182813253397768413848959141648045756327, 5343646348151065478996365788484102224117289134253929286772492573262406089842, 6045394611219032445415459096750391097097816284497423002726081052731425714108, 0, 0]])}
+Final challenge gamma: Some(335947806281334105159998317770252528385598691366600560055818311816068786272)
+✅ Authorize            Request              (Constant: 3466, Public: 11, Private: 11857, Constraints: 11861, NonZeros: (26919, 36326, 15975))
+✅ Authorize            Function 'fee_public()' (Constant: 3699, Public: 11, Private: 11925, Constraints: 11932, NonZeros: (27307, 36399, 16043))
+✅ Authorize            Response             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+✅ Authorize            Complete             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+ • Executing 'credits.aleo/fee_public'...
+✅ Execute              Request              (Constant: 3466, Public: 11, Private: 11857, Constraints: 11861, NonZeros: (26919, 36326, 15975))
+✅ Execute              Function 'fee_public()' (Constant: 3699, Public: 11, Private: 11925, Constraints: 11932, NonZeros: (27307, 36399, 16043))
+✅ Execute              Response             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+✅ Execute              Complete             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+Number of padded public variables: 16
+Number of private variables: 12923
+Number of num_constraints: 12931
+Number of non-zero entries in A: 30588
+Number of non-zero entries in B: 41289
+Number of non-zero entries in C: 17214
+Number of padded public variables in Prover::Init: 16
+Number of private variables: 12923
+Number of constraints: 12931
+Number of non-zero entries in A: 30588
+Number of non-zero entries in B: 41289
+Number of non-zero entries in C: 17214
+inputs_and_batch_sizes: {CircuitId([32, 38, 83, 226, 34, 93, 232, 224, 31, 110, 117, 241, 165, 146, 59, 121, 171, 225, 83, 69, 164, 133, 173, 244, 136, 233, 155, 187, 151, 163, 31, 6]): (1, [[1, 1070826764465303448717326507603895274574263750877004227516673266221429645408, 2269860275884259739897998426990660989444635227993408423284767371478186861801, 8297032206332409092621990694448159865518065986930286076317124248614095380979, 5535636186466919312265259261007612268565738378133195529674562987277462474801, 7899387733042671657504057404660733317621913593533061778046937803261623982299, 7258563305242228234385533843456966848388087366634558929825072787859083306611, 344709008453939433574659299360156846499019254824582332588148278893282300321, 1, 7703515054976478587297937591673012097906940339352538301692595543520262109176, 3862783000994747472109141973554008667244278940834232856392517972434491156559, 6687800055218591602475554094783935342219212533155590727964257796451434844827, 0, 0, 0, 0]])}
+Final challenge gamma: Some(2854340826833666431937940346943935961274991163301247788215104211231420264128)
+✅ Authorize            Request              (Constant: 3916, Public: 10, Private: 12128, Constraints: 12132, NonZeros: (27977, 38340, 16314))
+✅ Authorize            Function 'transfer_public_to_private()' (Constant: 4810, Public: 10, Private: 14154, Constraints: 14160, NonZeros: (31642, 42452, 19497))
+✅ Authorize            Response             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+✅ Authorize            Complete             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+ • Executing 'credits.aleo/transfer_public_to_private'...
+✅ Execute              Request              (Constant: 3916, Public: 10, Private: 12128, Constraints: 12132, NonZeros: (27977, 38340, 16314))
+✅ Execute              Function 'transfer_public_to_private()' (Constant: 4810, Public: 10, Private: 14154, Constraints: 14160, NonZeros: (31642, 42452, 19497))
+✅ Execute              Response             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+✅ Execute              Complete             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+Number of padded public variables in Prover::Init: 16
+Number of private variables: 29055
+Number of constraints: 29080
+Number of non-zero entries in A: 61741
+Number of non-zero entries in B: 73726
+Number of non-zero entries in C: 43091
+inputs_and_batch_sizes: {CircuitId([8, 141, 70, 103, 126, 42, 53, 229, 116, 159, 46, 159, 199, 112, 108, 172, 44, 81, 211, 101, 163, 175, 147, 146, 156, 104, 108, 110, 113, 202, 130, 130]): (1, [[1, 4044303285439102853115281995265404747830561783257516024932011333527839571400, 6954277929188664184883790331167594741045723218232357225448495191822347192034, 2775121011774723724739827529852943085165479828117013575771772823659497203665, 6469063366273501004172474223052641814397565288879930769463693528435959606165, 7684502391316455936933412680356575364249384279320466703332284820050784587975, 1435789111325812810292208293955617411597844907651362244834806849236466779563, 1, 7703515054976478587297937591673012097906940339352538301692595543520262109176, 3862783000994747472109141973554008667244278940834232856392517972434491156559, 81012921290546396369865086246856672640805348930967062685123451315957723780, 1914658506301836430983041069809111551793031832283510189483189139414632980090, 5165086308830894616104370420495508159802548087497168588262316453099891808190, 2354542647924568894506834632982599932963698073087518503026954808945915882215, 0, 0]])}
+Final challenge gamma: Some(1013213722288892034039646102323033250981971900366513796215556974986701436052)
+✅ Authorize            Request              (Constant: 3466, Public: 11, Private: 11857, Constraints: 11861, NonZeros: (26919, 36326, 15975))
+✅ Authorize            Function 'fee_public()' (Constant: 3699, Public: 11, Private: 11925, Constraints: 11932, NonZeros: (27307, 36399, 16043))
+✅ Authorize            Response             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+✅ Authorize            Complete             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+ • Executing 'credits.aleo/fee_public'...
+✅ Execute              Request              (Constant: 3466, Public: 11, Private: 11857, Constraints: 11861, NonZeros: (26919, 36326, 15975))
+✅ Execute              Function 'fee_public()' (Constant: 3699, Public: 11, Private: 11925, Constraints: 11932, NonZeros: (27307, 36399, 16043))
+✅ Execute              Response             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+✅ Execute              Complete             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+Number of padded public variables in Prover::Init: 16
+Number of private variables: 12923
+Number of constraints: 12931
+Number of non-zero entries in A: 30588
+Number of non-zero entries in B: 41289
+Number of non-zero entries in C: 17214
+inputs_and_batch_sizes: {CircuitId([32, 38, 83, 226, 34, 93, 232, 224, 31, 110, 117, 241, 165, 146, 59, 121, 171, 225, 83, 69, 164, 133, 173, 244, 136, 233, 155, 187, 151, 163, 31, 6]): (1, [[1, 3315249740961623739046750716207457943207295212535429805376397890464159839784, 7694374115196456301708357558306401653463682179839073667897063170907164270247, 8269823704290401530544768814296070800882739433704064776988516863827044790599, 8324667898342403113558834561893930044621792093003592133860776654830731598791, 2342741265481493453757520910673126758909718121367034971724336838006882531812, 2964456429312063844121967120406515245854664322815533790815805499833575689722, 4263748667212043574649376690380489188111933761349438809721161627040176657340, 1, 7703515054976478587297937591673012097906940339352538301692595543520262109176, 3862783000994747472109141973554008667244278940834232856392517972434491156559, 5271220597762026738761841047907236642806880451760294944947878270723346109558, 0, 0, 0, 0]])}
+Final challenge gamma: Some(6476825986777624510299138639767706614317144637975234938409477995280601564784)
+✅ Authorize            Request              (Constant: 3916, Public: 10, Private: 12128, Constraints: 12132, NonZeros: (27977, 38340, 16314))
+✅ Authorize            Function 'transfer_public_to_private()' (Constant: 4810, Public: 10, Private: 14154, Constraints: 14160, NonZeros: (31642, 42452, 19497))
+✅ Authorize            Response             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+✅ Authorize            Complete             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+ • Executing 'credits.aleo/transfer_public_to_private'...
+✅ Execute              Request              (Constant: 3916, Public: 10, Private: 12128, Constraints: 12132, NonZeros: (27977, 38340, 16314))
+✅ Execute              Function 'transfer_public_to_private()' (Constant: 4810, Public: 10, Private: 14154, Constraints: 14160, NonZeros: (31642, 42452, 19497))
+✅ Execute              Response             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+✅ Execute              Complete             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+Number of padded public variables in Prover::Init: 16
+Number of private variables: 29055
+Number of constraints: 29080
+Number of non-zero entries in A: 61741
+Number of non-zero entries in B: 73726
+Number of non-zero entries in C: 43091
+inputs_and_batch_sizes: {CircuitId([8, 141, 70, 103, 126, 42, 53, 229, 116, 159, 46, 159, 199, 112, 108, 172, 44, 81, 211, 101, 163, 175, 147, 146, 156, 104, 108, 110, 113, 202, 130, 130]): (1, [[1, 3072253460583861834200181638649169324788570367201570258168256142208260887817, 6874606444006248634052748088044099974879958979348433831236815370345793385392, 1498241934820598495389615861189337208465190987969851250489959196929880306700, 3378576560600255458954157802119355156110671972488297291131451586591681881917, 6607633453490666502157734116069201232975044748761830034770896098943070314905, 7187218218634715522224077629471080361487967001084320505255142118136063782929, 1, 7703515054976478587297937591673012097906940339352538301692595543520262109176, 3862783000994747472109141973554008667244278940834232856392517972434491156559, 2656359573629044623824226890955962220849986492617946064621041059200058027699, 53488828698770209383199701243187207567090260371141188150242827862971805088, 3630523025282507047661664051199823447203945818003224420493605589249975691162, 1942870909769698472367256457699286648531253110590660974353743077530124367688, 0, 0]])}
+Final challenge gamma: Some(7199605080307835061993640966882996200976654619596644993309336616260816681644)
+✅ Authorize            Request              (Constant: 3466, Public: 11, Private: 11857, Constraints: 11861, NonZeros: (26919, 36326, 15975))
+✅ Authorize            Function 'fee_public()' (Constant: 3699, Public: 11, Private: 11925, Constraints: 11932, NonZeros: (27307, 36399, 16043))
+✅ Authorize            Response             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+✅ Authorize            Complete             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+ • Executing 'credits.aleo/fee_public'...
+✅ Execute              Request              (Constant: 3466, Public: 11, Private: 11857, Constraints: 11861, NonZeros: (26919, 36326, 15975))
+✅ Execute              Function 'fee_public()' (Constant: 3699, Public: 11, Private: 11925, Constraints: 11932, NonZeros: (27307, 36399, 16043))
+✅ Execute              Response             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+✅ Execute              Complete             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+Number of padded public variables in Prover::Init: 16
+Number of private variables: 12923
+Number of constraints: 12931
+Number of non-zero entries in A: 30588
+Number of non-zero entries in B: 41289
+Number of non-zero entries in C: 17214
+inputs_and_batch_sizes: {CircuitId([32, 38, 83, 226, 34, 93, 232, 224, 31, 110, 117, 241, 165, 146, 59, 121, 171, 225, 83, 69, 164, 133, 173, 244, 136, 233, 155, 187, 151, 163, 31, 6]): (1, [[1, 1086077938941992099747926874677949435949716041103386631924254279152220752102, 3697485568269335740853794324360140497698129580558485315051135233237152945156, 8264969818241701371035470188661644168436424167763667154560641286114776187437, 7687295147318895003059000458737803259291613864554796896319911159497522326455, 434080558268431434646043109483147555322640655252178588782201458056544639137, 2645184847301252836334101671385006039767656819827706875104850257036675742248, 1240427673943580172024588409825663408109766407244147968088306691981879290117, 1, 7703515054976478587297937591673012097906940339352538301692595543520262109176, 3862783000994747472109141973554008667244278940834232856392517972434491156559, 3243076999861172330384553737601387588653554230074475683515381979966913774450, 0, 0, 0, 0]])}
+Final challenge gamma: Some(3430140377303713918995611003051072859943752766648599923620494989136034266926)
+✅ Authorize            Request              (Constant: 3916, Public: 10, Private: 12128, Constraints: 12132, NonZeros: (27977, 38340, 16314))
+✅ Authorize            Function 'transfer_public_to_private()' (Constant: 4810, Public: 10, Private: 14154, Constraints: 14160, NonZeros: (31642, 42452, 19497))
+✅ Authorize            Response             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+✅ Authorize            Complete             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+ • Executing 'credits.aleo/transfer_public_to_private'...
+✅ Execute              Request              (Constant: 3916, Public: 10, Private: 12128, Constraints: 12132, NonZeros: (27977, 38340, 16314))
+✅ Execute              Function 'transfer_public_to_private()' (Constant: 4810, Public: 10, Private: 14154, Constraints: 14160, NonZeros: (31642, 42452, 19497))
+✅ Execute              Response             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+✅ Execute              Complete             (Constant: 9201, Public: 14, Private: 29052, Constraints: 29079, NonZeros: (61740, 73725, 43090))
+Number of padded public variables in Prover::Init: 16
+Number of private variables: 29055
+Number of constraints: 29080
+Number of non-zero entries in A: 61741
+Number of non-zero entries in B: 73726
+Number of non-zero entries in C: 43091
+inputs_and_batch_sizes: {CircuitId([8, 141, 70, 103, 126, 42, 53, 229, 116, 159, 46, 159, 199, 112, 108, 172, 44, 81, 211, 101, 163, 175, 147, 146, 156, 104, 108, 110, 113, 202, 130, 130]): (1, [[1, 2979411547089379332712971601134008110966530530138542281196542015857000729305, 8367808205611884553095126787766800322584382861647194336545657817347640054421, 2783255886727584263469285503379033246077365828140844987177370673336532092151, 3557606310024665936456718853516072601674362285957951561564478540615805029487, 5088060564582147290368760325939749881603846253748089040456796376260034919704, 3140378853884437324615315085995837186057929062542905823746354241670207110581, 1, 7703515054976478587297937591673012097906940339352538301692595543520262109176, 3862783000994747472109141973554008667244278940834232856392517972434491156559, 5815662338102710776565211159629226434083969042165110433608947243870584916850, 1963938789290796895421190923614055051047845759134667066653238107216996616664, 1974332328408257263369593783548534810958879335052338189918223432476961046255, 1510867312756004566635479018595239211111766626287607442971833977860023990380, 0, 0]])}
+Final challenge gamma: Some(959063943215073298018165293063295341928988874815137404585945168378636428006)
+✅ Authorize            Request              (Constant: 3466, Public: 11, Private: 11857, Constraints: 11861, NonZeros: (26919, 36326, 15975))
+✅ Authorize            Function 'fee_public()' (Constant: 3699, Public: 11, Private: 11925, Constraints: 11932, NonZeros: (27307, 36399, 16043))
+✅ Authorize            Response             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+✅ Authorize            Complete             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+ • Executing 'credits.aleo/fee_public'...
+✅ Execute              Request              (Constant: 3466, Public: 11, Private: 11857, Constraints: 11861, NonZeros: (26919, 36326, 15975))
+✅ Execute              Function 'fee_public()' (Constant: 3699, Public: 11, Private: 11925, Constraints: 11932, NonZeros: (27307, 36399, 16043))
+✅ Execute              Response             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+✅ Execute              Complete             (Constant: 4533, Public: 12, Private: 12920, Constraints: 12930, NonZeros: (30587, 41288, 17213))
+Number of padded public variables in Prover::Init: 16
+Number of private variables: 12923
+Number of constraints: 12931
+Number of non-zero entries in A: 30588
+Number of non-zero entries in B: 41289
+Number of non-zero entries in C: 17214
+inputs_and_batch_sizes: {CircuitId([32, 38, 83, 226, 34, 93, 232, 224, 31, 110, 117, 241, 165, 146, 59, 121, 171, 225, 83, 69, 164, 133, 173, 244, 136, 233, 155, 187, 151, 163, 31, 6]): (1, [[1, 7213941275673686324647101596068180868057164271368280657933341783525454279643, 7086436420408073140543287816076066659674701036719393695179690737229686772030, 4746203407598627387134051633598810589430851822938286684678746196447381524243, 702900619383288668805593106690566777757920999094609474311304622019255280829, 7140854848812321752779806915022472008487917348689668488554889453541759676315, 7022500622384341088419435403759539425852615430239421585955714288999654002176, 657596092973615156125690318027564407172887737451905027620001079353103361648, 1, 7703515054976478587297937591673012097906940339352538301692595543520262109176, 3862783000994747472109141973554008667244278940834232856392517972434491156559, 5142286764931878040797231030264074807332001230865010848839898107438676976790, 0, 0, 0, 0]])}
+Final challenge gamma: Some(1284355433585514658299278699165110887142972581970411896574186169581711180197)
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+Finalizing transition for credits.aleo/transfer_public_to_private...
+Finalizing transition for credits.aleo/fee_public...
+✅ Authorize            Request              (Constant: 8595, Public: 11, Private: 28653, Constraints: 28673, NonZeros: (53642, 63946, 41206))
+✅ Authorize            Function 'split()'   (Constant: 10151, Public: 11, Private: 32835, Constraints: 32863, NonZeros: (61428, 72304, 47704))
+✅ Authorize            Response             (Constant: 17651, Public: 17, Private: 60651, Constraints: 60715, NonZeros: (115092, 125118, 92560))
+✅ Authorize            Complete             (Constant: 17651, Public: 17, Private: 60651, Constraints: 60715, NonZeros: (115092, 125118, 92560))
+ • Executing 'credits.aleo/split'...
+✅ Execute              Request              (Constant: 8595, Public: 11, Private: 28653, Constraints: 28673, NonZeros: (53642, 63946, 41206))
+✅ Execute              Function 'split()'   (Constant: 10151, Public: 11, Private: 32835, Constraints: 32863, NonZeros: (61428, 72304, 47704))
+✅ Execute              Response             (Constant: 17651, Public: 17, Private: 60651, Constraints: 60715, NonZeros: (115092, 125118, 92560))
+✅ Execute              Complete             (Constant: 17651, Public: 17, Private: 60651, Constraints: 60715, NonZeros: (115092, 125118, 92560))
+Number of padded public variables: 32
+Number of private variables: 60654
+Number of num_constraints: 60716
+Number of non-zero entries in A: 115093
+Number of non-zero entries in B: 125119
+Number of non-zero entries in C: 92561
+Loading 65536 powers
+Loading 131072 powers
+Loading 262144 powers
+
+⚠️  "powers-of-beta-18.usrs.7a12bcb" does not exist. Downloading and storing it (in "/home/agent/.aleo/resources/powers-of-beta-18.usrs.7a12bcb").
+
+   Installation - Downloading "https://parameters.provable.com/mainnet/powers-of-beta-18.usrs.7a12bcb"
+        Warning - ureq: io: invalid peer certificate: UnknownIssuer
+        Warning - Failed to fetch from "https://parameters.provable.com/mainnet". Trying next source...
+   Installation - Downloading "https://s3.us-west-1.amazonaws.com/mainnet.parameters/powers-of-beta-18.usrs.7a12bcb"
+Called TestRng with seed 90210 764 times
+Error: Process execution failed: Stack execution failed: ureq: io: invalid peer certificate: UnknownIssuer
+
+Caused by:
+    0: Stack execution failed: ureq: io: invalid peer certificate: UnknownIssuer
+    1: ureq: io: invalid peer certificate: UnknownIssuer
+FAILED
+
+failures:
+
+failures:
+    vm::recovery_tests::production_credits_preparation_migration_spending_and_exclusion
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 207 filtered out; finished in 118.07s
+
+error: test failed, to rerun pass `-p snarkvm-synthesizer --lib`

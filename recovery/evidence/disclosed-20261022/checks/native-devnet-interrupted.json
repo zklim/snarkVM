@@ -1,0 +1,63 @@
+{
+  "status": "INTERRUPTED",
+  "source_status": "running",
+  "source_status_warning": "The saved running status is a stale checkpoint; the retained runner log ends in KeyboardInterrupt and no final acceptance result was produced.",
+  "binary_sha256": "0a2ed553ec48ddf3791a166803eaa2b13f31b6653aa9ee0eba8fa43edd10765f",
+  "harness_sha256": "9cf30e163d65ff5eaf2e5105cf1653f623a364bc12b0e65f815e3a48902b4942",
+  "checkpoint_decoder_sha256": "f39c3f99b62fa862351b5cfb1053666e4b80287ba2d6600d614dc7c0bdd1fe33",
+  "genesis_hash": "ab1njne0yg0ygw9kwyldxw942syzvhvx7gjdp87nadermkt45w4x5ps88sgkx",
+  "genesis_sha256": "05f9da76ecb1531021634e3227367fe842867966dfceb2f5476303bc42e7dc36",
+  "schedule": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,60,120",
+  "evidence_scope": "Prior-candidate debug binary; source-membership production hardening and harness acceptance-status checking were still pending. No successful migration/spend or complete four-validator run is inferred.",
+  "demonstrated": {
+    "four_validator_startup": "All four reported the same pinned historical development-target genesis.",
+    "stable_proof_generation_height": 22,
+    "genuine_historical_upgrade_proofs": [
+      {
+        "name": "legacy-competing-upgrade",
+        "status": "passed",
+        "seconds": 488.61711166100577
+      },
+      {
+        "name": "legacy-dormant-upgrade",
+        "status": "passed",
+        "seconds": 505.04986296000425
+      },
+      {
+        "name": "legacy-v0-to-v1",
+        "status": "passed",
+        "seconds": 519.114116185985
+      }
+    ],
+    "legacy_upgrade_admission_before_h1": {
+      "competing": 200,
+      "dormant": 200,
+      "height": 22
+    },
+    "pre_h1_offline_full_snapshot": {
+      "minimum_height": 22,
+      "before_activation": 60,
+      "block_hash": "ab1mezlhwksq5ghnumz39rujz7f33mfnqf0w0y6em2u24cggglj4cyqtee2he",
+      "root": "76559840a7a77c259d101ebd041ba81d1370781ae741f08aef24e8d72a69ebd64973fdb60eaf6fe6255115c0e51df547afd793473a127d58a53f61ba9ac981f4",
+      "method": "Offline full ledger and BFT snapshot before native preparation"
+    }
+  },
+  "last_wait": "legacy-v0-to-v1 confirmed inclusion before H1",
+  "harness_review": "A block lookup can also find an aborted transaction ID. Success must require the actual accepted confirmed transaction body, and exact all-node inclusion agreement.",
+  "excluded_claims": [
+    "Completed four-validator activation/migration/spending",
+    "Final-source runtime validation",
+    "Quantum-safe bootstrap or validator consensus"
+  ],
+  "source_files": {
+    "/workspace/security-evaluation/disclosed-recovery-20261022/devnet-native-20261029-test-targets/results.json": {
+      "sha256": "11427e4d523b5e4dfaa4dbfc8d0e9c5bf340a6cc2a67a38897151ac359eef03a",
+      "bytes": 185454
+    },
+    "/workspace/security-evaluation/disclosed-devnet-native-20261029-test-targets.log": {
+      "sha256": "c543067b9d1ffdb2a5ca5fac44d557ee5061790eb20d970e4f6ff5e4e27d8f9a",
+      "bytes": 969
+    }
+  },
+  "retention": "Explicit public summary only; no key/wallet files or runtime directory copied."
+}

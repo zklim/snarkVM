@@ -1,0 +1,19 @@
+
+running 14 tests
+test backend_verification_costs ... ignored, local timing experiment; no portable performance threshold
+test canonical_decoder_never_accepts_noncanonical ... ok
+test copied_replay_nonce_cannot_block_an_unrelated_owner_transaction ... ok
+test direct_backend_cost_sample ... ok
+test framed_hash_is_unambiguous ... ok
+test independent_activation_model_and_cross_policy_replay ... ok
+test independent_canonical_statement_vector ... ok
+test independent_nist_ml_dsa65_vector ... ok
+test legacy_compromise_cannot_reenroll_or_authorize_pq_spends ... ok
+test rotation_downgrade_and_key_substitution_require_authority ... ok
+test shared_signature_conformance_and_binding ... ok
+test signing_profile_context_and_framing_are_not_interchangeable ... ok
+test substitutions_downgrades_malformed_and_missing_backends ... ok
+test two_stage_rotation_persistence_atomicity_and_substitutability ... ok
+
+test result: ok. 13 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.45s
+

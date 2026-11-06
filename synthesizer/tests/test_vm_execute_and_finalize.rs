@@ -353,6 +353,9 @@ fn run_test(test: &ProgramTest) -> serde_yaml::Mapping {
                             | ConfirmedTransaction::RejectedDeploy(_, _, _, _) => {
                                 unreachable!("unexpected deployment transaction")
                             }
+                            ConfirmedTransaction::AcceptedRecovery(..) => {
+                                unreachable!("unexpected native recovery transaction")
+                            }
                         }),
                     );
                     (ratifications, transactions, aborted_transaction_ids, ratified_finalize_operations)

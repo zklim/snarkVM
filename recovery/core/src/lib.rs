@@ -13,9 +13,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//! Experimental public-value recovery ledger. This is not an Aleo private-record
-//! proof system and is not connected to the production transaction enum or store.
-//! Authenticating its initial records requires a separately trusted import.
+//! Disclosed-value recovery state machine. The production host authenticates
+//! historical source openings, provenance and shared legacy consumption before
+//! importing them. This crate is not a private-record ownership proof system.
 #![forbid(unsafe_code)]
 
 mod backend;
@@ -24,6 +24,12 @@ mod ledger;
 mod statement;
 
 pub use backend::*;
+pub use codec::{
+    MAX_AGGREGATE_PROOF_BYTES,
+    MAX_LEGACY_AUTHORIZATION_BYTES,
+    MAX_SIGNATURE_BYTES,
+    MAX_TRANSACTION_BYTES,
+};
 pub use ledger::*;
 pub use statement::*;
 

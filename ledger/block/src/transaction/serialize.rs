@@ -41,6 +41,13 @@ impl<N: Network> Serialize for Transaction<N> {
                     }
                     transaction.end()
                 }
+                Self::Recovery(id, recovery) => {
+                    let mut transaction = serializer.serialize_struct("Transaction", 3)?;
+                    transaction.serialize_field("type", "recovery")?;
+                    transaction.serialize_field("id", id)?;
+                    transaction.serialize_field("recovery", recovery)?;
+                    transaction.end()
+                }
                 Self::Fee(id, fee) => {
                     let mut transaction = serializer.serialize_struct("Transaction", 3)?;
                     transaction.serialize_field("type", "fee")?;
@@ -90,6 +97,10 @@ impl<'de, N: Network> Deserialize<'de> for Transaction<N> {
                     .map_err(de::Error::custom)?;
                     // Construct the transaction.
                     Transaction::from_execution(execution, fee).map_err(de::Error::custom)?
+                }
+                Some("recovery") => {
+                    let recovery = DeserializeExt::take_from_value::<D>(&mut transaction, "recovery")?;
+                    Transaction::from_recovery(recovery).map_err(de::Error::custom)?
                 }
                 Some("fee") => {
                     // Retrieve the fee.

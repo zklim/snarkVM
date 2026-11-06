@@ -40,6 +40,7 @@ use console::{
     program::{Identifier, ProgramID, ProgramOwner},
     types::U8,
 };
+use snarkvm_ledger_block::Recovery;
 use snarkvm_synthesizer_program::Program;
 use snarkvm_synthesizer_snark::{Certificate, Proof, VerifyingKey};
 
@@ -48,6 +49,8 @@ use snarkvm_synthesizer_snark::{Certificate, Proof, VerifyingKey};
 pub struct TransactionDB<N: Network> {
     /// The mapping of `transaction ID` to `transaction type`.
     id_map: DataMap<N::TransactionID, TransactionType>,
+    /// Native recovery transaction envelopes.
+    recovery_map: DataMap<N::TransactionID, Recovery<N>>,
     /// The deployment store.
     deployment_store: DeploymentStore<N, DeploymentDB<N>>,
     /// The execution store.
@@ -59,6 +62,7 @@ pub struct TransactionDB<N: Network> {
 #[rustfmt::skip]
 impl<N: Network> TransactionStorage<N> for TransactionDB<N> {
     type IDMap = DataMap<N::TransactionID, TransactionType>;
+    type RecoveryMap = DataMap<N::TransactionID, Recovery<N>>;
     type DeploymentStorage = DeploymentDB<N>;
     type ExecutionStorage = ExecutionDB<N>;
     type FeeStorage = FeeDB<N>;
@@ -73,12 +77,17 @@ impl<N: Network> TransactionStorage<N> for TransactionDB<N> {
         // Initialize the execution store.
         let execution_store = ExecutionStore::<N, ExecutionDB<N>>::open(fee_store.clone())?;
         // Return the transaction storage.
-        Ok(Self { id_map: rocksdb::RocksDB::open_map(N::ID, execution_store.storage_mode().clone(), MapID::Transaction(TransactionMap::ID))?, deployment_store, execution_store, fee_store })
+        Ok(Self { id_map: rocksdb::RocksDB::open_map(N::ID, execution_store.storage_mode().clone(), MapID::Transaction(TransactionMap::ID))?, recovery_map: rocksdb::RocksDB::open_map(N::ID, execution_store.storage_mode().clone(), MapID::Transaction(TransactionMap::Recovery))?, deployment_store, execution_store, fee_store })
     }
 
     /// Returns the ID map.
     fn id_map(&self) -> &Self::IDMap {
         &self.id_map
+    }
+
+    /// Returns native recovery transaction envelopes.
+    fn recovery_map(&self) -> &Self::RecoveryMap {
+        &self.recovery_map
     }
 
     /// Returns the deployment store.

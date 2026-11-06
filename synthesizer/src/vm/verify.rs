@@ -102,12 +102,28 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
         rejected_id: Option<Field<N>>,
         rng: &mut R,
     ) -> Result<()> {
+        self.check_transaction_at_height(
+            self.block_store().current_block_height().saturating_add(1),
+            transaction,
+            rejected_id,
+            rng,
+        )
+    }
+
+    /// Verifies admission with an explicit candidate authorization height.
+    /// Historical replay also requires the matching ledger snapshot; legacy proof
+    /// and program checks still use that snapshot's current head. A height alone
+    /// does not revalidate a transaction against historical state.
+    pub fn check_transaction_at_height<R: CryptoRng + Rng>(
+        &self,
+        candidate_height: u32,
+        transaction: &Transaction<N>,
+        rejected_id: Option<Field<N>>,
+        rng: &mut R,
+    ) -> Result<()> {
         let timer = timer!("VM::check_transaction");
-
-        // Get the current block height for consensus version checks.
         let current_block_height = self.block_store().current_block_height();
-
-        N::CONSENSUS_VERSION(current_block_height)?.ensure_legacy_transaction_authorization()?;
+        self.check_authorization_policy(N::CONSENSUS_VERSION(candidate_height)?, transaction)?;
 
         /* Transaction */
 
@@ -138,6 +154,15 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
             }
         };
         lap!(timer, "Verify the transaction ID");
+
+        if let Transaction::Recovery(_, recovery) = transaction {
+            ensure!(rejected_id.is_none(), "Native recovery cannot be a rejected fee");
+            ensure!(*transaction.id() == transaction.to_root()?, "Incorrect native transaction ID");
+            return self.check_native_recovery(candidate_height, recovery);
+        }
+        for serial in transaction.serial_numbers() {
+            ensure!(!self.finalize_store().recovery_contains_serial(serial)?, "Serial number was consumed by recovery");
+        }
 
         /* Transition */
 
@@ -700,6 +725,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
                 }
             }
             Transaction::Fee(..) => { /* no-op */ }
+            Transaction::Recovery(..) => bail!("Recovery must use native verification"),
         }
 
         // Because the Stacks in the Process may have changed, recreate the cache key.
@@ -801,6 +827,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
                     ensure!(!is_fee_required, "Transaction '{id}' is missing a fee (execution)");
                 }
             }
+            Transaction::Recovery(..) => bail!("Recovery has no classical fee transition"),
             // Note: This transaction type does not need to check the fee amount, because:
             //  1. The fee is guaranteed to be non-zero by the constructor of `Transaction::Fee`.
             //  2. The fee may be less that the deployment or execution cost, as this is a valid reason it was rejected.

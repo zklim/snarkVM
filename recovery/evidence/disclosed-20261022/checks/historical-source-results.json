@@ -1,0 +1,51 @@
+{
+  "status": "PASS",
+  "observed_exit_code": 0,
+  "build_elapsed": "6m38s",
+  "tests": 3,
+  "test_seconds": 0.35,
+  "cwd": "/workspace/snarkVM",
+  "environment": {
+    "CARGO_TARGET_DIR": "/workspace/snarkOS/target",
+    "CARGO_INCREMENTAL": "0",
+    "RUSTFLAGS": "-C target-cpu=skylake",
+    "CARGO_BUILD_JOBS": "4",
+    "ROCKSDB_LIB_DIR": "/workspace/snarkOS/target/debug/build/librocksdb-sys-630aa221dd10c9ff/out",
+    "ROCKSDB_STATIC": "1",
+    "RUSTC_WRAPPER": "/workspace/.setup/rustc-cxx-runtime.py"
+  },
+  "initialization": "source /workspace/.setup/snarkos-env.sh",
+  "command": "cargo test --locked -p snarkvm-synthesizer --features test,snarkvm-console/test_targets --lib historical -- --nocapture",
+  "source_files": {
+    "synthesizer/src/vm/recovery.rs": {
+      "sha256": "0ad389e6b61cc3c16496d62b9e344c77f626bba6d156adcd72cf1ff754d7031d",
+      "bytes": 14034
+    },
+    "synthesizer/src/vm/recovery_tests.rs": {
+      "sha256": "612bf5fb352671bb004183d1a267c831011379f980278023b2c1940d196c8c49",
+      "bytes": 25493
+    }
+  },
+  "binary": {
+    "path": "/workspace/snarkOS/target/debug/deps/snarkvm_synthesizer-19bf1c6812b18e77",
+    "sha256": "4f73a11ccbe23e5a470382f4918f535ec169d183a2ea97b9b4dfd92b8efd0741"
+  },
+  "tested": [
+    "Unconfirmed transaction archive is not authenticated creation",
+    "An archived output with only an aborted transaction-to-block index is rejected",
+    "Actual confirmed genuine old development genesis source is accepted",
+    "Existing unrelated historical reward mapping test also passed under the historical filter"
+  ],
+  "construction": "Production helper locates the exact record output and requires its exact creating transition in the charged confirmed transaction, then requires that exact confirmed body in its actual block. The body check does not use reconstructed rejected execution outputs.",
+  "review_boundary": "No node/network path constructing the combined archive/index state was found in review; no remote exploit demonstrated. The regression intentionally constructs this library/store state.",
+  "untested": [
+    "A genuine proof-backed rejected execution with eligible charged private-fee change as a historical preparation source; structurally preserved by checking the charged Fee body without an accepted-status blanket filter",
+    "Final source transaction-bearing four-validator runtime",
+    "Independent cryptographic audit"
+  ],
+  "prior_attempt": {
+    "log": "historical-source-confirmed-body-test.log",
+    "status": "FAIL",
+    "reason": "Wrong normal-target genesis fixture under test_targets; metadata failure before verifier; corrected retry uses pinned upstream old development genesis."
+  }
+}

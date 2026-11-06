@@ -20,8 +20,12 @@ mod authorize;
 mod deploy;
 mod execute;
 mod finalize;
+mod recovery;
 mod verify;
+pub use recovery::{check_recovery_capabilities, recovery_minimum_fee};
 
+#[cfg(all(test, feature = "test"))]
+mod recovery_tests;
 #[cfg(test)]
 mod tests;
 
@@ -124,6 +128,8 @@ pub type TransactionCacheKey<N> = (<N as Network>::TransactionID, Vec<([U8<N>; 3
 
 #[derive(Clone)]
 pub struct VM<N: Network, C: ConsensusStorage<N>> {
+    /// Serializes recovery RPC snapshots against block insertion and finalization.
+    recovery_snapshot_lock: Arc<RwLock<()>>,
     /// The process.
     process: Arc<Process<N>>,
     /// The puzzle.
@@ -147,6 +153,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
     /// Initializes the VM from storage.
     #[inline]
     pub fn from(store: ConsensusStore<N, C>) -> Result<Self> {
+        check_recovery_capabilities::<N>()?;
         // Initialize the store for 'credits.aleo'.
         let credits = Program::<N>::credits()?;
         for mapping in credits.mappings().values() {
@@ -231,6 +238,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
 
         // Construct the VM object.
         let mut vm = Self {
+            recovery_snapshot_lock: Default::default(),
             process: Arc::new(process),
             puzzle: Self::new_puzzle()?,
             store,
@@ -497,6 +505,7 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
     #[inline]
     pub(crate) fn add_next_block_inner(&self, block: Block<N>) -> Result<()> {
         self.ensure_sequential_processing();
+        let _recovery_snapshot_guard = self.recovery_snapshot_lock.write();
 
         // Determine if the block timestamp should be included.
         let block_timestamp = (block.height() >= N::CONSENSUS_HEIGHT(ConsensusVersion::V12).unwrap_or_default())
@@ -540,6 +549,33 @@ impl<N: Network, C: ConsensusStorage<N>> VM<N, C> {
         // Next, finalize the transactions.
         match self.finalize(state, block.ratifications(), block.solutions(), block.transactions()) {
             Ok(_ratified_finalize_operations) => {
+                // Isolated test networks can interrupt the exact shared-batch boundary.
+                // The feature and a finite local activation are both required; no
+                // public-network runtime negotiation or acceptance rule is changed.
+                #[cfg(all(feature = "test_consensus_heights", feature = "rocks"))]
+                if self.recovery_policy()?.preparation.is_some()
+                    && block.transactions().iter().any(|transaction| transaction.transaction().is_recovery())
+                    && std::env::var("SNARKVM_RECOVERY_EXIT_BEFORE_COMMIT_HEIGHT")
+                        .ok()
+                        .and_then(|value| value.parse::<u32>().ok())
+                        .is_some_and(|height| block.height() >= height)
+                {
+                    let ids = block
+                        .transactions()
+                        .iter()
+                        .filter(|transaction| transaction.transaction().is_recovery())
+                        .map(|transaction| transaction.id().to_string())
+                        .collect::<Vec<_>>()
+                        .join(",");
+                    eprintln!(
+                        "RECOVERY_TEST_EXIT_BEFORE_SHARED_COMMIT prior_height={} candidate_height={} recovery_ids={ids}",
+                        block.height().saturating_sub(1),
+                        block.height()
+                    );
+                    // Exiting without Rust destructors leaves the queued RocksDB
+                    // WriteBatch uncommitted, like a process interruption here.
+                    std::process::exit(86);
+                }
                 // If the block advances to `ConsensusVersion::V8`, updated the VKs used for the credits program.
                 if N::CONSENSUS_HEIGHT(ConsensusVersion::V8).unwrap_or_default() == block.height() {
                     self.process.lock().update_credits_verifying_keys()?;

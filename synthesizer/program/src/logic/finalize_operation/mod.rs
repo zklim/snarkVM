@@ -41,6 +41,8 @@ pub enum FinalizeOperation<N: Network> {
     ReplaceMapping(Field<N>),
     /// Removes a mapping from the program tree, as (`mapping ID`).
     RemoveMapping(Field<N>),
+    /// Updates the disclosed recovery ledger from its full old root to its full new root.
+    Recovery([u8; 64], [u8; 64]),
 }
 
 #[cfg(test)]
@@ -91,6 +93,7 @@ pub(crate) mod test_helpers {
             sample_remove_key_value(rng),
             sample_replace_mapping(rng),
             sample_remove_mapping(rng),
+            FinalizeOperation::Recovery([3; 64], [4; 64]),
             sample_initialize_mapping(rng),
             sample_insert_key_value(rng),
             sample_update_key_value(rng),
