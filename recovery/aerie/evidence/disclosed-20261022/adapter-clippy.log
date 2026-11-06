@@ -1,0 +1,111 @@
+   Compiling serde_json v1.0.150
+   Compiling wasm-bindgen-macro-support v0.2.126
+    Checking snarkvm-utilities v4.12.0 (/workspace/snarkVM-aerie/utilities)
+    Checking snarkvm-fields v4.12.0 (/workspace/snarkVM-aerie/fields)
+    Checking snarkvm-curves v4.12.0 (/workspace/snarkVM-aerie/curves)
+    Checking snarkvm-console-network-environment v4.12.0 (/workspace/snarkVM-aerie/console/network/environment)
+   Compiling wasm-bindgen-macro v0.2.126
+    Checking futures-core v0.3.32
+    Checking snarkvm-console-types-boolean v4.12.0 (/workspace/snarkVM-aerie/console/types/boolean)
+    Checking futures-util v0.3.32
+    Checking snarkvm-console-types-field v4.12.0 (/workspace/snarkVM-aerie/console/types/field)
+    Checking snarkvm-console-types-scalar v4.12.0 (/workspace/snarkVM-aerie/console/types/scalar)
+    Checking wasm-bindgen v0.2.126
+    Checking elliptic-curve v0.14.1
+    Checking js-sys v0.3.103
+    Checking primefield v0.14.0
+   Compiling rustls v0.23.45
+    Checking rfc6979 v0.6.0
+    Checking wnaf v0.14.1
+    Checking rustls-webpki v0.103.15
+    Checking snarkvm-console-types-group v4.12.0 (/workspace/snarkVM-aerie/console/types/group)
+    Checking snarkvm-console-types-integers v4.12.0 (/workspace/snarkVM-aerie/console/types/integers)
+    Checking snarkvm-console-types-string v4.12.0 (/workspace/snarkVM-aerie/console/types/string)
+    Checking snarkvm-console-types-address v4.12.0 (/workspace/snarkVM-aerie/console/types/address)
+    Checking primeorder v0.14.0
+    Checking ecdsa v0.17.0
+    Checking ureq v3.4.2
+    Checking k256 v0.14.0
+    Checking web-sys v0.3.103
+    Checking snarkvm-console-types v4.12.0 (/workspace/snarkVM-aerie/console/types)
+    Checking snarkvm-console-algorithms v4.12.0 (/workspace/snarkVM-aerie/console/algorithms)
+    Checking snarkvm-parameters v4.12.0 (/workspace/snarkVM-aerie/parameters)
+    Checking ahash v0.8.12
+    Checking snarkvm-console-collections v4.12.0 (/workspace/snarkVM-aerie/console/collections)
+   Compiling jolt-field v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d)
+    Checking snarkvm-algorithms v4.12.0 (/workspace/snarkVM-aerie/algorithms)
+    Checking jolt-utils v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d)
+    Checking jolt-poly v0.1.0 (https://github.com/a16z/jolt?rev=c7c2d08d5bb0c7c80501f29f723e595af7fcff3c#c7c2d08d)
+    Checking akita-serialization v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking akita-algebra v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking akita-transcript v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking rand_chacha v0.10.0
+    Checking akita-sumcheck v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking snarkvm-console-network v4.12.0 (/workspace/snarkVM-aerie/console/network)
+    Checking akita-challenges v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking akita-params v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking snarkvm-console-account v4.12.0 (/workspace/snarkVM-aerie/console/account)
+    Checking snarkvm-circuit-environment v4.12.0 (/workspace/snarkVM-aerie/circuit/environment)
+    Checking snarkvm-circuit-types-boolean v4.12.0 (/workspace/snarkVM-aerie/circuit/types/boolean)
+    Checking snarkvm-console-program v4.12.0 (/workspace/snarkVM-aerie/console/program)
+    Checking snarkvm-circuit-types-field v4.12.0 (/workspace/snarkVM-aerie/circuit/types/field)
+    Checking snarkvm-circuit-types-scalar v4.12.0 (/workspace/snarkVM-aerie/circuit/types/scalar)
+    Checking snarkvm-circuit-types-integers v4.12.0 (/workspace/snarkVM-aerie/circuit/types/integers)
+    Checking snarkvm-circuit-types-group v4.12.0 (/workspace/snarkVM-aerie/circuit/types/group)
+    Checking snarkvm-circuit-types-address v4.12.0 (/workspace/snarkVM-aerie/circuit/types/address)
+    Checking snarkvm-circuit-types-string v4.12.0 (/workspace/snarkVM-aerie/circuit/types/string)
+    Checking snarkvm-circuit-types v4.12.0 (/workspace/snarkVM-aerie/circuit/types)
+    Checking snarkvm-circuit-algorithms v4.12.0 (/workspace/snarkVM-aerie/circuit/algorithms)
+    Checking snarkvm-circuit-collections v4.12.0 (/workspace/snarkVM-aerie/circuit/collections)
+    Checking sha3 v0.10.9
+    Checking snarkvm-recovery v0.1.0 (/workspace/snarkVM-aerie/recovery/core)
+    Checking snarkvm-console v4.12.0 (/workspace/snarkVM-aerie/console)
+    Checking snarkvm-ledger-puzzle v4.12.0 (/workspace/snarkVM-aerie/ledger/puzzle)
+    Checking snarkvm-circuit-network v4.12.0 (/workspace/snarkVM-aerie/circuit/network)
+    Checking snarkvm-ledger-narwhal-transmission-id v4.12.0 (/workspace/snarkVM-aerie/ledger/narwhal/transmission-id)
+    Checking snarkvm-ledger-narwhal-batch-header v4.12.0 (/workspace/snarkVM-aerie/ledger/narwhal/batch-header)
+    Checking akita-types v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking snarkvm-circuit-account v4.12.0 (/workspace/snarkVM-aerie/circuit/account)
+    Checking akita-schedules v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+   Compiling bindgen v0.72.1
+    Checking akita-config v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking snarkvm-circuit-program v4.12.0 (/workspace/snarkVM-aerie/circuit/program)
+    Checking snarkvm-circuit v4.12.0 (/workspace/snarkVM-aerie/circuit)
+    Checking snarkvm-ledger-committee v4.12.0 (/workspace/snarkVM-aerie/ledger/committee)
+    Checking snarkvm-ledger-narwhal-batch-certificate v4.12.0 (/workspace/snarkVM-aerie/ledger/narwhal/batch-certificate)
+    Checking snarkvm-ledger-narwhal-subdag v4.12.0 (/workspace/snarkVM-aerie/ledger/narwhal/subdag)
+    Checking snarkvm-synthesizer-snark v4.12.0 (/workspace/snarkVM-aerie/synthesizer/snark)
+    Checking snarkvm-synthesizer-error v4.12.0 (/workspace/snarkVM-aerie/synthesizer/error)
+    Checking snarkvm-synthesizer-program v4.12.0 (/workspace/snarkVM-aerie/synthesizer/program)
+   Compiling librocksdb-sys v0.17.3+10.4.2
+    Checking snarkvm-ledger-authority v4.12.0 (/workspace/snarkVM-aerie/ledger/authority)
+    Checking snarkvm-recovery-records v0.1.0 (/workspace/snarkVM-aerie/recovery/records)
+    Checking snarkvm-ledger-narwhal-data v4.12.0 (/workspace/snarkVM-aerie/ledger/narwhal/data)
+    Checking ml-dsa v0.1.1
+    Checking rocksdb v0.24.0
+    Checking snarkvm-recovery-signatures v0.1.0 (/workspace/snarkVM-aerie/recovery/signatures)
+    Checking aerie-falcon-statement v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+    Checking akita-verifier v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking snarkvm-ledger-block v4.12.0 (/workspace/snarkVM-aerie/ledger/block)
+    Checking akita-prover v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking snarkvm-ledger-store v4.12.0 (/workspace/snarkVM-aerie/ledger/store)
+    Checking akita-cpu-backend v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking snarkvm-ledger-query v4.12.0 (/workspace/snarkVM-aerie/ledger/query)
+    Checking aerie-pcs-config v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+    Checking aerie-simd v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+    Checking aerie-falcon v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+    Checking snarkvm-synthesizer-process v4.12.0 (/workspace/snarkVM-aerie/synthesizer/process)
+    Checking tracing-subscriber v0.3.23
+    Checking snarkvm-ledger-puzzle-epoch v4.12.0 (/workspace/snarkVM-aerie/ledger/puzzle/epoch)
+    Checking akita-setup v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking akita-pcs v0.1.0 (https://github.com/LayerZero-Labs/akita.git?rev=e023b6a46143f7b23199ccecb2684192baf7b640#e023b6a4)
+    Checking aerie-falcon-witness v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+    Checking wasm-bindgen-futures v0.4.76
+   Compiling wasm-bindgen-test-macro v0.3.76
+    Checking wasm-bindgen-test v0.3.76
+    Checking snarkvm-synthesizer v4.12.0 (/workspace/snarkVM-aerie/synthesizer)
+    Checking aerie-prover v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+    Checking aerie-verifier v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+    Checking aerie v0.2.0 (https://github.com/a16z/aerie?rev=49b6c212c209286c536196f53618823ffdf0e899#49b6c212)
+    Checking snarkvm-recovery-aerie v0.1.0 (/workspace/snarkVM-aerie/recovery/aerie)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3m 14s

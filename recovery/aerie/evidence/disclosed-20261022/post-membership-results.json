@@ -1,0 +1,65 @@
+{
+  "captured_utc": "2026-10-29T12:51:12.408864+00:00",
+  "scope": "Fresh derived-source strict lint and format checks after production confirmed-body source-membership hardening. No fresh adapter differential, recovery runtime, or quantum soundness claim.",
+  "repositories": [
+    {
+      "repository": "snarkVM-aerie",
+      "branch": "quantum-recoverability-aerie",
+      "base_commit": "3f56837109459653b6d90f80e473c18a5e8d463c",
+      "cargo_lock_sha256": "1c2aa8fa73064b1c7076507f45f23c9cc2ffda92550c72c6f9f0176c65c66476",
+      "selected_source_sha256": {
+        "synthesizer/src/vm/recovery.rs": "0ad389e6b61cc3c16496d62b9e344c77f626bba6d156adcd72cf1ff754d7031d",
+        "synthesizer/src/vm/recovery_tests.rs": "612bf5fb352671bb004183d1a267c831011379f980278023b2c1940d196c8c49",
+        "recovery/aerie/Cargo.toml": "978a2af090baf5c6702df31e976815d524045b3089f1f462a9785dfdf92a64c2",
+        "recovery/aerie/src/lib.rs": "bc4e8ebf70e57c5b8a8e14175150c72706e33041df004aca631e8d0cca450e66"
+      }
+    },
+    {
+      "repository": "snarkOS-aerie",
+      "branch": "quantum-recoverability-aerie",
+      "base_commit": "f877f8e6f964726e1f53aa063f92a2ec39cab09c",
+      "cargo_lock_sha256": "a15c930468fed52a1c0bcc98f612d90980c2fcdf75dbd632519cc0cebfec6614"
+    }
+  ],
+  "checks": [
+    {
+      "repository": "snarkVM-aerie",
+      "command": "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+      "status": "PASS",
+      "exit_code": 0,
+      "cargo_elapsed": "4m 28s",
+      "log": "post-membership-vm-clippy.log"
+    },
+    {
+      "repository": "snarkOS-aerie",
+      "command": "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+      "status": "PASS",
+      "exit_code": 0,
+      "cargo_elapsed": "1m 53s",
+      "log": "post-membership-os-clippy.log"
+    },
+    {
+      "repository": "snarkVM-aerie",
+      "command": "cargo +nightly-2026-04-02 fmt --all -- --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "post-membership-vm-format.log"
+    },
+    {
+      "repository": "snarkOS-aerie",
+      "command": "cargo +nightly-2026-04-02 fmt --all -- --check",
+      "status": "PASS",
+      "exit_code": 0,
+      "log": "post-membership-os-format.log"
+    }
+  ],
+  "source_identity_note": "Base Git commits are starting revisions; dirty source identities require the final source manifests/snapshots. Exact changed helper and test hashes are recorded above. Source/dependency equality is checked in post-membership-source-parity.json; native runtime qualification is separate.",
+  "files_sha256": {
+    "post-membership-environment.json": "5397b34512ebcb2071144c51693b602d8d358e980e813bf509e9c42fe00203e1",
+    "post-membership-os-clippy.log": "8fd6a8a02d675e5979e871fabaa2dcb5d6fd8945644ca4fb9689f54644cfce1a",
+    "post-membership-os-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "post-membership-source-parity.json": "6e24e05b9f9dcafcc8eb4eeddb912363eecaff0620c01ad6354f20fb437b0264",
+    "post-membership-vm-clippy.log": "05ac680ddbe44a829bdc2ea983838f35ab981e61c52d4dc46518de87c83834bd",
+    "post-membership-vm-format.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

@@ -243,6 +243,10 @@
   "publication": {
     "snapshot_fields": "The fields above identify the validated pre-publication capture; use the Git commit containing this manifest for the published checkout.",
     "notes": "RECOVERY_PUBLICATION.md",
-    "validation_summary": "RECOVERY_VALIDATION.json"
+    "validation_summary": "RECOVERY_VALIDATION.json",
+    "core_ancestor": {
+      "repository": "snarkVM",
+      "commit": "23daf73be87d9fd15a4352a73c14bc94a4bc5103"
+    }
   }
 }

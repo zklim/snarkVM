@@ -1,0 +1,15 @@
+{
+  "setup_script": "/workspace/.setup/snarkos-env.sh",
+  "setup_script_sha256": "7f4255ac1e98b376d521df3b88c1ad3e1da4cbaccd412f742962a4fbf419a4b9",
+  "environment": {
+    "CARGO_TARGET_DIR": "/workspace/snarkOS/target",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "RUSTFLAGS": "-C target-cpu=skylake",
+    "ROCKSDB_LIB_DIR": "/workspace/snarkOS/target/debug/build/librocksdb-sys-630aa221dd10c9ff/out",
+    "ROCKSDB_STATIC": "1",
+    "RUSTC_WRAPPER": "/workspace/.setup/rustc-cxx-runtime.py"
+  },
+  "rocksdb_archive_sha256": "d6757f7275641d2f0c35b98598b809c028ba069e9d7a77a6baaad96b00c99729",
+  "runtime_wrapper_sha256": "bd391bc2aca5e2a6b19b9750fadbb334b40f60f112551e7294938dff48c475fd"
+}
